@@ -1,0 +1,56 @@
+# wedisDB configuration
+[server]
+# http Server listen address, set empty to disable
+httpAddr = "127.0.0.1:8110"
+logLevel = "debug"
+projectName = "wedisSrv"
+oltpCollectorGrpcEndpoint = "0.0.0.0:4317"
+
+
+[server.respCmdSrv]
+# resp cmd Server listen address
+addr = "0.0.0.0:6666"
+# auth password
+authPassword = ""
+# Data store path, all wedisdb's data will be saved here
+dataDir = "./data"
+
+# Set the number of databases. You can use `select dbindex` to choose a db.
+# dbindex must be in [0, databases - 1].
+# Default databases is 16, maximum is 10240 now.
+databases = 16
+
+# Set replicaOf to enable replication from master, empty, no replication
+# Any write operations except flushall and replication will be disabled in slave mode.
+replicaOf = ""
+
+# Readonly mode, slave server is always readonly even readonly = false
+# for readonly mode, only replication and flushall can write
+readOnly = false
+
+# Choose which backend storage to use, now support:
+#
+#   leveldb
+#   rocksdb
+#   goleveldb
+#   memory
+#
+dbName = "leveldb"
+
+# If not set, use data_dir/"db_name"_data
+dbPath = ""
+
+# Sync commit to disk if possible
+#  0: no sync
+#  1: sync every second
+#  2: sync every commit
+dbSyncCommit = 0
+
+# if connection receives no data after n seconds, it may be dead, close
+# 0 to disable and not check
+# idle conn close time (s)
+connKeepaliveInterval = 0
+
+# checking TTL (time to live) data every n seconds
+# if you set big, the expired data may not be deleted immediately
+ttlCheckInterval = 1
