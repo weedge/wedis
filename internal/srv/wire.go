@@ -8,6 +8,7 @@ import (
 
 	"github.com/google/wire"
 	"github.com/tidwall/redcon"
+	"github.com/weedge/wedis/internal/srv/config"
 	"github.com/weedge/wedis/pkg/configparser"
 	"github.com/weedge/wedis/pkg/utils/logutils"
 )
@@ -16,12 +17,12 @@ import (
 func NewServer(ctx context.Context) (*Server, error) {
 	panic(wire.Build(
 		configparser.Default,
-		Configure,
-		wire.FieldsOf(new(*Options),
+		config.Configure,
+		wire.FieldsOf(new(*config.Options),
 			"Server",
 		),
 
-		wire.FieldsOf(new(*ServerOptions), "LogLevel", "LogMeta"),
+		wire.FieldsOf(new(*config.ServerOptions), "LogLevel", "LogMeta"),
 		logutils.NewkitexZapKVLogger,
 		redcon.NewServeMux,
 

@@ -9,6 +9,7 @@ package srv
 import (
 	"context"
 	"github.com/tidwall/redcon"
+	"github.com/weedge/wedis/internal/srv/config"
 	"github.com/weedge/wedis/pkg/configparser"
 	"github.com/weedge/wedis/pkg/utils/logutils"
 )
@@ -18,7 +19,7 @@ import (
 // NewServer build server with wire, dependency obj inject, so init random
 func NewServer(ctx context.Context) (*Server, error) {
 	provider := configparser.Default()
-	options, err := Configure(provider)
+	options, err := config.Configure(provider)
 	if err != nil {
 		return nil, err
 	}

@@ -1,4 +1,4 @@
-package srv
+package config
 
 import (
 	"github.com/weedge/wedis/pkg/configparser"

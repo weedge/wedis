@@ -41,9 +41,9 @@ func SetupCmdRoutes(h *server.Hertz, s *Server) {
 			return
 		}
 
-		if dbIdx >= s.opts.RespCmdSrvOpts.Databases {
+		if dbIdx >= s.opts.StoreOpts.Databases {
 			c.AbortWithStatusJSON(http.StatusOK,
-				fmt.Sprintf("database number %d beyond [0,%d)", dbIdx, s.opts.RespCmdSrvOpts.Databases))
+				fmt.Sprintf("database number %d beyond [0,%d)", dbIdx, s.opts.StoreOpts.Databases))
 			return
 		}
 

@@ -4,7 +4,6 @@ import (
 	"context"
 	"os"
 	"os/signal"
-	"sync"
 	"syscall"
 	"time"
 
@@ -14,69 +13,20 @@ import (
 	"github.com/hertz-contrib/obs-opentelemetry/provider"
 	"github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"github.com/tidwall/redcon"
+	"github.com/weedge/wedis/internal/srv/config"
 	"github.com/weedge/wedis/internal/srv/storager"
 	"github.com/weedge/wedis/pkg/utils/logutils"
 )
 
 type Server struct {
-	opts          *ServerOptions
+	opts          *config.ServerOptions
 	kitexKVLogger logutils.IKitexZapKVLogger
 	// redcon server handler
 	mux *redcon.ServeMux
 	// redcon server
 	redconSrv *redcon.Server
-	// dbs
-	dbs map[int]*storager.DB
-	// dbs map rw lock r>w
-	rwMu sync.RWMutex
-}
-
-// ServerOptions server options
-type ServerOptions struct {
-	HttpAddr                  string                 `mapstructure:"httpAddr"`
-	LogLevel                  logutils.Level         `mapstructure:"logLevel"`
-	ProjectName               string                 `mapstructure:"projectName"`
-	LogMeta                   map[string]interface{} `mapstructure:"logMeta"`
-	OltpGrpcCollectorEndpoint string                 `mapstructure:"oltpCollectorGrpcEndpoint"`
-	RespCmdSrvOpts            RespCmdServiceOptins   `mapstructure:"respCmdSrv"`
-}
-
-// DefaultServerOptions default opts
-func DefaultServerOptions() *ServerOptions {
-	return &ServerOptions{
-		//OltpGrpcCollectorEndpoint: ":4317",
-		HttpAddr:       ":8110",
-		ProjectName:    "wedis",
-		LogLevel:       logutils.LevelDebug,
-		LogMeta:        map[string]interface{}{},
-		RespCmdSrvOpts: *DefaultRespCmdServiceOptins(),
-	}
-}
-
-type RespCmdServiceOptins struct {
-	Addr         string `mapstructure:"addr"`
-	AuthPassword string `mapstructure:"authPassword"`
-
-	ReplicaOf string `mapstructure:"replicaOf"`
-
-	Readonly bool `mapstructure:"readOnly"`
-
-	DataDir   string `mapstructure:"dataDir"`
-	Databases int    `mapstructure:"databases"`
-
-	DBName       string `mapstructure:"dbName"`
-	DBPath       string `mapstructure:"dbPath"`
-	DBSyncCommit int    `mapstructure:"dbSyncCommit"`
-
-	ConnReadBufferSize    int `mapstructure:"connReadBufferSize"`
-	ConnWriteBufferSize   int `mapstructure:"connWriteBufferSize"`
-	ConnKeepaliveInterval int `mapstructure:"connKeepaliveInterval"`
-
-	TTLCheckInterval int `mapstructure:"ttlCheckInterval"`
-}
-
-func DefaultRespCmdServiceOptins() *RespCmdServiceOptins {
-	return &RespCmdServiceOptins{}
+	// store
+	store *storager.Storager
 }
 
 // Run reviews server
@@ -85,9 +35,6 @@ func (s *Server) Run(ctx context.Context) error {
 
 	klog.SetLogger(s.kitexKVLogger)
 	klog.SetLevel(s.opts.LogLevel.KitexLogLevel())
-
-	s.dbs = make(map[int]*storager.DB)
-	s.dbs[0] = storager.New()
 
 	defer s.Stop()
 
@@ -105,6 +52,7 @@ func (s *Server) Run(ctx context.Context) error {
 	}
 
 	s.InitRespCmdService()
+	s.InitStore()
 
 	if len(s.opts.HttpAddr) == 0 {
 		sig := make(chan os.Signal, 1)
@@ -126,14 +74,16 @@ func (s *Server) Run(ctx context.Context) error {
 }
 
 func (s *Server) Stop() {
-	for _, db := range s.dbs {
-		if err := db.Close(); err != nil {
-			klog.Errorf("close db err: %v", err)
+	if s.store != nil {
+		if err := s.store.Close(); err != nil {
+			klog.Errorf("close store err: %s", err.Error())
 		}
 	}
 
-	if err := s.redconSrv.Close(); err != nil {
-		klog.Errorf("close RESP cmd server err: %v", err)
+	if s.redconSrv != nil {
+		if err := s.redconSrv.Close(); err != nil {
+			klog.Errorf("close RESP cmd server err: %s", err.Error())
+		}
 	}
 
 	klog.Infof("server stop")
@@ -174,20 +124,20 @@ func (s *Server) registerRespConnClient() {
 }
 
 func (s *Server) InitConnClient(dbIdx int) *ConnClient {
-	if dbIdx < 0 || dbIdx >= s.opts.RespCmdSrvOpts.Databases {
+	if dbIdx < 0 || dbIdx >= s.opts.StoreOpts.Databases {
 		dbIdx = 0
 	}
 	cli := new(ConnClient)
 	cli.SetSrv(s)
-	s.rwMu.RLock()
-	cli.SetDb(s.dbs[dbIdx])
-	s.rwMu.RUnlock()
+	db, err := s.store.Select(dbIdx)
+	if err != nil {
+		return nil
+	}
+	cli.SetDb(db)
 	return cli
 }
 
 func (s *Server) InitRespCmdService() {
-	s.registerRespConnClient()
-
 	//RESP cmd tcp server
 	s.redconSrv = redcon.NewServer(s.opts.RespCmdSrvOpts.Addr, s.mux.ServeRESP,
 		func(conn redcon.Conn) bool {
@@ -206,10 +156,27 @@ func (s *Server) InitRespCmdService() {
 		s.redconSrv.SetIdleClose(time.Duration(s.opts.RespCmdSrvOpts.ConnKeepaliveInterval))
 	}
 
+	s.registerRespConnClient()
+
+	listenErrSignal := make(chan error)
 	go func() {
-		err := s.redconSrv.ListenAndServe()
+		err := s.redconSrv.ListenServeAndSignal(listenErrSignal)
 		if err != nil {
 			klog.Fatal(err)
 		}
 	}()
+	err := <-listenErrSignal
+	if err != nil {
+		klog.Errorf("resp cmd server listen err:%s", err.Error())
+		return
+	}
+	klog.Infof("resp cmd server listening on address=%s", s.opts.RespCmdSrvOpts.Addr)
+}
+
+func (s *Server) InitStore() {
+	store, err := storager.Open(&s.opts.StoreOpts)
+	if err != nil {
+		klog.Fatalf("open store err:%s", err.Error())
+	}
+	s.store = store
 }

@@ -7,7 +7,7 @@ projectName = "wedisSrv"
 httpAddr = "127.0.0.1:8110"
 
 # oltp cllector grpc endpoint address, set empty to disable
-#oltpCollectorGrpcEndpoint = "0.0.0.0:4317"
+oltpCollectorGrpcEndpoint = "0.0.0.0:4317"
 
 
 [server.respCmdSrv]
@@ -39,7 +39,7 @@ databases = 16
 #   goleveldb
 #   memory
 #
-kvStoreName = "goleveldb"
+kvStoreName = "leveldb"
 
 # If not set, use data_dir/"db_name"_data
 dbPath = ""
