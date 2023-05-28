@@ -19,3 +19,9 @@ var (
 	ErrOffset                = errors.New("offset bit is not an natural number")
 	ErrBool                  = errors.New("value is not 0 or 1")
 )
+
+const (
+	PONG  = "PONG"
+	OK    = "OK"
+	NOKEY = "NOKEY"
+)

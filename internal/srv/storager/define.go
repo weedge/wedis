@@ -116,15 +116,15 @@ var (
 	ErrLMetaKey  = errors.New("invalid lmeta key")
 	ErrListKey   = errors.New("invalid list key")
 	ErrListSeq   = errors.New("invalid list sequence, overflow")
-	errListIndex = errors.New("invalid list index")
+	ErrListIndex = errors.New("invalid list index")
 
 	ErrHashKey       = errors.New("invalid hash key")
 	ErrHSizeKey      = errors.New("invalid hsize key")
-	errHashFieldSize = errors.New("invalid hash field size")
+	ErrHashFieldSize = errors.New("invalid hash field size")
 
 	ErrSetKey        = errors.New("invalid set key")
 	ErrSSizeKey      = errors.New("invalid ssize key")
-	errSetMemberSize = errors.New("invalid set member size")
+	ErrSetMemberSize = errors.New("invalid set member size")
 
 	ErrZSizeKey         = errors.New("invalid zsize key")
 	ErrZSetKey          = errors.New("invalid zset key")
@@ -133,7 +133,7 @@ var (
 	ErrInvalidAggregate = errors.New("invalid aggregate")
 	ErrInvalidWeightNum = errors.New("invalid weight number")
 	ErrInvalidSrcKeyNum = errors.New("invalid src key number")
-	errZSetMemberSize   = errors.New("invalid zset member size")
+	ErrZSetMemberSize   = errors.New("invalid zset member size")
 
 	ErrExpMetaKey = errors.New("invalid expire meta key")
 	ErrExpTimeKey = errors.New("invalid expire time key")
@@ -162,9 +162,10 @@ const (
 const (
 	setStartSep byte = ':'
 	setStopSep  byte = setStartSep + 1
-	UnionType   byte = 51
-	DiffType    byte = 52
-	InterType   byte = 53
+
+	UnionType byte = 51
+	DiffType  byte = 52
+	InterType byte = 53
 )
 
 // For zset op

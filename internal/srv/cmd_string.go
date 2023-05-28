@@ -1,9 +1,36 @@
 package srv
 
-func Get(h *ConnClient, params [][]byte) (res interface{}, err error) {
+import "context"
+
+func get(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	if len(cmdParams) != 1 {
+		err = ErrCmdParams
+		return
+	}
+
+	v, err := c.db.GetSlice(cmdParams[0])
+	if err != nil {
+		return
+	}
+	if v == nil {
+		return
+	}
+
+	res = v.Data()
+	v.Free()
+
 	return
 }
 
-func Set(h *ConnClient, params [][]byte) (res interface{}, err error) {
-	return
+func set(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	if len(cmdParams) != 2 {
+		err = ErrCmdParams
+		return
+	}
+
+	if err = c.db.DBString().Set(cmdParams[0], cmdParams[1]); err != nil {
+		return
+	}
+
+	return OK, nil
 }

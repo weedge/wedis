@@ -11,7 +11,7 @@ type DBZSet struct {
 	batch *Batch
 }
 
-func NewZSet(db *DB) *DBZSet {
+func NewDBZSet(db *DB) *DBZSet {
 	batch := NewBatch(db.store, db.IKVStoreDB.NewWriteBatch(),
 		&dbBatchLocker{
 			l:      &sync.Mutex{},
@@ -20,10 +20,9 @@ func NewZSet(db *DB) *DBZSet {
 	return &DBZSet{DB: db, batch: batch}
 }
 
-func (db *DBZSet) delete(t *Batch, key []byte) int64 {
-	delMembCnt, _ := db.zRemRange(t, key, MinScore, MaxScore, 0, -1)
-	//	todo : log err
-	return delMembCnt
+func (db *DBZSet) delete(t *Batch, key []byte) (num int64, err error) {
+	num, err = db.zRemRange(t, key, MinScore, MaxScore, 0, -1)
+	return
 }
 
 func (db *DB) zRemRange(t *Batch, key []byte, min int64, max int64, offset int, count int) (int64, error) {

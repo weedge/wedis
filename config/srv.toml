@@ -4,7 +4,7 @@ logLevel = "debug"
 projectName = "wedisSrv"
 
 # http Server listen address, set empty to disable
-httpAddr = "127.0.0.1:8110"
+#httpAddr = "127.0.0.1:8110"
 
 # oltp cllector grpc endpoint address, set empty to disable
 #oltpCollectorGrpcEndpoint = "0.0.0.0:4317"
@@ -32,18 +32,6 @@ dataDir = "./data"
 # Default databases is 16, maximum is 10240 now.
 databases = 16
 
-# Choose which backend storage to use, now support:
-#
-#   leveldb
-#   rocksdb
-#   goleveldb
-#   memory
-#
-kvStoreName = "goleveldb"
-
-# If not set, use data_dir/"db_name"_data
-dbPath = ""
-
 # Sync commit to disk if possible
 #  0: no sync
 #  1: sync every second
@@ -53,3 +41,22 @@ dbSyncCommit = 0
 # checking TTL (time to live) data every n seconds
 # if you set big, the expired data may not be deleted immediately
 ttlCheckInterval = 1
+
+# Choose which backend storage to use, 
+# impl openkv driver register to support:
+kvStoreName = "goleveldb"
+
+# If not set, use dataDir/"kvStoreName"_data
+dbPath = ""
+
+
+[goLeveldbCfg]
+# if true, compression use snappy 
+compression = false
+blockSize = 32768
+writeBufferSize = 67108864
+cacheSize = 524288000
+maxOpenFiles = 1024
+compactionTableSize = 33554432
+writeL0SlowdownTrigger = 16
+writeL0PauseTrigger = 64

@@ -61,4 +61,5 @@ func SetupCmdRoutes(h *server.Hertz, s *Server) {
 
 		c.JSON(http.StatusOK, res)
 	})
+
 }

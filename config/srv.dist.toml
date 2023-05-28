@@ -1,4 +1,5 @@
 # wedisDB configuration
+# notice: if don't config item, use defualt item's value
 [server]
 logLevel = "debug"
 projectName = "wedisSrv"
@@ -7,7 +8,7 @@ projectName = "wedisSrv"
 httpAddr = "127.0.0.1:8110"
 
 # oltp cllector grpc endpoint address, set empty to disable
-oltpCollectorGrpcEndpoint = "0.0.0.0:4317"
+#oltpCollectorGrpcEndpoint = "0.0.0.0:4317"
 
 
 [server.respCmdSrv]
@@ -32,18 +33,6 @@ dataDir = "./data"
 # Default databases is 16, maximum is 10240 now.
 databases = 16
 
-# Choose which backend storage to use, now support:
-#
-#   leveldb
-#   rocksdb
-#   goleveldb
-#   memory
-#
-kvStoreName = "leveldb"
-
-# If not set, use data_dir/"db_name"_data
-dbPath = ""
-
 # Sync commit to disk if possible
 #  0: no sync
 #  1: sync every second
@@ -53,3 +42,19 @@ dbSyncCommit = 0
 # checking TTL (time to live) data every n seconds
 # if you set big, the expired data may not be deleted immediately
 ttlCheckInterval = 1
+
+# Choose which backend storage to use, 
+# impl openkv driver register to support:
+kvStoreName = "goleveldb"
+
+# If not set, use dataDir/"kvStoreName"_data
+dbPath = ""
+
+
+[server.storeOpts.goLeveldbCfg]
+# if true, compression use snappy 
+compression = false
+block_size = 32768
+write_buffer_size = 67108864
+cache_size = 524288000
+max_open_files = 1024

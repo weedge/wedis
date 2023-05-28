@@ -1,7 +1,7 @@
 package openkv
 
 import (
-	driver "github.com/weedge/wedis/pkg/driver/openkv"
+	driver "github.com/weedge/pkg/driver/openkv"
 )
 
 // Snapshot wrap driver.ISnapshot interface op
@@ -10,8 +10,9 @@ type Snapshot struct {
 }
 
 func (s *Snapshot) NewIterator() *Iterator {
-	it := new(Iterator)
-	it.IIterator = s.ISnapshot.NewIterator()
+	it := &Iterator{
+		IIterator: s.ISnapshot.NewIterator(),
+	}
 
 	return it
 }

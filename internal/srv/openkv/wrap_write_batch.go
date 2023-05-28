@@ -1,7 +1,7 @@
 package openkv
 
 import (
-	driver "github.com/weedge/wedis/pkg/driver/openkv"
+	driver "github.com/weedge/pkg/driver/openkv"
 )
 
 // WriteBatch wrap driver.IWriteBatch interface op

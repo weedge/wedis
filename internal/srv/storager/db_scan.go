@@ -1,8 +1,8 @@
 package storager
 
 import (
+	"github.com/weedge/pkg/utils"
 	"github.com/weedge/wedis/internal/srv/openkv"
-	"github.com/weedge/wedis/pkg/utils"
 )
 
 func (db *DB) scanGeneric(storeDataType byte, key []byte, count int,

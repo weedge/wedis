@@ -10,9 +10,9 @@ import (
 
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/gofrs/flock"
+	"github.com/weedge/pkg/safer"
 	"github.com/weedge/wedis/internal/srv/config"
 	"github.com/weedge/wedis/internal/srv/openkv"
-	"github.com/weedge/wedis/pkg/safer"
 )
 
 // Storager core store struct for server use like redis
@@ -112,7 +112,7 @@ func (m *Storager) Close() (err error) {
 	errStrs := []string{}
 	for _, er := range errs {
 		if er != nil {
-			errStrs = append(errStrs, err.Error())
+			errStrs = append(errStrs, er.Error())
 		}
 	}
 	if len(errStrs) > 0 {
@@ -135,13 +135,13 @@ func (m *Storager) Select(index int) (db *DB, err error) {
 	}
 	db = NewDB(m, index)
 	m.dbs[index] = db
-	m.dbLock.Unlock()
 
 	// async send checker,
 	// if recv checkTTL tick to check,ch full, maybe block
 	go func(db *DB) {
 		m.ttlCheckerCh <- db.ttlChecker
 	}(db)
+	m.dbLock.Unlock()
 
 	return
 }

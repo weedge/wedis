@@ -9,29 +9,83 @@ package srv
 import (
 	"context"
 	"github.com/tidwall/redcon"
+	"github.com/weedge/openkv-goleveldb"
+	"github.com/weedge/pkg/configparser"
+	"github.com/weedge/pkg/driver/openkv"
+	"github.com/weedge/pkg/utils/logutils"
 	"github.com/weedge/wedis/internal/srv/config"
-	"github.com/weedge/wedis/pkg/configparser"
-	"github.com/weedge/wedis/pkg/utils/logutils"
+	"github.com/weedge/wedis/internal/srv/storager"
 )
 
 // Injectors from wire.go:
 
-// NewServer build server with wire, dependency obj inject, so init random
-func NewServer(ctx context.Context) (*Server, error) {
+// ParserCfg config paser
+func ParserCfg() (*config.Options, error) {
 	provider := configparser.Default()
 	options, err := config.Configure(provider)
 	if err != nil {
 		return nil, err
 	}
+	return options, nil
+}
+
+// NewServer server init
+func NewServer(contextContext context.Context, options *config.Options) (*Server, error) {
 	serverOptions := options.Server
 	level := serverOptions.LogLevel
 	v := serverOptions.LogMeta
 	iKitexZapKVLogger := logutils.NewkitexZapKVLogger(level, v)
 	serveMux := redcon.NewServeMux()
+	storgerOptions := &serverOptions.StoreOpts
+	storagerStorager, err := storager.Open(storgerOptions)
+	if err != nil {
+		return nil, err
+	}
 	server := &Server{
 		opts:          serverOptions,
 		kitexKVLogger: iKitexZapKVLogger,
 		mux:           serveMux,
+		store:         storagerStorager,
 	}
 	return server, nil
+}
+
+// RegisterGoleveldb register kv store engine goleveldb
+func RegisterGoleveldb(options *config.Options) error {
+	storeType := _wireStoreTypeValue
+	levelDBConfig := options.GoLeveldbCfg
+	option := goleveldb.WithConfig(levelDBConfig)
+	v := ProvideOpts(option)
+	store := goleveldb.New(storeType, v...)
+	error2 := driver.Register(store)
+	return error2
+}
+
+var (
+	_wireStoreTypeValue = goleveldb.StoreTypeDB
+)
+
+// RegisterMemGoleveldb regisiter kv store engine memory goleveldb
+func RegisterMemGoleveldb(options *config.Options) error {
+	storeType := _wireGoleveldbStoreTypeValue
+	levelDBConfig := options.GoLeveldbCfg
+	option := goleveldb.WithConfig(levelDBConfig)
+	v := ProvideOpts(option)
+	store := goleveldb.New(storeType, v...)
+	error2 := driver.Register(store)
+	return error2
+}
+
+var (
+	_wireGoleveldbStoreTypeValue = goleveldb.StoreTypeMemory
+)
+
+// wire.go:
+
+func ProvideOpts(
+	c goleveldb.Option,
+) []goleveldb.Option {
+	return []goleveldb.Option{
+		c,
+	}
 }

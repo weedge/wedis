@@ -3,6 +3,7 @@ package srv
 import (
 	"context"
 
+	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/spf13/cobra"
 	"github.com/weedge/wedis/internal/srv"
 )
@@ -15,7 +16,16 @@ func NewCommand() *cobra.Command {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 
-			server, err := srv.NewServer(ctx)
+			opts, err := srv.ParserCfg()
+			if err != nil {
+				return err
+			}
+			klog.Infof("config:%+v", opts)
+
+			srv.RegisterGoleveldb(opts)
+			srv.RegisterMemGoleveldb(opts)
+
+			server, err := srv.NewServer(ctx, opts)
 			if err != nil {
 				return err
 			}

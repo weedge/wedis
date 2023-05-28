@@ -21,14 +21,14 @@ func NewDBList(db *DB) *DBList {
 	return &DBList{DB: db, batch: batch}
 }
 
-func (db *DBList) delete(t *Batch, key []byte) (num int64) {
+func (db *DBList) delete(t *Batch, key []byte) (num int64, err error) {
 	it := db.IKVStoreDB.NewIterator()
 	defer it.Close()
 
 	mk := db.lEncodeMetaKey(key)
 	headSeq, tailSeq, _, err := db.lGetMeta(it, mk)
 	if err != nil {
-		return 0
+		return
 	}
 
 	startKey := db.lEncodeListKey(key, headSeq)
@@ -45,7 +45,7 @@ func (db *DBList) delete(t *Batch, key []byte) (num int64) {
 
 	t.Delete(mk)
 
-	return num
+	return num, nil
 }
 
 func (db *DBList) lGetMeta(it *openkv.Iterator, ek []byte) (headSeq int32, tailSeq int32, size int32, err error) {

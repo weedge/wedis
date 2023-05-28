@@ -6,9 +6,9 @@ import (
 
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/spf13/cobra"
+	"github.com/weedge/pkg/version"
 	"github.com/weedge/wedis/cmd/srv"
-	"github.com/weedge/wedis/pkg/configparser"
-	"github.com/weedge/wedis/pkg/version"
+	"github.com/weedge/pkg/configparser"
 )
 
 var (

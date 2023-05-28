@@ -7,7 +7,7 @@ import (
 	"github.com/weedge/wedis/internal/srv/openkv"
 )
 
-type onExpired func(*Batch, []byte) int64
+type onExpired func(*Batch, []byte) (int64, error)
 
 type TTLChecker struct {
 	db *DB

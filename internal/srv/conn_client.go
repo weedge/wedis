@@ -8,16 +8,18 @@ import (
 	"github.com/weedge/wedis/internal/srv/storager"
 )
 
-type cmdHandle func(h *ConnClient, params [][]byte) (interface{}, error)
+type cmdHandle func(ctx context.Context, h *ConnClient, cmdParams [][]byte) (interface{}, error)
 
-var SupportedCommands = map[string]cmdHandle{
-	"ping": Ping,
-	"get":  Get,
+var RegisteredCommands = map[string]cmdHandle{
+	"ping": ping,
+	"get":  get,
+	"set":  set,
 }
 
 type ConnClient struct {
-	srv *Server
-	db  *storager.DB
+	srv      *Server
+	db       *storager.DB
+	isAuthed bool
 }
 
 func (c *ConnClient) SetSrv(srv *Server) {
@@ -30,13 +32,13 @@ func (c *ConnClient) SetDb(db *storager.DB) {
 
 func (c *ConnClient) DoCmd(ctx context.Context, cmd string, cmdParams [][]byte) (res interface{}, err error) {
 	klog.Debugf("cmd:%s cmdParams:%s len:%d", cmd, cmdParams, len(cmdParams))
-	f, ok := SupportedCommands[cmd]
+	f, ok := RegisteredCommands[cmd]
 	if !ok {
 		err = errors.New("ERR unknown command '" + cmd + "'")
 		return
 	}
 
-	res, err = f(c, cmdParams)
+	res, err = f(ctx, c, cmdParams)
 	if err != nil {
 		return
 	}

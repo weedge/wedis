@@ -5,8 +5,8 @@ import (
 	"os"
 	"path"
 
+	driver "github.com/weedge/pkg/driver/openkv"
 	"github.com/weedge/wedis/internal/srv/config"
-	driver "github.com/weedge/wedis/pkg/driver/openkv"
 )
 
 func initStorePath(opts *config.StorgerOptions) (p string, err error) {

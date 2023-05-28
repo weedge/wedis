@@ -20,12 +20,11 @@ func NewDBSet(db *DB) *DBSet {
 	return &DBSet{DB: db, batch: batch}
 }
 
-func (db *DBSet) delete(t *Batch, key []byte) int64 {
+func (db *DBSet) delete(t *Batch, key []byte) (num int64, err error) {
 	sk := db.sEncodeSizeKey(key)
 	start := db.sEncodeStartKey(key)
 	stop := db.sEncodeStopKey(key)
 
-	var num int64
 	it := db.IKVStoreDB.RangeLimitIterator(start, stop, openkv.RangeROpen, 0, -1)
 	for ; it.Valid(); it.Next() {
 		t.Delete(it.RawKey())
@@ -33,7 +32,7 @@ func (db *DBSet) delete(t *Batch, key []byte) int64 {
 	}
 
 	it.Close()
-
 	t.Delete(sk)
-	return num
+
+	return num, nil
 }

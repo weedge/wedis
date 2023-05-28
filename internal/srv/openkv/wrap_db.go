@@ -4,9 +4,9 @@ import (
 	"sync"
 	"time"
 
+	driver "github.com/weedge/pkg/driver/openkv"
+	"github.com/weedge/pkg/utils"
 	"github.com/weedge/wedis/internal/srv/config"
-	driver "github.com/weedge/wedis/pkg/driver/openkv"
-	"github.com/weedge/wedis/pkg/utils"
 )
 
 // DB wrap driver.IDB interface op
@@ -36,8 +36,9 @@ func (m *DB) String() string {
 }
 
 func (m *DB) NewIterator() *Iterator {
-	it := new(Iterator)
-	it.IIterator = m.IDB.NewIterator()
+	it := &Iterator{
+		IIterator: m.IDB.NewIterator(),
+	}
 
 	return it
 }

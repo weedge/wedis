@@ -26,7 +26,7 @@ func (db *DB) FlushAll() (drop int64, err error) {
 }
 
 func (db *DB) flushType(t *Batch, dataType byte) (drop int64, err error) {
-	var deleteFunc func(t *Batch, key []byte) int64
+	var deleteFunc func(t *Batch, key []byte) (int64, error)
 	var metaDataType byte
 	switch dataType {
 	case StringType:
@@ -54,7 +54,6 @@ func (db *DB) flushType(t *Batch, dataType byte) (drop int64, err error) {
 		for _, key := range keys {
 			deleteFunc(t, key)
 			db.rmExpire(t, dataType, key)
-
 		}
 
 		if err = t.Commit(); err != nil {

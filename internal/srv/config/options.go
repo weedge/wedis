@@ -1,17 +1,20 @@
 package config
 
 import (
-	"github.com/weedge/wedis/pkg/configparser"
+	goleveldb "github.com/weedge/openkv-goleveldb"
+	"github.com/weedge/pkg/configparser"
 )
 
 type Options struct {
-	Server *ServerOptions `mapstructure:"server"`
+	Server       *ServerOptions          `mapstructure:"server"`
+	GoLeveldbCfg goleveldb.LevelDBConfig `mapstructure:"goLeveldbCfg"`
 }
 
 // DefaultOptions default opts
 func DefaultOptions() *Options {
 	return &Options{
-		Server: DefaultServerOptions(),
+		Server:       DefaultServerOptions(),
+		GoLeveldbCfg: *goleveldb.DefaultLevelDBConfig(),
 	}
 }
 

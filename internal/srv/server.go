@@ -13,9 +13,10 @@ import (
 	"github.com/hertz-contrib/obs-opentelemetry/provider"
 	"github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"github.com/tidwall/redcon"
+	driver "github.com/weedge/pkg/driver/openkv"
+	"github.com/weedge/pkg/utils/logutils"
 	"github.com/weedge/wedis/internal/srv/config"
 	"github.com/weedge/wedis/internal/srv/storager"
-	"github.com/weedge/wedis/pkg/utils/logutils"
 )
 
 type Server struct {
@@ -25,16 +26,17 @@ type Server struct {
 	mux *redcon.ServeMux
 	// redcon server
 	redconSrv *redcon.Server
-	// store
+	// storager
 	store *storager.Storager
 }
 
 // Run reviews server
 func (s *Server) Run(ctx context.Context) error {
-	klog.Debugf("server opts: %s", s.opts)
-
 	klog.SetLogger(s.kitexKVLogger)
 	klog.SetLevel(s.opts.LogLevel.KitexLogLevel())
+
+	klog.Infof("server opts: %+v", s.opts)
+	klog.Infof("register store engine: %+v", driver.ListStores())
 
 	defer s.Stop()
 
@@ -52,9 +54,8 @@ func (s *Server) Run(ctx context.Context) error {
 	}
 
 	s.InitRespCmdService()
-	s.InitStore()
 
-	if len(s.opts.HttpAddr) == 0 {
+	if s.opts.HttpAddr == "" {
 		sig := make(chan os.Signal, 1)
 		signal.Notify(sig, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 		<-sig
@@ -90,7 +91,7 @@ func (s *Server) Stop() {
 }
 
 func (s *Server) registerRespConnClient() {
-	for cmdOp := range SupportedCommands {
+	for cmdOp := range RegisteredCommands {
 		s.mux.HandleFunc(cmdOp, func(conn redcon.Conn, cmd redcon.Command) {
 			cmdOp := utils.SliceByteToString(cmd.Args[0])
 			params := [][]byte{}
@@ -127,13 +128,14 @@ func (s *Server) InitConnClient(dbIdx int) *ConnClient {
 	if dbIdx < 0 || dbIdx >= s.opts.StoreOpts.Databases {
 		dbIdx = 0
 	}
-	cli := new(ConnClient)
-	cli.SetSrv(s)
+
+	cli := &ConnClient{srv: s, isAuthed: false}
 	db, err := s.store.Select(dbIdx)
 	if err != nil {
 		return nil
 	}
 	cli.SetDb(db)
+
 	return cli
 }
 
@@ -171,12 +173,4 @@ func (s *Server) InitRespCmdService() {
 		return
 	}
 	klog.Infof("resp cmd server listening on address=%s", s.opts.RespCmdSrvOpts.Addr)
-}
-
-func (s *Server) InitStore() {
-	store, err := storager.Open(&s.opts.StoreOpts)
-	if err != nil {
-		klog.Fatalf("open store err:%s", err.Error())
-	}
-	s.store = store
 }

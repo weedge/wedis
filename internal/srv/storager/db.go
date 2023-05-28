@@ -5,8 +5,8 @@ import (
 	"encoding/binary"
 	"fmt"
 
+	"github.com/weedge/pkg/utils"
 	"github.com/weedge/wedis/internal/srv/storager/driver"
-	"github.com/weedge/wedis/pkg/utils"
 )
 
 // DB core sturct
@@ -38,11 +38,27 @@ func NewDB(store *Storager, idx int) *DB {
 	db.list = NewDBList(db)
 	db.hash = NewDBHash(db)
 	db.set = NewDBSet(db)
-	db.zset = NewZSet(db)
+	db.zset = NewDBZSet(db)
 
 	db.ttlChecker = NewTTLChecker(db)
 
 	return db
+}
+
+func (m *DB) DBString() *DBString {
+	return m.string
+}
+func (m *DB) DBList() *DBList {
+	return m.list
+}
+func (m *DB) DBHash() *DBHash {
+	return m.hash
+}
+func (m *DB) DBSet() *DBSet {
+	return m.set
+}
+func (m *DB) DBZSet() *DBZSet {
+	return m.zset
 }
 
 func (m *DB) Close() (err error) {
@@ -76,7 +92,8 @@ func (db *DB) SetIndex(index int) {
 func (db *DB) checkKeyIndex(buf []byte) (int, error) {
 	if len(buf) < len(db.indexVarBuf) {
 		return 0, fmt.Errorf("key is too small")
-	} else if !bytes.Equal(db.indexVarBuf, buf[0:len(db.indexVarBuf)]) {
+	}
+	if !bytes.Equal(db.indexVarBuf, buf[0:len(db.indexVarBuf)]) {
 		return 0, fmt.Errorf("invalid db index")
 	}
 

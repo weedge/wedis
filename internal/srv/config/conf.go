@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/weedge/wedis/pkg/utils/logutils"
+	"github.com/weedge/pkg/utils/logutils"
 )
 
 // ServerOptions server options
@@ -19,7 +19,7 @@ type ServerOptions struct {
 func DefaultServerOptions() *ServerOptions {
 	return &ServerOptions{
 		//OltpGrpcCollectorEndpoint: ":4317",
-		HttpAddr:       ":8110",
+		//HttpAddr:       ":8110",
 		ProjectName:    "wedis",
 		LogLevel:       logutils.LevelDebug,
 		LogMeta:        map[string]interface{}{},
@@ -52,6 +52,5 @@ func DefaultStoragerOptions() *StorgerOptions {
 		DataDir:     DefaultDataDir,
 		Databases:   DefaultDatabases,
 		KVStoreName: DefaultKVStoreName,
-		DBPath:      "",
 	}
 }

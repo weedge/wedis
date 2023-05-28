@@ -20,19 +20,18 @@ func NewDBHash(db *DB) *DBHash {
 	return &DBHash{DB: db, batch: batch}
 }
 
-func (db *DBHash) delete(t *Batch, key []byte) int64 {
+func (db *DBHash) delete(t *Batch, key []byte) (num int64, err error) {
 	sk := db.hEncodeSizeKey(key)
 	start := db.hEncodeStartKey(key)
 	stop := db.hEncodeStopKey(key)
 
-	var num int64
 	it := db.IKVStoreDB.RangeLimitIterator(start, stop, openkv.RangeROpen, 0, -1)
 	for ; it.Valid(); it.Next() {
 		t.Delete(it.Key())
 		num++
 	}
 	it.Close()
-
 	t.Delete(sk)
-	return num
+
+	return num, nil
 }

@@ -35,7 +35,7 @@ type Limit struct {
 }
 
 type RangeLimitIterator struct {
-	Iterator
+	*Iterator
 
 	r *Range
 	l *Limit
@@ -49,30 +49,28 @@ type RangeLimitIterator struct {
 func (it *RangeLimitIterator) Valid() bool {
 	if it.l.Offset < 0 {
 		return false
-	} else if !it.Valid() {
+	}
+	if !it.Iterator.Valid() {
 		return false
-	} else if it.l.Count >= 0 && it.step >= it.l.Count {
+	}
+	if it.l.Count >= 0 && it.step >= it.l.Count {
 		return false
 	}
 
-	if it.direction == IteratorForward {
-		if it.r.Max != nil {
-			r := bytes.Compare(it.RawKey(), it.r.Max)
-			if it.r.Type&RangeROpen > 0 {
-				return !(r >= 0)
-			} else {
-				return !(r > 0)
-			}
+	if it.direction == IteratorForward && it.r.Max != nil {
+		r := bytes.Compare(it.RawKey(), it.r.Max)
+		if it.r.Type&RangeROpen > 0 {
+			return !(r >= 0)
 		}
-	} else {
-		if it.r.Min != nil {
-			r := bytes.Compare(it.RawKey(), it.r.Min)
-			if it.r.Type&RangeLOpen > 0 {
-				return !(r <= 0)
-			} else {
-				return !(r < 0)
-			}
+		return !(r > 0)
+	}
+
+	if it.direction != IteratorForward && it.r.Min != nil {
+		r := bytes.Compare(it.RawKey(), it.r.Min)
+		if it.r.Type&RangeLOpen > 0 {
+			return !(r <= 0)
 		}
+		return !(r < 0)
 	}
 
 	return true
@@ -82,9 +80,9 @@ func (it *RangeLimitIterator) Next() {
 	it.step++
 
 	if it.direction == IteratorForward {
-		it.Next()
+		it.Iterator.Next()
 	} else {
-		it.Prev()
+		it.Iterator.Prev()
 	}
 }
 
@@ -105,58 +103,55 @@ func NewRevRangeIterator(i *Iterator, r *Range) *RangeLimitIterator {
 }
 
 func rangeLimitIterator(i *Iterator, r *Range, l *Limit, direction uint8) *RangeLimitIterator {
-	it := new(RangeLimitIterator)
-
-	it.r = r
-	it.l = l
-	it.direction = direction
-
-	it.step = 0
-
+	it := &RangeLimitIterator{
+		Iterator:  i,
+		r:         r,
+		l:         l,
+		direction: direction,
+		step:      0,
+	}
 	if l.Offset < 0 {
 		return it
 	}
 
 	if direction == IteratorForward {
 		if r.Min == nil {
-			it.SeekToFirst()
+			i.SeekToFirst()
 		} else {
-			it.Seek(r.Min)
-
+			i.Seek(r.Min)
 			if r.Type&RangeLOpen > 0 {
-				if it.Valid() && bytes.Equal(it.RawKey(), r.Min) {
-					it.Next()
+				if i.Valid() && bytes.Equal(i.RawKey(), r.Min) {
+					i.Next()
 				}
 			}
 		}
 	} else {
 		if r.Max == nil {
-			it.SeekToLast()
+			i.SeekToLast()
 		} else {
-			it.Seek(r.Max)
-
-			if !it.Valid() {
-				it.SeekToLast()
+			i.Seek(r.Max)
+			if !i.Valid() {
+				i.SeekToLast()
 			} else {
-				if !bytes.Equal(it.RawKey(), r.Max) {
-					it.Prev()
+				if !bytes.Equal(i.RawKey(), r.Max) {
+					i.Prev()
 				}
 			}
 
 			if r.Type&RangeROpen > 0 {
-				if it.Valid() && bytes.Equal(it.RawKey(), r.Max) {
-					it.Prev()
+				if i.Valid() && bytes.Equal(i.RawKey(), r.Max) {
+					i.Prev()
 				}
 			}
 		}
 	}
 
-	for i := 0; i < l.Offset; i++ {
-		if it.Valid() {
+	for idx := 0; idx < l.Offset; idx++ {
+		if i.Valid() {
 			if it.direction == IteratorForward {
-				it.Next()
+				i.Next()
 			} else {
-				it.Prev()
+				i.Prev()
 			}
 		}
 	}

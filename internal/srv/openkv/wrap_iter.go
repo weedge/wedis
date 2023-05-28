@@ -3,7 +3,7 @@ package openkv
 import (
 	"bytes"
 
-	driver "github.com/weedge/wedis/pkg/driver/openkv"
+	driver "github.com/weedge/pkg/driver/openkv"
 )
 
 // Iterator wrap driver.IIterator, base iter
