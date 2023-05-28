@@ -10,10 +10,10 @@ import (
 
 type cmdHandle func(ctx context.Context, h *ConnClient, cmdParams [][]byte) (interface{}, error)
 
-var RegisteredCommands = map[string]cmdHandle{
-	"ping": ping,
-	"get":  get,
-	"set":  set,
+var RegisteredCommands = map[string]cmdHandle{}
+
+func RegisterCmd(cmd string, handle cmdHandle) {
+	RegisteredCommands[cmd] = handle
 }
 
 type ConnClient struct {

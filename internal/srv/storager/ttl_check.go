@@ -35,6 +35,7 @@ func NewTTLChecker(db *DB) *TTLChecker {
 	c.register(HashType, db.hash.batch, db.hash.delete)
 	c.register(SetType, db.set.batch, db.set.delete)
 	c.register(ZSetType, db.zset.batch, db.zset.delete)
+	c.register(BitmapType, db.bitmap.batch, db.bitmap.delete)
 
 	return c
 }

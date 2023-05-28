@@ -36,6 +36,7 @@ const (
 	HASH
 	SET
 	ZSET
+	BITMAP
 )
 
 // For different type name
@@ -45,6 +46,7 @@ const (
 	HashName   = "HASH"
 	SetName    = "SET"
 	ZSetName   = "ZSET"
+	BitmapName = "BITMAP"
 )
 
 func (d DataType) String() string {
@@ -59,12 +61,15 @@ func (d DataType) String() string {
 		return SetName
 	case ZSET:
 		return ZSetName
+	case BITMAP:
+		return BitmapName
 	default:
 		return "unknown"
 	}
 }
 
-// for backend store
+// for backend store key
+// notice: Please add new type in order
 const (
 	NoneType byte = iota
 	StringType
@@ -85,6 +90,8 @@ const (
 	ExpTimeType
 	ExpMetaType
 
+	BitmapType
+
 	maxDataType byte = 100
 )
 
@@ -102,6 +109,7 @@ var TypeName = map[byte]string{
 	ZScoreType:  "zscore",
 	ExpTimeType: "exptime",
 	ExpMetaType: "expmeta",
+	BitmapType:  "bitmap",
 }
 
 var (
@@ -140,6 +148,14 @@ var (
 
 	ErrDataType = errors.New("error data type")
 	ErrMetaKey  = errors.New("error meta key")
+
+	ErrBitmapKey = errors.New("invalid encode bitmap key")
+
+	// For different common errors
+	ErrScoreMiss     = errors.New("zset score miss")
+	ErrWriteInROnly  = errors.New("write not support in readonly mode")
+	ErrRplInRDWR     = errors.New("replication not support in read write mode")
+	ErrRplNotSupport = errors.New("replication not support")
 )
 
 // For list op
@@ -184,4 +200,12 @@ const (
 
 	zsetStartMemSep byte = ':'
 	zsetStopMemSep  byte = zsetStartMemSep + 1
+)
+
+// For bit operation
+const (
+	BitAND = "and"
+	BitOR  = "or"
+	BitXOR = "xor"
+	BitNot = "not"
 )

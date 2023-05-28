@@ -2,13 +2,18 @@ package srv
 
 import "context"
 
+func init() {
+	RegisterCmd("get", get)
+	RegisterCmd("set", set)
+}
+
 func get(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	v, err := c.db.GetSlice(cmdParams[0])
+	v, err := c.db.DBString().GetSlice(cmdParams[0])
 	if err != nil {
 		return
 	}

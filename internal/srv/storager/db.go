@@ -10,7 +10,7 @@ import (
 )
 
 // DB core sturct
-// impl like redis string, list, hash, set, zset struct store db op
+// impl like redis string, list, hash, set, zset, bitmap struct store db op
 type DB struct {
 	store *Storager
 	// database index
@@ -25,6 +25,9 @@ type DB struct {
 	hash   *DBHash
 	set    *DBSet
 	zset   *DBZSet
+	bitmap *DBBitmap
+
+	lbKeys *lBlockKeys
 
 	ttlChecker *TTLChecker
 }
@@ -39,6 +42,9 @@ func NewDB(store *Storager, idx int) *DB {
 	db.hash = NewDBHash(db)
 	db.set = NewDBSet(db)
 	db.zset = NewDBZSet(db)
+	db.bitmap = NewDBBitmap(db)
+
+	db.lbKeys = newLBlockKeys()
 
 	db.ttlChecker = NewTTLChecker(db)
 
@@ -59,6 +65,9 @@ func (m *DB) DBSet() *DBSet {
 }
 func (m *DB) DBZSet() *DBZSet {
 	return m.zset
+}
+func (m *DB) DBBitmap() *DBBitmap {
+	return m.bitmap
 }
 
 func (m *DB) Close() (err error) {

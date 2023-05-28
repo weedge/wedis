@@ -4,6 +4,30 @@ import (
 	"encoding/binary"
 )
 
+// --- bitmap ---
+func (db *DB) encodeBitmapKey(key []byte) []byte {
+	ek := make([]byte, len(key)+1+len(db.indexVarBuf))
+	pos := copy(ek, db.indexVarBuf)
+	ek[pos] = BitmapType
+	pos++
+	copy(ek[pos:], key)
+	return ek
+}
+
+func (db *DB) decodeBitmapKey(ek []byte) ([]byte, error) {
+	pos, err := db.checkKeyIndex(ek)
+	if err != nil {
+		return nil, err
+	}
+	if pos+1 > len(ek) || ek[pos] != BitmapType {
+		return nil, ErrBitmapKey
+	}
+
+	pos++
+
+	return ek[pos:], nil
+}
+
 // --- string ---
 
 func (db *DB) encodeStringKey(key []byte) []byte {
@@ -532,6 +556,8 @@ func (db *DB) decodeScanKey(storeDataType byte, ek []byte) (key []byte, err erro
 		key, err = db.zDecodeSizeKey(ek)
 	case SSizeType:
 		key, err = db.sDecodeSizeKey(ek)
+	case BitmapType:
+		key, err = db.decodeBitmapKey(ek)
 	default:
 		err = ErrDataType
 	}
@@ -599,7 +625,7 @@ func (db *DB) expDecodeTimeKey(tk []byte) (byte, []byte, int64, error) {
 	return tk[pos+9], tk[pos+10:], int64(binary.BigEndian.Uint64(tk[pos+1:])), nil
 }
 
-//--- ext number ---
+//--- ext binary number ---
 
 // PutInt64 puts the 64 integer.
 func PutInt64(v int64) []byte {
