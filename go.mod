@@ -5,14 +5,14 @@ go 1.19
 require (
 	github.com/cloudwego/hertz v0.6.2
 	github.com/cloudwego/kitex v0.5.2
-	github.com/gofrs/flock v0.8.1
 	github.com/google/wire v0.5.0
 	github.com/hertz-contrib/obs-opentelemetry/provider v0.2.1
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.1
 	github.com/spf13/cobra v1.7.0
 	github.com/tidwall/redcon v1.6.2
 	github.com/weedge/openkv-goleveldb v0.0.0-20230527091727-961892f63755
-	github.com/weedge/pkg v0.0.0-20230527083721-36717744ffed
+	github.com/weedge/pkg v0.0.0-20230529040102-99562deec14f
+	github.com/weedge/xdis-storager v0.0.0-20230529043255-60c2ac021e46
 )
 
 require (
@@ -28,6 +28,7 @@ require (
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-logr/logr v1.2.4 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
+	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2 // indirect

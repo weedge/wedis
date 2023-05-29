@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/weedge/pkg/utils/logutils"
+	"github.com/weedge/xdis-storager/config"
 )
 
 // ServerOptions server options
@@ -12,7 +13,7 @@ type ServerOptions struct {
 	LogMeta                   map[string]interface{} `mapstructure:"logMeta"`
 	OltpGrpcCollectorEndpoint string                 `mapstructure:"oltpCollectorGrpcEndpoint"`
 	RespCmdSrvOpts            RespCmdServiceOptins   `mapstructure:"respCmdSrv"`
-	StoreOpts                 StorgerOptions         `mapstructure:"storeOpts"`
+	StoreOpts                 config.StorgerOptions  `mapstructure:"storeOpts"`
 }
 
 // DefaultServerOptions default opts
@@ -24,7 +25,7 @@ func DefaultServerOptions() *ServerOptions {
 		LogLevel:       logutils.LevelDebug,
 		LogMeta:        map[string]interface{}{},
 		RespCmdSrvOpts: *DefaultRespCmdServiceOptins(),
-		StoreOpts:      *DefaultStoragerOptions(),
+		StoreOpts:      *config.DefaultStoragerOptions(),
 	}
 }
 
@@ -36,21 +37,4 @@ type RespCmdServiceOptins struct {
 
 func DefaultRespCmdServiceOptins() *RespCmdServiceOptins {
 	return &RespCmdServiceOptins{}
-}
-
-type StorgerOptions struct {
-	DataDir          string `mapstructure:"dataDir"`
-	Databases        int    `mapstructure:"databases"`
-	KVStoreName      string `mapstructure:"kvStoreName"`
-	DBPath           string `mapstructure:"dbPath"`
-	DBSyncCommit     int    `mapstructure:"dbSyncCommit"`
-	TTLCheckInterval int    `mapstructure:"ttlCheckInterval"`
-}
-
-func DefaultStoragerOptions() *StorgerOptions {
-	return &StorgerOptions{
-		DataDir:     DefaultDataDir,
-		Databases:   DefaultDatabases,
-		KVStoreName: DefaultKVStoreName,
-	}
 }

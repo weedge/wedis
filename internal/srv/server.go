@@ -13,10 +13,10 @@ import (
 	"github.com/hertz-contrib/obs-opentelemetry/provider"
 	"github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"github.com/tidwall/redcon"
-	driver "github.com/weedge/pkg/driver/openkv"
+	"github.com/weedge/pkg/driver"
+	openkvDriver "github.com/weedge/pkg/driver/openkv"
 	"github.com/weedge/pkg/utils/logutils"
 	"github.com/weedge/wedis/internal/srv/config"
-	"github.com/weedge/wedis/internal/srv/storager"
 )
 
 type Server struct {
@@ -27,7 +27,7 @@ type Server struct {
 	// redcon server
 	redconSrv *redcon.Server
 	// storager
-	store *storager.Storager
+	store driver.IStorager
 }
 
 // Run reviews server
@@ -36,7 +36,7 @@ func (s *Server) Run(ctx context.Context) error {
 	klog.SetLevel(s.opts.LogLevel.KitexLogLevel())
 
 	klog.Infof("server opts: %+v", s.opts)
-	klog.Infof("register store engine: %+v", driver.ListStores())
+	klog.Infof("register store engine: %+v", openkvDriver.ListStores())
 
 	defer s.Stop()
 

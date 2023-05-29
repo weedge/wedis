@@ -5,7 +5,7 @@ import (
 	"errors"
 
 	"github.com/cloudwego/kitex/pkg/klog"
-	"github.com/weedge/wedis/internal/srv/storager"
+	"github.com/weedge/pkg/driver"
 )
 
 type cmdHandle func(ctx context.Context, h *ConnClient, cmdParams [][]byte) (interface{}, error)
@@ -18,7 +18,7 @@ func RegisterCmd(cmd string, handle cmdHandle) {
 
 type ConnClient struct {
 	srv      *Server
-	db       *storager.DB
+	db       driver.IDB
 	isAuthed bool
 }
 
@@ -26,7 +26,7 @@ func (c *ConnClient) SetSrv(srv *Server) {
 	c.srv = srv
 }
 
-func (c *ConnClient) SetDb(db *storager.DB) {
+func (c *ConnClient) SetDb(db driver.IDB) {
 	c.db = db
 }
 

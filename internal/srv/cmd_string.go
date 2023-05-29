@@ -39,3 +39,79 @@ func set(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{
 
 	return OK, nil
 }
+
+func append(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func decr(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func decrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func del(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func exists(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func getrange(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func getset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func incr(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func incrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func mget(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func mset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func setnx(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func setex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func setrange(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func strlen(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func expire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func expireat(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func ttl(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}
+
+func persist(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	return
+}

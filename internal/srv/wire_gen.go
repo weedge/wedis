@@ -14,7 +14,7 @@ import (
 	"github.com/weedge/pkg/driver/openkv"
 	"github.com/weedge/pkg/utils/logutils"
 	"github.com/weedge/wedis/internal/srv/config"
-	"github.com/weedge/wedis/internal/srv/storager"
+	"github.com/weedge/xdis-storager"
 )
 
 // Injectors from wire.go:

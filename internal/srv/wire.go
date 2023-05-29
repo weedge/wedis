@@ -11,10 +11,11 @@ import (
 
 	goleveldb "github.com/weedge/openkv-goleveldb"
 	"github.com/weedge/pkg/configparser"
-	driver "github.com/weedge/pkg/driver/openkv"
+	"github.com/weedge/pkg/driver"
+	openkvDriver "github.com/weedge/pkg/driver/openkv"
 	"github.com/weedge/pkg/utils/logutils"
 	"github.com/weedge/wedis/internal/srv/config"
-	"github.com/weedge/wedis/internal/srv/storager"
+	storager "github.com/weedge/xdis-storager"
 )
 
 // build server with wire, dependency obj inject, so init random
@@ -38,6 +39,7 @@ func NewServer(context.Context, *config.Options) (*Server, error) {
 		logutils.NewkitexZapKVLogger,
 		redcon.NewServeMux,
 		storager.Open,
+		wire.Bind(new(driver.IStorager), new(*storager.Storager)),
 
 		wire.Struct(new(Server), "opts", "kitexKVLogger", "mux", "store"),
 	))
@@ -54,8 +56,8 @@ func RegisterGoleveldb(*config.Options) error {
 		ProvideOpts,
 		wire.Value(goleveldb.StoreTypeDB),
 		goleveldb.New,
-		wire.Bind(new(driver.IStore), new(*goleveldb.Store)),
-		driver.Register,
+		wire.Bind(new(openkvDriver.IStore), new(*goleveldb.Store)),
+		openkvDriver.Register,
 	))
 }
 
@@ -70,8 +72,8 @@ func RegisterMemGoleveldb(*config.Options) error {
 		ProvideOpts,
 		wire.Value(goleveldb.StoreTypeMemory),
 		goleveldb.New,
-		wire.Bind(new(driver.IStore), new(*goleveldb.Store)),
-		driver.Register,
+		wire.Bind(new(openkvDriver.IStore), new(*goleveldb.Store)),
+		openkvDriver.Register,
 	))
 }
 
