@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 
-	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/weedge/pkg/driver"
 )
 
@@ -31,7 +30,6 @@ func (c *ConnClient) SetDb(db driver.IDB) {
 }
 
 func (c *ConnClient) DoCmd(ctx context.Context, cmd string, cmdParams [][]byte) (res interface{}, err error) {
-	klog.Debugf("cmd:%s cmdParams:%s len:%d", cmd, cmdParams, len(cmdParams))
 	f, ok := RegisteredCommands[cmd]
 	if !ok {
 		err = errors.New("ERR unknown command '" + cmd + "'")

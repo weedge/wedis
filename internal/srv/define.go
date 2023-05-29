@@ -18,6 +18,7 @@ var (
 	ErrSyntax                = errors.New("syntax error")
 	ErrOffset                = errors.New("offset bit is not an natural number")
 	ErrBool                  = errors.New("value is not 0 or 1")
+	ErrScoreOverflow         = errors.New("zset score overflow")
 )
 
 const (
