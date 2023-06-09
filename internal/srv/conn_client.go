@@ -3,6 +3,7 @@ package srv
 import (
 	"context"
 	"errors"
+	"strings"
 
 	"github.com/weedge/pkg/driver"
 )
@@ -30,6 +31,7 @@ func (c *ConnClient) SetDb(db driver.IDB) {
 }
 
 func (c *ConnClient) DoCmd(ctx context.Context, cmd string, cmdParams [][]byte) (res interface{}, err error) {
+	cmd = strings.ToLower(strings.TrimSpace(cmd))
 	f, ok := RegisteredCommands[cmd]
 	if !ok {
 		err = errors.New("ERR unknown command '" + cmd + "'")

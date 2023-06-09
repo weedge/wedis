@@ -1,4 +1,5 @@
 # wedisDB configuration
+# Case insensitive, but use Camel Case naming
 # notice: if don't config item, use defualt item's value
 [server]
 logLevel = "debug"
@@ -8,7 +9,12 @@ projectName = "wedisSrv"
 httpAddr = "127.0.0.1:8110"
 
 # oltp cllector grpc endpoint address, set empty to disable
-#oltpCollectorGrpcEndpoint = "0.0.0.0:4317"
+oltpCollectorGrpcEndpoint = "0.0.0.0:4317"
+
+# use store type, 
+# local, rpc(dist kv store eg:tikv)
+# default local
+storeType = "local"
 
 
 [server.respCmdSrv]

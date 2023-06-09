@@ -1,4 +1,6 @@
 # wedisDB configuration
+# Case insensitive, but use Camel Case naming
+# notice: if don't config item, use defualt item's value
 [server]
 logLevel = "debug"
 projectName = "wedisSrv"
