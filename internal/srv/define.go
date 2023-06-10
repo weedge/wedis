@@ -1,6 +1,10 @@
 package srv
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/tidwall/redcon"
+)
 
 type CtxKey int
 
@@ -22,7 +26,7 @@ var (
 )
 
 const (
-	PONG  = "PONG"
-	OK    = "OK"
-	NOKEY = "NOKEY"
+	PONG  = redcon.SimpleString("PONG")
+	OK    = redcon.SimpleString("OK")
+	NOKEY = redcon.SimpleString("NOKEY")
 )
