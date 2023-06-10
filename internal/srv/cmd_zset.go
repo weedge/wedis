@@ -70,7 +70,7 @@ func zadd(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		params[i].Member = args[2*i+1]
 	}
 
-	res, err = c.db.DBZSet().ZAdd(cmdParams[0], params...)
+	res, err = c.db.DBZSet().ZAdd(ctx, cmdParams[0], params...)
 	return
 }
 
@@ -80,7 +80,7 @@ func zcard(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 		return
 	}
 
-	res, err = c.db.DBZSet().ZCard(cmdParams[0])
+	res, err = c.db.DBZSet().ZCard(ctx, cmdParams[0])
 	return
 }
 
@@ -101,7 +101,7 @@ func zcount(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBZSet().ZCount(cmdParams[0], min, max)
+	res, err = c.db.DBZSet().ZCount(ctx, cmdParams[0], min, max)
 	return
 }
 
@@ -177,7 +177,7 @@ func zincrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return nil, ErrValue
 	}
 
-	res, err = c.db.DBZSet().ZIncrBy(cmdParams[0], delta, cmdParams[2])
+	res, err = c.db.DBZSet().ZIncrBy(ctx, cmdParams[0], delta, cmdParams[2])
 	return
 }
 
@@ -207,7 +207,7 @@ func zrangeGeneric(ctx context.Context, c *ConnClient, cmdParams [][]byte, rever
 		withScores = true
 	}
 
-	arrScorePair, err := c.db.DBZSet().ZRangeGeneric(cmdParams[0], start, stop, reverse)
+	arrScorePair, err := c.db.DBZSet().ZRangeGeneric(ctx, cmdParams[0], start, stop, reverse)
 	if err != nil {
 		return
 	}
@@ -290,7 +290,7 @@ func zrangeByScoreGeneric(ctx context.Context, c *ConnClient, cmdParams [][]byte
 		return []interface{}{}, nil
 	}
 
-	arrScorePair, err := c.db.DBZSet().ZRangeByScoreGeneric(cmdParams[0], min, max, offset, count, reverse)
+	arrScorePair, err := c.db.DBZSet().ZRangeByScoreGeneric(ctx, cmdParams[0], min, max, offset, count, reverse)
 	if err != nil {
 		return
 	}
@@ -314,7 +314,7 @@ func zrank(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 		return
 	}
 
-	n, err := c.db.DBZSet().ZRank(cmdParams[0], cmdParams[1])
+	n, err := c.db.DBZSet().ZRank(ctx, cmdParams[0], cmdParams[1])
 	if err != nil {
 		return
 	}
@@ -332,7 +332,7 @@ func zrem(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		return
 	}
 
-	res, err = c.db.DBZSet().ZRem(cmdParams[0], cmdParams[1:]...)
+	res, err = c.db.DBZSet().ZRem(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
@@ -347,7 +347,7 @@ func zremrangebyrank(ctx context.Context, c *ConnClient, cmdParams [][]byte) (re
 		return nil, ErrValue
 	}
 
-	res, err = c.db.DBZSet().ZRemRangeByRank(cmdParams[0], s, e)
+	res, err = c.db.DBZSet().ZRemRangeByRank(ctx, cmdParams[0], s, e)
 	return
 }
 
@@ -362,7 +362,7 @@ func zremrangebyscore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (r
 		return nil, ErrValue
 	}
 
-	res, err = c.db.DBZSet().ZRemRangeByScore(cmdParams[0], int64(s), int64(e))
+	res, err = c.db.DBZSet().ZRemRangeByScore(ctx, cmdParams[0], int64(s), int64(e))
 	return
 }
 
@@ -376,7 +376,7 @@ func zrevrank(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inter
 		return
 	}
 
-	n, err := c.db.DBZSet().ZRevRank(cmdParams[0], cmdParams[1])
+	n, err := c.db.DBZSet().ZRevRank(ctx, cmdParams[0], cmdParams[1])
 	if err != nil {
 		return
 	}
@@ -398,7 +398,7 @@ func zscore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBZSet().ZScore(cmdParams[0], cmdParams[1])
+	res, err = c.db.DBZSet().ZScore(ctx, cmdParams[0], cmdParams[1])
 	if err != nil {
 		if err.Error() == "zset score miss" {
 			err = nil
@@ -420,7 +420,7 @@ func zunionstore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res in
 		return
 	}
 
-	res, err = c.db.DBZSet().ZUnionStore(destKey, srcKeys, weights, aggregate)
+	res, err = c.db.DBZSet().ZUnionStore(ctx, destKey, srcKeys, weights, aggregate)
 
 	return
 }
@@ -508,7 +508,7 @@ func zinterstore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res in
 		return
 	}
 
-	res, err = c.db.DBZSet().ZInterStore(destKey, srcKeys, weights, aggregate)
+	res, err = c.db.DBZSet().ZInterStore(ctx, destKey, srcKeys, weights, aggregate)
 	return
 }
 
@@ -538,7 +538,7 @@ func zrangebylex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res in
 		}
 	}
 
-	res, err = c.db.DBZSet().ZRangeByLex(cmdParams[0], min, max, rangeType, offset, count)
+	res, err = c.db.DBZSet().ZRangeByLex(ctx, cmdParams[0], min, max, rangeType, offset, count)
 
 	return
 }
@@ -596,7 +596,7 @@ func zremrangebylex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res
 		return nil, err
 	}
 
-	res, err = c.db.DBZSet().ZRemRangeByLex(cmdParams[0], min, max, rangeType)
+	res, err = c.db.DBZSet().ZRemRangeByLex(ctx, cmdParams[0], min, max, rangeType)
 
 	return
 }
@@ -612,7 +612,7 @@ func zlexcount(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inte
 		return
 	}
 
-	res, err = c.db.DBZSet().ZLexCount(cmdParams[0], min, max, rangeType)
+	res, err = c.db.DBZSet().ZLexCount(ctx, cmdParams[0], min, max, rangeType)
 
 	return
 }
@@ -623,7 +623,7 @@ func zmclear(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBZSet().Del(cmdParams...)
+	res, err = c.db.DBZSet().Del(ctx, cmdParams...)
 	return
 }
 
@@ -633,7 +633,7 @@ func zkeyexists(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res int
 		return
 	}
 
-	res, err = c.db.DBZSet().Exists(cmdParams[0])
+	res, err = c.db.DBZSet().Exists(ctx, cmdParams[0])
 	return
 }
 
@@ -649,7 +649,7 @@ func zexpire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBZSet().Expire(cmdParams[0], d)
+	res, err = c.db.DBZSet().Expire(ctx, cmdParams[0], d)
 	return
 }
 
@@ -665,7 +665,7 @@ func zexpireat(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inte
 		return
 	}
 
-	res, err = c.db.DBZSet().ExpireAt(cmdParams[0], d)
+	res, err = c.db.DBZSet().ExpireAt(ctx, cmdParams[0], d)
 	return
 }
 
@@ -675,7 +675,7 @@ func zttl(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		return
 	}
 
-	res, err = c.db.DBZSet().TTL(cmdParams[0])
+	res, err = c.db.DBZSet().TTL(ctx, cmdParams[0])
 	return
 }
 
@@ -685,6 +685,6 @@ func zpersist(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inter
 		return
 	}
 
-	res, err = c.db.DBZSet().Persist(cmdParams[0])
+	res, err = c.db.DBZSet().Persist(ctx, cmdParams[0])
 	return
 }

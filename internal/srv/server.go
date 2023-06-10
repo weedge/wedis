@@ -53,7 +53,7 @@ func (s *Server) Run(ctx context.Context) error {
 		}(ctx, tracingProvider)
 	}
 
-	s.InitRespCmdService()
+	s.InitRespCmdService(ctx)
 
 	if s.opts.HttpAddr == "" {
 		sig := make(chan os.Signal, 1)
@@ -124,13 +124,13 @@ func (s *Server) registerRespConnClient() {
 	}
 }
 
-func (s *Server) InitConnClient(dbIdx int) *ConnClient {
+func (s *Server) InitConnClient(ctx context.Context, dbIdx int) *ConnClient {
 	if dbIdx < 0 || dbIdx >= s.opts.StoreOpts.Databases {
 		dbIdx = 0
 	}
 
 	cli := &ConnClient{srv: s, isAuthed: false}
-	db, err := s.store.Select(dbIdx)
+	db, err := s.store.Select(ctx, dbIdx)
 	if err != nil {
 		return nil
 	}
@@ -139,14 +139,14 @@ func (s *Server) InitConnClient(dbIdx int) *ConnClient {
 	return cli
 }
 
-func (s *Server) InitRespCmdService() {
+func (s *Server) InitRespCmdService(ctx context.Context) {
 	//RESP cmd tcp server
 	s.redconSrv = redcon.NewServer(s.opts.RespCmdSrvOpts.Addr, s.mux.ServeRESP,
 		func(conn redcon.Conn) bool {
 			// use this function to accept (return true) or deny the connection (return false).
 			// set ctx
 			klog.Infof("accept: %s", conn.RemoteAddr())
-			conn.SetContext(s.InitConnClient(0))
+			conn.SetContext(s.InitConnClient(ctx, 0))
 			return true
 		},
 		func(conn redcon.Conn, err error) {

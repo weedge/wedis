@@ -1,64 +1,60 @@
 # wedisDB configuration
 # Case insensitive, but use Camel Case naming
 # notice: if don't config item, use defualt item's value
-[server]
-logLevel = "debug"
-projectName = "wedisSrv"
+server.logLevel = "debug"
+server.projectName = "wedisSrv"
 
 # http Server listen address, set empty to disable
-#httpAddr = "127.0.0.1:8110"
+#server.httpAddr = "127.0.0.1:8110"
 
 # oltp cllector grpc endpoint address, set empty to disable
-#oltpCollectorGrpcEndpoint = "0.0.0.0:4317"
+#server.oltpCollectorGrpcEndpoint = "0.0.0.0:4317"
 
 
-[server.respCmdSrv]
 # resp cmd Server listen address
-addr = "0.0.0.0:6666"
+server.respCmdSrv.addr = "0.0.0.0:6666"
 
 # auth password
-authPassword = ""
+server.respCmdSrv.authPassword = ""
 
 # if connection receives no data after n seconds, it may be dead, close
 # 0 to disable and not check
 # idle conn close time (s)
-connKeepaliveInterval = 0
+server.respCmdSrv.connKeepaliveInterval = 0
 
 
-[server.storeOpts]
 # Data store path, all wedisdb's data will be saved here
-dataDir = "./data"
+server.storeOpts.dataDir = "./data"
 
 # Set the number of databases. You can use `select dbindex` to choose a db.
 # dbindex must be in [0, databases - 1].
 # Default databases is 16, maximum is 10240 now.
-databases = 16
+server.storeOpts.databases = 16
 
 # Sync commit to disk if possible
 #  0: no sync
 #  1: sync every second
 #  2: sync every commit
-dbSyncCommit = 0
+server.storeOpts.dbSyncCommit = 0
 
 # checking TTL (time to live) data every n seconds
 # if you set big, the expired data may not be deleted immediately
-ttlCheckInterval = 1
+server.storeOpts.ttlCheckInterval = 1
 
 # Choose which backend storage to use, 
 # impl openkv driver register to support:
-kvStoreName = "goleveldb"
+server.storeOpts.kvStoreName = "goleveldb"
 
 # If not set, use dataDir/"kvStoreName"_data
-dbPath = ""
+server.storeOpts.dbPath = ""
 
 
-[goLeveldbCfg]
 # if true, compression use snappy 
-compression = false
-blockSize = 32768
-writeBufferSize = 67108864
-cacheSize = 524288000
-maxOpenFiles = 1024
-compactionTableSize = 33554432
-writeL0SlowdownTrigger = 16
-writeL0PauseTrigger = 64
+goLeveldbCfg.compression = false
+goLeveldbCfg.blockSize = 32768
+goLeveldbCfg.writeBufferSize = 67108864
+goLeveldbCfg.cacheSize = 524288000
+goLeveldbCfg.maxOpenFiles = 1024
+goLeveldbCfg.compactionTableSize = 33554432
+goLeveldbCfg.writeL0SlowdownTrigger = 16
+goLeveldbCfg.writeL0PauseTrigger = 64

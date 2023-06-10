@@ -356,10 +356,10 @@ github.com/twitchyliquid64/golang-asm v0.15.1 h1:SU5vSMR7hnwNxj24w34ZyCi/FmDZTkS
 github.com/twitchyliquid64/golang-asm v0.15.1/go.mod h1:a1lVb/DtPvCB8fslRZhAngC2+aY1QWCk3Cedj/Gdt08=
 github.com/weedge/openkv-goleveldb v0.0.0-20230527091727-961892f63755 h1:PXjFqUNO+E5N9c4aMqtwjCGSc7zF1cnz/1rRk7Ri3yw=
 github.com/weedge/openkv-goleveldb v0.0.0-20230527091727-961892f63755/go.mod h1:v+FlKunfoeEcx1e0xyUaVrSnEZZIbNyjLwXLk8n0xKI=
-github.com/weedge/pkg v0.0.0-20230529151424-c449f1589b0f h1:DemP7P23tIxDS/Zqb9o2W1Q8bwnWpPiU1F8hJFUxrhw=
-github.com/weedge/pkg v0.0.0-20230529151424-c449f1589b0f/go.mod h1:K/SeqBpX8GSebm2av2h/xfsw1+PzdHRnL8HVQsY4o9w=
-github.com/weedge/xdis-storager v0.0.0-20230529151915-1153d28abd3c h1:1mborq9y//FO9JAPiyahQO9alFcRlTXhJjwPsHr128g=
-github.com/weedge/xdis-storager v0.0.0-20230529151915-1153d28abd3c/go.mod h1:2/pqkMh3aywHp+4qN3Z9D6pxfjcIAzg8v294sMtJwIo=
+github.com/weedge/pkg v0.0.0-20230604100309-ee4766f9935c h1:oCC8xv4y26qxSTxcsRo7Zr9gylTeWmvjioK3tyZ88so=
+github.com/weedge/pkg v0.0.0-20230604100309-ee4766f9935c/go.mod h1:K/SeqBpX8GSebm2av2h/xfsw1+PzdHRnL8HVQsY4o9w=
+github.com/weedge/xdis-storager v0.0.0-20230610161814-d56a5336e3d5 h1:2abVTO567IIdxb0ivojN0vYKxY0gcJUkF4KGz8dVJGY=
+github.com/weedge/xdis-storager v0.0.0-20230610161814-d56a5336e3d5/go.mod h1:iHlvSw53epl9hMGp5F4Bvtk8heCVXJW7bGn4ewiBGXs=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=

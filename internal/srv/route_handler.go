@@ -52,7 +52,7 @@ func SetupCmdRoutes(h *server.Hertz, s *Server) {
 			return
 		}
 
-		cli := s.InitConnClient(dbIdx)
+		cli := s.InitConnClient(ctx, dbIdx)
 		res, err := cli.DoCmd(ctx, cmd, params)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusOK, err.Error())

@@ -40,7 +40,7 @@ func hdel(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		return
 	}
 
-	res, err = c.db.DBHash().HDel(cmdParams[0], cmdParams[1:]...)
+	res, err = c.db.DBHash().HDel(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
@@ -50,7 +50,7 @@ func hexists(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	v, err := c.db.DBHash().HGet(cmdParams[0], cmdParams[1])
+	v, err := c.db.DBHash().HGet(ctx, cmdParams[0], cmdParams[1])
 	if err != nil {
 		return
 	}
@@ -67,7 +67,7 @@ func hget(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		return
 	}
 
-	v, err := c.db.DBHash().HGet(cmdParams[0], cmdParams[1])
+	v, err := c.db.DBHash().HGet(ctx, cmdParams[0], cmdParams[1])
 	if len(v) == 0 {
 		return nil, nil
 	}
@@ -81,7 +81,7 @@ func hgetall(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBHash().HGetAll(cmdParams[0])
+	res, err = c.db.DBHash().HGetAll(ctx, cmdParams[0])
 	return
 }
 
@@ -96,7 +96,7 @@ func hincrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBHash().HIncrBy(cmdParams[0], cmdParams[1], delta)
+	res, err = c.db.DBHash().HIncrBy(ctx, cmdParams[0], cmdParams[1], delta)
 	return
 }
 
@@ -106,7 +106,7 @@ func hkeys(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 		return
 	}
 
-	res, err = c.db.DBHash().HKeys(cmdParams[0])
+	res, err = c.db.DBHash().HKeys(ctx, cmdParams[0])
 	return
 }
 
@@ -116,7 +116,7 @@ func hlen(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		return
 	}
 
-	res, err = c.db.DBHash().HLen(cmdParams[0])
+	res, err = c.db.DBHash().HLen(ctx, cmdParams[0])
 	return
 }
 
@@ -126,7 +126,7 @@ func hmget(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 		return
 	}
 
-	res, err = c.db.DBHash().HMget(cmdParams[0], cmdParams[1:]...)
+	res, err = c.db.DBHash().HMget(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
@@ -143,7 +143,7 @@ func hmset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 		kvs[i].Value = args[2*i+1]
 	}
 
-	if err = c.db.DBHash().HMset(cmdParams[0], kvs...); err != nil {
+	if err = c.db.DBHash().HMset(ctx, cmdParams[0], kvs...); err != nil {
 		return
 	}
 
@@ -157,7 +157,7 @@ func hset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		return
 	}
 
-	res, err = c.db.DBHash().HSet(cmdParams[0], cmdParams[1], cmdParams[2])
+	res, err = c.db.DBHash().HSet(ctx, cmdParams[0], cmdParams[1], cmdParams[2])
 	return
 }
 
@@ -167,7 +167,7 @@ func hvals(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 		return
 	}
 
-	res, err = c.db.DBHash().HValues(cmdParams[0])
+	res, err = c.db.DBHash().HValues(ctx, cmdParams[0])
 	return
 }
 
@@ -177,7 +177,7 @@ func hmclear(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBHash().Del(cmdParams...)
+	res, err = c.db.DBHash().Del(ctx, cmdParams...)
 	return
 }
 
@@ -187,7 +187,7 @@ func hkeyexists(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res int
 		return
 	}
 
-	res, err = c.db.DBHash().Exists(cmdParams[0])
+	res, err = c.db.DBHash().Exists(ctx, cmdParams[0])
 	return
 }
 
@@ -203,7 +203,7 @@ func hexpire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBHash().Expire(cmdParams[0], d)
+	res, err = c.db.DBHash().Expire(ctx, cmdParams[0], d)
 	return
 }
 
@@ -219,7 +219,7 @@ func hexpireat(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inte
 		return
 	}
 
-	res, err = c.db.DBHash().ExpireAt(cmdParams[0], d)
+	res, err = c.db.DBHash().ExpireAt(ctx, cmdParams[0], d)
 	return
 }
 
@@ -229,7 +229,7 @@ func httl(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		return
 	}
 
-	res, err = c.db.DBHash().TTL(cmdParams[0])
+	res, err = c.db.DBHash().TTL(ctx, cmdParams[0])
 	return
 }
 
@@ -239,6 +239,6 @@ func hpersist(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inter
 		return
 	}
 
-	res, err = c.db.DBHash().Persist(cmdParams[0])
+	res, err = c.db.DBHash().Persist(ctx, cmdParams[0])
 	return
 }

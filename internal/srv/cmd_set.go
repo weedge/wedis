@@ -39,7 +39,7 @@ func sadd(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		return
 	}
 
-	res, err = c.db.DBSet().SAdd(cmdParams[0], cmdParams[1:]...)
+	res, err = c.db.DBSet().SAdd(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
@@ -49,7 +49,7 @@ func scard(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 		return
 	}
 
-	res, err = c.db.DBSet().SCard(cmdParams[0])
+	res, err = c.db.DBSet().SCard(ctx, cmdParams[0])
 	return
 }
 
@@ -59,7 +59,7 @@ func sdiff(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 		return
 	}
 
-	res, err = c.db.DBSet().SDiff(cmdParams...)
+	res, err = c.db.DBSet().SDiff(ctx, cmdParams...)
 	return
 }
 
@@ -69,7 +69,7 @@ func sdiffstore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res int
 		return
 	}
 
-	res, err = c.db.DBSet().SDiffStore(cmdParams[0], cmdParams[1:]...)
+	res, err = c.db.DBSet().SDiffStore(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
@@ -79,7 +79,7 @@ func sinter(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBSet().SInter(cmdParams...)
+	res, err = c.db.DBSet().SInter(ctx, cmdParams...)
 	return
 }
 
@@ -89,7 +89,7 @@ func sinterstore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res in
 		return
 	}
 
-	res, err = c.db.DBSet().SInterStore(cmdParams[0], cmdParams[1:]...)
+	res, err = c.db.DBSet().SInterStore(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
@@ -99,7 +99,7 @@ func sismember(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inte
 		return
 	}
 
-	res, err = c.db.DBSet().SIsMember(cmdParams[0], cmdParams[1])
+	res, err = c.db.DBSet().SIsMember(ctx, cmdParams[0], cmdParams[1])
 	return
 }
 
@@ -109,7 +109,7 @@ func smembers(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inter
 		return
 	}
 
-	res, err = c.db.DBSet().SMembers(cmdParams[0])
+	res, err = c.db.DBSet().SMembers(ctx, cmdParams[0])
 	return
 }
 
@@ -119,7 +119,7 @@ func srem(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		return
 	}
 
-	res, err = c.db.DBSet().SRem(cmdParams[0], cmdParams[1:]...)
+	res, err = c.db.DBSet().SRem(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
@@ -129,7 +129,7 @@ func sunion(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBSet().SUnion(cmdParams...)
+	res, err = c.db.DBSet().SUnion(ctx, cmdParams...)
 	return
 }
 
@@ -139,7 +139,7 @@ func sunionstore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res in
 		return
 	}
 
-	res, err = c.db.DBSet().SUnionStore(cmdParams[0], cmdParams[1:]...)
+	res, err = c.db.DBSet().SUnionStore(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
@@ -149,7 +149,7 @@ func smclear(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBSet().Del(cmdParams...)
+	res, err = c.db.DBSet().Del(ctx, cmdParams...)
 	return
 }
 
@@ -159,7 +159,7 @@ func skeyexists(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res int
 		return
 	}
 
-	res, err = c.db.DBSet().Exists(cmdParams[0])
+	res, err = c.db.DBSet().Exists(ctx, cmdParams[0])
 	return
 }
 
@@ -175,7 +175,7 @@ func sexpire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBSet().Expire(cmdParams[0], d)
+	res, err = c.db.DBSet().Expire(ctx, cmdParams[0], d)
 	return
 }
 
@@ -191,7 +191,7 @@ func sexpireat(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inte
 		return
 	}
 
-	res, err = c.db.DBSet().ExpireAt(cmdParams[0], d)
+	res, err = c.db.DBSet().ExpireAt(ctx, cmdParams[0], d)
 	return
 }
 
@@ -201,7 +201,7 @@ func sttl(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		return
 	}
 
-	res, err = c.db.DBSet().TTL(cmdParams[0])
+	res, err = c.db.DBSet().TTL(ctx, cmdParams[0])
 	return
 }
 
@@ -211,6 +211,6 @@ func spersist(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inter
 		return
 	}
 
-	res, err = c.db.DBSet().Persist(cmdParams[0])
+	res, err = c.db.DBSet().Persist(ctx, cmdParams[0])
 	return
 }

@@ -39,7 +39,7 @@ func selectCmd(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inte
 		return
 	}
 
-	db, err := c.srv.store.Select(index)
+	db, err := c.srv.store.Select(ctx, index)
 	if err != nil {
 		return
 	}
@@ -50,7 +50,7 @@ func selectCmd(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inte
 }
 
 func flushdb(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
-	_, err = c.db.FlushDB()
+	_, err = c.db.FlushDB(ctx)
 	if err != nil {
 		return
 	}
@@ -60,7 +60,7 @@ func flushdb(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 }
 
 func flushall(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
-	err = c.srv.store.FlushAll()
+	err = c.srv.store.FlushAll(ctx)
 	if err != nil {
 		return
 	}

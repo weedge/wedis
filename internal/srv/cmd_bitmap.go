@@ -28,7 +28,7 @@ func bitcount(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inter
 		return
 	}
 
-	res, err = c.db.DBBitmap().BitCount(cmdParams[0], start, end)
+	res, err = c.db.DBBitmap().BitCount(ctx, cmdParams[0], start, end)
 	return
 }
 
@@ -59,7 +59,7 @@ func bitop(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 	destKey := cmdParams[1]
 	srcKeys := cmdParams[2:]
 
-	res, err = c.db.DBBitmap().BitOP(op, destKey, srcKeys...)
+	res, err = c.db.DBBitmap().BitOP(ctx, op, destKey, srcKeys...)
 
 	return
 }
@@ -79,7 +79,7 @@ func bitpos(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBBitmap().BitPos(cmdParams[0], bit, start, end)
+	res, err = c.db.DBBitmap().BitPos(ctx, cmdParams[0], bit, start, end)
 	return
 }
 
@@ -93,7 +93,7 @@ func getbit(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBBitmap().GetBit(cmdParams[0], offset)
+	res, err = c.db.DBBitmap().GetBit(ctx, cmdParams[0], offset)
 	return
 }
 
@@ -112,6 +112,6 @@ func setbit(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBBitmap().SetBit(cmdParams[0], offset, value)
+	res, err = c.db.DBBitmap().SetBit(ctx, cmdParams[0], offset, value)
 	return
 }

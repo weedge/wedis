@@ -11,8 +11,8 @@ require (
 	github.com/spf13/cobra v1.7.0
 	github.com/tidwall/redcon v1.6.2
 	github.com/weedge/openkv-goleveldb v0.0.0-20230527091727-961892f63755
-	github.com/weedge/pkg v0.0.0-20230529151424-c449f1589b0f
-	github.com/weedge/xdis-storager v0.0.0-20230529151915-1153d28abd3c
+	github.com/weedge/pkg v0.0.0-20230604100309-ee4766f9935c
+	github.com/weedge/xdis-storager v0.0.0-20230610161814-d56a5336e3d5
 )
 
 require (
@@ -81,8 +81,8 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-//replace github.com/weedge/openkv-goleveldb => ../openkv-goleveldb
-
 //replace github.com/weedge/pkg => ../pkg
 
 //replace github.com/weedge/xdis-storager => ../xdis-storager
+
+//replace github.com/weedge/openkv-goleveldb => ../openkv-goleveldb

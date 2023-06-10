@@ -40,7 +40,7 @@ func get(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{
 		return
 	}
 
-	v, err := c.db.DBString().GetSlice(cmdParams[0])
+	v, err := c.db.DBString().GetSlice(ctx, cmdParams[0])
 	if err != nil {
 		return
 	}
@@ -59,7 +59,7 @@ func set(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{
 		return
 	}
 
-	if err = c.db.DBString().Set(cmdParams[0], cmdParams[1]); err != nil {
+	if err = c.db.DBString().Set(ctx, cmdParams[0], cmdParams[1]); err != nil {
 		return
 	}
 
@@ -72,7 +72,7 @@ func appendCmd(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inte
 		return
 	}
 
-	res, err = c.db.DBString().Append(cmdParams[0], cmdParams[1])
+	res, err = c.db.DBString().Append(ctx, cmdParams[0], cmdParams[1])
 	return
 }
 
@@ -82,7 +82,7 @@ func decr(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		return
 	}
 
-	res, err = c.db.DBString().Decr(cmdParams[0])
+	res, err = c.db.DBString().Decr(ctx, cmdParams[0])
 	return
 }
 
@@ -97,7 +97,7 @@ func decrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBString().DecrBy(cmdParams[0], delta)
+	res, err = c.db.DBString().DecrBy(ctx, cmdParams[0], delta)
 	return
 }
 
@@ -107,7 +107,7 @@ func del(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{
 		return
 	}
 
-	res, err = c.db.DBString().Del(cmdParams...)
+	res, err = c.db.DBString().Del(ctx, cmdParams...)
 	return
 }
 
@@ -117,7 +117,7 @@ func exists(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBString().Exists(cmdParams[0])
+	res, err = c.db.DBString().Exists(ctx, cmdParams[0])
 	return
 }
 
@@ -139,7 +139,7 @@ func getrange(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inter
 		return
 	}
 
-	res, err = c.db.DBString().GetRange(cmdParams[0], start, end)
+	res, err = c.db.DBString().GetRange(ctx, cmdParams[0], start, end)
 	return
 }
 
@@ -149,7 +149,7 @@ func getset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBString().GetSet(cmdParams[0], cmdParams[1])
+	res, err = c.db.DBString().GetSet(ctx, cmdParams[0], cmdParams[1])
 	return
 }
 
@@ -159,7 +159,7 @@ func incr(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		return
 	}
 
-	res, err = c.db.DBString().Incr(cmdParams[0])
+	res, err = c.db.DBString().Incr(ctx, cmdParams[0])
 	return
 }
 
@@ -175,7 +175,7 @@ func incrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBString().IncrBy(cmdParams[0], delta)
+	res, err = c.db.DBString().IncrBy(ctx, cmdParams[0], delta)
 	return
 }
 
@@ -185,7 +185,7 @@ func mget(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		return
 	}
 
-	res, err = c.db.DBString().MGet(cmdParams...)
+	res, err = c.db.DBString().MGet(ctx, cmdParams...)
 	return
 }
 
@@ -201,7 +201,7 @@ func mset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		kvs[i].Value = cmdParams[2*i+1]
 	}
 
-	err = c.db.DBString().MSet(kvs...)
+	err = c.db.DBString().MSet(ctx, kvs...)
 	if err != nil {
 		return
 	}
@@ -216,7 +216,7 @@ func setnx(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 		return
 	}
 
-	res, err = c.db.DBString().SetNX(cmdParams[0], cmdParams[1])
+	res, err = c.db.DBString().SetNX(ctx, cmdParams[0], cmdParams[1])
 	return
 }
 
@@ -232,7 +232,7 @@ func setex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 		return
 	}
 
-	err = c.db.DBString().SetEX(cmdParams[0], sec, cmdParams[2])
+	err = c.db.DBString().SetEX(ctx, cmdParams[0], sec, cmdParams[2])
 	if err != nil {
 		return
 	}
@@ -253,7 +253,7 @@ func setrange(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inter
 		return
 	}
 
-	res, err = c.db.DBString().SetRange(cmdParams[0], offset, cmdParams[2])
+	res, err = c.db.DBString().SetRange(ctx, cmdParams[0], offset, cmdParams[2])
 	return
 }
 
@@ -263,7 +263,7 @@ func strlen(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBString().StrLen(cmdParams[0])
+	res, err = c.db.DBString().StrLen(ctx, cmdParams[0])
 	return
 }
 
@@ -279,7 +279,7 @@ func expire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBString().Expire(cmdParams[0], duration)
+	res, err = c.db.DBString().Expire(ctx, cmdParams[0], duration)
 	return
 }
 
@@ -295,7 +295,7 @@ func expireat(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inter
 		return
 	}
 
-	res, err = c.db.DBString().ExpireAt(cmdParams[0], when)
+	res, err = c.db.DBString().ExpireAt(ctx, cmdParams[0], when)
 	return
 }
 
@@ -305,7 +305,7 @@ func ttl(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{
 		return
 	}
 
-	res, err = c.db.DBString().TTL(cmdParams[0])
+	res, err = c.db.DBString().TTL(ctx, cmdParams[0])
 	return
 }
 
@@ -315,6 +315,6 @@ func persist(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBString().Persist(cmdParams[0])
+	res, err = c.db.DBString().Persist(ctx, cmdParams[0])
 	return
 }
