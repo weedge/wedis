@@ -29,6 +29,13 @@ authPassword = ""
 # idle conn close time (s)
 connKeepaliveInterval = 0
 
+# resp cmd Server mode
+# standalone (doing2test)
+# replica (doing) classic mode, need proxy manage sharding like codis
+# tikv (doing2test)
+# matrix (todo)
+mode = "standalone"
+
 
 [server.storeOpts]
 # Data store path, all wedisdb's data will be saved here

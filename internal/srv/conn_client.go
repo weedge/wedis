@@ -20,6 +20,7 @@ type ConnClient struct {
 	srv      *Server
 	db       driver.IDB
 	isAuthed bool
+	name     string
 }
 
 func (c *ConnClient) SetSrv(srv *Server) {
@@ -28,6 +29,13 @@ func (c *ConnClient) SetSrv(srv *Server) {
 
 func (c *ConnClient) SetDb(db driver.IDB) {
 	c.db = db
+}
+
+func (c *ConnClient) SetConnName(name string) {
+	c.name = name
+}
+func (c *ConnClient) Name() (name string) {
+	return c.name
 }
 
 func (c *ConnClient) DoCmd(ctx context.Context, cmd string, cmdParams [][]byte) (res interface{}, err error) {

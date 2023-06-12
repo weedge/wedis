@@ -1,3 +1,8 @@
 package config
 
-const ()
+const (
+	ModeStandalone = "standalone"
+	ModeReplica    = "replica"
+	ModeTikv       = "tikv"
+	Modematrix     = "matrix"
+)

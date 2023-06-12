@@ -22,6 +22,13 @@ server.respCmdSrv.authPassword = ""
 # idle conn close time (s)
 server.respCmdSrv.connKeepaliveInterval = 0
 
+# resp cmd Server mode
+# standalone (doing2test)
+# replica (doing) classic mode, need proxy manage sharding like codis
+# tikv (doing2test)
+# matrix (todo)
+server.respCmdSrv.mode = "standalone"
+
 
 # Data store path, all wedisdb's data will be saved here
 server.storeOpts.dataDir = "./data"

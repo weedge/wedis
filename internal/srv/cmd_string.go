@@ -9,19 +9,21 @@ import (
 )
 
 func init() {
-	RegisterCmd("get", get)
-	RegisterCmd("set", set)
 	RegisterCmd("append", appendCmd)
 	RegisterCmd("decr", decr)
 	RegisterCmd("decrby", decrby)
+	RegisterCmd("get", get)
 	RegisterCmd("getrange", getrange)
 	RegisterCmd("getset", getset)
 	RegisterCmd("incr", incr)
 	RegisterCmd("incrby", incrby)
 	RegisterCmd("mget", mget)
 	RegisterCmd("mset", mset)
+	RegisterCmd("set", set)
 	RegisterCmd("setnx", setnx)
 	RegisterCmd("setex", setex)
+	RegisterCmd("setnxex", setnxex)
+	RegisterCmd("setxxex", setxxex)
 	RegisterCmd("setrange", setrange)
 	RegisterCmd("strlen", strlen)
 
@@ -233,6 +235,48 @@ func setex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 	}
 
 	err = c.db.DBString().SetEX(ctx, cmdParams[0], sec, cmdParams[2])
+	if err != nil {
+		return
+	}
+
+	res = OK
+	return
+}
+
+func setnxex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	if len(cmdParams) != 3 {
+		err = ErrCmdParams
+		return
+	}
+
+	sec, err := utils.StrInt64(cmdParams[1], nil)
+	if err != nil {
+		err = ErrValue
+		return
+	}
+
+	err = c.db.DBString().SetNXEX(ctx, cmdParams[0], sec, cmdParams[2])
+	if err != nil {
+		return
+	}
+
+	res = OK
+	return
+}
+
+func setxxex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	if len(cmdParams) != 3 {
+		err = ErrCmdParams
+		return
+	}
+
+	sec, err := utils.StrInt64(cmdParams[1], nil)
+	if err != nil {
+		err = ErrValue
+		return
+	}
+
+	err = c.db.DBString().SetXXEX(ctx, cmdParams[0], sec, cmdParams[2])
 	if err != nil {
 		return
 	}

@@ -358,8 +358,8 @@ github.com/weedge/openkv-goleveldb v0.0.0-20230527091727-961892f63755 h1:PXjFqUN
 github.com/weedge/openkv-goleveldb v0.0.0-20230527091727-961892f63755/go.mod h1:v+FlKunfoeEcx1e0xyUaVrSnEZZIbNyjLwXLk8n0xKI=
 github.com/weedge/pkg v0.0.0-20230604100309-ee4766f9935c h1:oCC8xv4y26qxSTxcsRo7Zr9gylTeWmvjioK3tyZ88so=
 github.com/weedge/pkg v0.0.0-20230604100309-ee4766f9935c/go.mod h1:K/SeqBpX8GSebm2av2h/xfsw1+PzdHRnL8HVQsY4o9w=
-github.com/weedge/xdis-storager v0.0.0-20230611150824-11928fb8aeff h1:ZIBXk7R8b/oXAUEtuybokZpTT91RWfyXugZldn73rZ0=
-github.com/weedge/xdis-storager v0.0.0-20230611150824-11928fb8aeff/go.mod h1:iHlvSw53epl9hMGp5F4Bvtk8heCVXJW7bGn4ewiBGXs=
+github.com/weedge/xdis-storager v0.0.0-20230612135101-a4ac5f011652 h1:xE7KCW27tqNwrgHiqvHn8hdsa+5ihNkeD2n5eFpOePA=
+github.com/weedge/xdis-storager v0.0.0-20230612135101-a4ac5f011652/go.mod h1:iHlvSw53epl9hMGp5F4Bvtk8heCVXJW7bGn4ewiBGXs=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=

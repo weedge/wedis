@@ -33,8 +33,9 @@ type RespCmdServiceOptins struct {
 	Addr                  string `mapstructure:"addr"`
 	AuthPassword          string `mapstructure:"authPassword"`
 	ConnKeepaliveInterval int    `mapstructure:"connKeepaliveInterval"`
+	Mode                  string `mapstructure:"mode"`
 }
 
 func DefaultRespCmdServiceOptins() *RespCmdServiceOptins {
-	return &RespCmdServiceOptins{}
+	return &RespCmdServiceOptins{Mode: ModeStandalone}
 }
