@@ -6,10 +6,12 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/tidwall/redcon"
 	"github.com/weedge/pkg/utils"
 )
 
 func init() {
+	RegisterCmd("client", client)
 	RegisterCmd("echo", echo)
 	RegisterCmd("hello", hello)
 	RegisterCmd("ping", ping)
@@ -22,6 +24,21 @@ func authUser(ctx context.Context, c *ConnClient, pwd string) (err error) {
 	return
 }
 
+func client(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	if len(cmdParams) < 1 {
+		return nil, ErrCmdParams
+	}
+	op := strings.ToLower(utils.Bytes2String(cmdParams[0]))
+	switch op {
+	case "getname":
+		res = c.name
+	default:
+		//todo
+	}
+
+	return
+}
+
 // just hello cmd, no resp protocol change
 func hello(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) > 6 {
@@ -29,10 +46,18 @@ func hello(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 		return nil, fmt.Errorf("%s in %s option '%s'", ErrSyntax.Error(), "HELLO", op)
 	}
 
-	data := map[string]interface{}{
-		"server": "redis",
-		"proto":  2,
-		"mode":   c.srv.opts.RespCmdSrvOpts.Mode,
+	/*
+		//golang map u know :)
+		data := map[string]any{
+			"server": "redis",
+			"proto":  redcon.SimpleInt(2),
+			"mode":   c.srv.opts.RespCmdSrvOpts.Mode,
+		}
+	*/
+	data := []any{
+		"server", "redis",
+		"proto", redcon.SimpleInt(2),
+		"mode", c.srv.opts.RespCmdSrvOpts.Mode,
 	}
 	res = data
 	if len(cmdParams) == 0 {
@@ -52,7 +77,7 @@ func hello(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 		op := strings.ToLower(utils.Bytes2String(cmdParams[nextArg]))
 		if op == "auth" && moreArgs > 0 && moreArgs%2 == 0 {
 			nextArg++
-			if utils.Bytes2String(cmdParams[nextArg]) != "default" {
+			if strings.ToLower(utils.Bytes2String(cmdParams[nextArg])) != "default" {
 				return nil, ErrInvalidPwd
 			}
 			nextArg++
