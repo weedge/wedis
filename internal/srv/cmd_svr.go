@@ -16,6 +16,13 @@ func init() {
 }
 
 func ping(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+	if len(cmdParams) > 1 {
+		return nil, ErrCmdParams
+	}
+	if len(cmdParams) == 1 {
+		res = cmdParams[0]
+		return
+	}
 	res = PONG
 	return
 }

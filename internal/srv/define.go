@@ -13,16 +13,16 @@ const (
 )
 
 var (
-	ErrEmptyCommand          = errors.New("empty command")
-	ErrNotFound              = errors.New("command not found")
-	ErrNotAuthenticated      = errors.New("not authenticated")
-	ErrAuthenticationFailure = errors.New("authentication failure")
-	ErrCmdParams             = errors.New("invalid command param")
-	ErrValue                 = errors.New("value is not an integer or out of range")
-	ErrSyntax                = errors.New("syntax error")
-	ErrOffset                = errors.New("offset bit is not an natural number")
-	ErrBool                  = errors.New("value is not 0 or 1")
-	ErrScoreOverflow         = errors.New("zset score overflow")
+	ErrEmptyCommand          = errors.New("ERR empty command")
+	ErrNotFound              = errors.New("ERR command not found")
+	ErrNotAuthenticated      = errors.New("ERR not authenticated")
+	ErrAuthenticationFailure = errors.New("ERR authentication failure")
+	ErrCmdParams             = errors.New("ERR wrong number of arguments")
+	ErrValue                 = errors.New("ERR value is not an integer or out of range")
+	ErrSyntax                = errors.New("ERR syntax error")
+	ErrOffset                = errors.New("ERR offset bit is not an natural number")
+	ErrBool                  = errors.New("ERR value is not 0 or 1")
+	ErrScoreOverflow         = errors.New("ERR zset score overflow")
 )
 
 const (
