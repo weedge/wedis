@@ -47,7 +47,6 @@ func hello(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 	}
 
 	/*
-		//golang map u know :)
 		data := map[string]any{
 			"server": "redis",
 			"proto":  redcon.SimpleInt(2),
