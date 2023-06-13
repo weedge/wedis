@@ -8,30 +8,29 @@ import (
 )
 
 func init() {
-	RegisterCmd("hdel", hdel)
-	RegisterCmd("hexists", hexists)
-	RegisterCmd("hget", hget)
-	RegisterCmd("hgetall", hgetall)
-	RegisterCmd("hincrby", hincrby)
-	RegisterCmd("hkeys", hkeys)
-	RegisterCmd("hlen", hlen)
-	RegisterCmd("hmget", hmget)
-	RegisterCmd("hmset", hmset)
-	RegisterCmd("hset", hset)
-	RegisterCmd("hvals", hvals)
+	RegisterCmd(CmdTypeHash, "hexists", hexists)
+	RegisterCmd(CmdTypeHash, "hget", hget)
+	RegisterCmd(CmdTypeHash, "hgetall", hgetall)
+	RegisterCmd(CmdTypeHash, "hincrby", hincrby)
+	RegisterCmd(CmdTypeHash, "hkeys", hkeys)
+	RegisterCmd(CmdTypeHash, "hlen", hlen)
+	RegisterCmd(CmdTypeHash, "hmget", hmget)
+	RegisterCmd(CmdTypeHash, "hmset", hmset)
+	RegisterCmd(CmdTypeHash, "hset", hset)
+	RegisterCmd(CmdTypeHash, "hvals", hvals)
 
 	//del for hash
-	RegisterCmd("hmclear", hmclear)
+	RegisterCmd(CmdTypeHash, "hmclear", hmclear)
 	//exists for hash
-	RegisterCmd("hkeyexists", hkeyexists)
+	RegisterCmd(CmdTypeHash, "hkeyexists", hkeyexists)
 	//expire for hash
-	RegisterCmd("hexpire", hexpire)
+	RegisterCmd(CmdTypeHash, "hexpire", hexpire)
 	//expireat for hash
-	RegisterCmd("hexpireat", hexpireat)
+	RegisterCmd(CmdTypeHash, "hexpireat", hexpireat)
 	//ttl for hash
-	RegisterCmd("httl", httl)
+	RegisterCmd(CmdTypeHash, "httl", httl)
 	//persist for hash
-	RegisterCmd("hpersist", hpersist)
+	RegisterCmd(CmdTypeHash, "hpersist", hpersist)
 }
 
 func hdel(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {

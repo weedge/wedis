@@ -9,31 +9,31 @@ import (
 )
 
 func init() {
-	RegisterCmd("append", appendCmd)
-	RegisterCmd("decr", decr)
-	RegisterCmd("decrby", decrby)
-	RegisterCmd("get", get)
-	RegisterCmd("getrange", getrange)
-	RegisterCmd("getset", getset)
-	RegisterCmd("incr", incr)
-	RegisterCmd("incrby", incrby)
-	RegisterCmd("mget", mget)
-	RegisterCmd("mset", mset)
-	RegisterCmd("set", set)
-	RegisterCmd("setnx", setnx)
-	RegisterCmd("setex", setex)
-	RegisterCmd("setnxex", setnxex)
-	RegisterCmd("setxxex", setxxex)
-	RegisterCmd("setrange", setrange)
-	RegisterCmd("strlen", strlen)
+	RegisterCmd(CmdTypeString,"append", appendCmd)
+	RegisterCmd(CmdTypeString,"decr", decr)
+	RegisterCmd(CmdTypeString,"decrby", decrby)
+	RegisterCmd(CmdTypeString,"get", get)
+	RegisterCmd(CmdTypeString,"getrange", getrange)
+	RegisterCmd(CmdTypeString,"getset", getset)
+	RegisterCmd(CmdTypeString,"incr", incr)
+	RegisterCmd(CmdTypeString,"incrby", incrby)
+	RegisterCmd(CmdTypeString,"mget", mget)
+	RegisterCmd(CmdTypeString,"mset", mset)
+	RegisterCmd(CmdTypeString,"set", set)
+	RegisterCmd(CmdTypeString,"setnx", setnx)
+	RegisterCmd(CmdTypeString,"setex", setex)
+	RegisterCmd(CmdTypeString,"setnxex", setnxex)
+	RegisterCmd(CmdTypeString,"setxxex", setxxex)
+	RegisterCmd(CmdTypeString,"setrange", setrange)
+	RegisterCmd(CmdTypeString,"strlen", strlen)
 
 	// just for string type key
-	RegisterCmd("del", del)
-	RegisterCmd("exists", exists)
-	RegisterCmd("expire", expire)
-	RegisterCmd("expireat", expireat)
-	RegisterCmd("persist", persist)
-	RegisterCmd("ttl", ttl)
+	RegisterCmd(CmdTypeString,"del", del)
+	RegisterCmd(CmdTypeString,"exists", exists)
+	RegisterCmd(CmdTypeString,"expire", expire)
+	RegisterCmd(CmdTypeString,"expireat", expireat)
+	RegisterCmd(CmdTypeString,"persist", persist)
+	RegisterCmd(CmdTypeString,"ttl", ttl)
 }
 
 func get(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
@@ -187,8 +187,7 @@ func mget(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		return
 	}
 
-	res, err = c.db.DBString().MGet(ctx, cmdParams...)
-	return
+	return c.db.DBString().MGet(ctx, cmdParams...)
 }
 
 func mset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {

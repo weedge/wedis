@@ -11,9 +11,14 @@ import (
 type cmdHandle func(ctx context.Context, h *ConnClient, cmdParams [][]byte) (interface{}, error)
 
 var RegisteredCommands = map[string]cmdHandle{}
+var RegisteredCmdSet = map[string][]string{}
 
-func RegisterCmd(cmd string, handle cmdHandle) {
+func RegisterCmd(cmdType, cmd string, handle cmdHandle) {
+	if _, ok := RegisteredCommands[cmd]; ok {
+		return
+	}
 	RegisteredCommands[cmd] = handle
+	RegisteredCmdSet[cmdType] = append(RegisteredCmdSet[cmdType], cmd)
 }
 
 type ConnClient struct {

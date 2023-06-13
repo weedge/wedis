@@ -5,7 +5,7 @@ server.logLevel = "debug"
 server.projectName = "wedisSrv"
 
 # http Server listen address, set empty to disable
-#server.httpAddr = "127.0.0.1:8110"
+server.httpAddr = "127.0.0.1:8110"
 
 # oltp cllector grpc endpoint address, set empty to disable
 #server.oltpCollectorGrpcEndpoint = "0.0.0.0:4317"

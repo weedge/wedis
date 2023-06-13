@@ -7,30 +7,30 @@ import (
 )
 
 func init() {
-	RegisterCmd("sadd", sadd)
-	RegisterCmd("scard", scard)
-	RegisterCmd("sdiff", sdiff)
-	RegisterCmd("sdiffstore", sdiffstore)
-	RegisterCmd("sinter", sinter)
-	RegisterCmd("sinterstore", sinterstore)
-	RegisterCmd("sismember", sismember)
-	RegisterCmd("smembers", smembers)
-	RegisterCmd("srem", srem)
-	RegisterCmd("sunion", sunion)
-	RegisterCmd("sunionstore", sunionstore)
+	RegisterCmd(CmdTypeSet,"sadd", sadd)
+	RegisterCmd(CmdTypeSet,"scard", scard)
+	RegisterCmd(CmdTypeSet,"sdiff", sdiff)
+	RegisterCmd(CmdTypeSet,"sdiffstore", sdiffstore)
+	RegisterCmd(CmdTypeSet,"sinter", sinter)
+	RegisterCmd(CmdTypeSet,"sinterstore", sinterstore)
+	RegisterCmd(CmdTypeSet,"sismember", sismember)
+	RegisterCmd(CmdTypeSet,"smembers", smembers)
+	RegisterCmd(CmdTypeSet,"srem", srem)
+	RegisterCmd(CmdTypeSet,"sunion", sunion)
+	RegisterCmd(CmdTypeSet,"sunionstore", sunionstore)
 
 	// del
-	RegisterCmd("smclear", smclear)
+	RegisterCmd(CmdTypeSet,"smclear", smclear)
 	// expire
-	RegisterCmd("sexpire", sexpire)
+	RegisterCmd(CmdTypeSet,"sexpire", sexpire)
 	// expireat
-	RegisterCmd("sexpireat", sexpireat)
+	RegisterCmd(CmdTypeSet,"sexpireat", sexpireat)
 	// ttl
-	RegisterCmd("sttl", sttl)
+	RegisterCmd(CmdTypeSet,"sttl", sttl)
 	// persist
-	RegisterCmd("spersist", spersist)
+	RegisterCmd(CmdTypeSet,"spersist", spersist)
 	// exists
-	RegisterCmd("skeyexists", skeyexists)
+	RegisterCmd(CmdTypeSet,"skeyexists", skeyexists)
 }
 
 func sadd(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {

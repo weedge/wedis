@@ -29,6 +29,10 @@ func SetupProbeRoutes(h *server.Hertz) {
 }
 
 func SetupCmdRoutes(h *server.Hertz, s *Server) {
+	h.GET("/cmds", func(ctx context.Context, c *app.RequestContext) {
+		c.JSON(http.StatusOK, RegisteredCmdSet)
+	})
+
 	// content-type : multipart/form-data
 	h.POST("/:db/:cmd", func(ctx context.Context, c *app.RequestContext) {
 		cmd := c.Param("cmd")

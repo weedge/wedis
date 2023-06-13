@@ -8,11 +8,11 @@ import (
 )
 
 func init() {
-	RegisterCmd("bitcount", bitcount)
-	RegisterCmd("bitop", bitop)
-	RegisterCmd("bitpos", bitpos)
-	RegisterCmd("getbit", getbit)
-	RegisterCmd("setbit", setbit)
+	RegisterCmd(CmdTypeBitmap,"bitcount", bitcount)
+	RegisterCmd(CmdTypeBitmap,"bitop", bitop)
+	RegisterCmd(CmdTypeBitmap,"bitpos", bitpos)
+	RegisterCmd(CmdTypeBitmap,"getbit", getbit)
+	RegisterCmd(CmdTypeBitmap,"setbit", setbit)
 }
 
 func bitcount(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {

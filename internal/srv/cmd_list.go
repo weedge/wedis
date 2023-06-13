@@ -10,31 +10,31 @@ import (
 )
 
 func init() {
-	RegisterCmd("blpop", blpop)
-	RegisterCmd("brpop", brpop)
-	RegisterCmd("lindex", lindex)
-	RegisterCmd("llen", llen)
-	RegisterCmd("lpop", lpop)
-	RegisterCmd("lrange", lrange)
-	RegisterCmd("lset", lset)
-	RegisterCmd("lpush", lpush)
-	RegisterCmd("rpop", rpop)
-	RegisterCmd("rpush", rpush)
-	RegisterCmd("brpoplpush", brpoplpush)
-	RegisterCmd("rpoplpush", rpoplpush)
+	RegisterCmd(CmdTypeList,"blpop", blpop)
+	RegisterCmd(CmdTypeList,"brpop", brpop)
+	RegisterCmd(CmdTypeList,"lindex", lindex)
+	RegisterCmd(CmdTypeList,"llen", llen)
+	RegisterCmd(CmdTypeList,"lpop", lpop)
+	RegisterCmd(CmdTypeList,"lrange", lrange)
+	RegisterCmd(CmdTypeList,"lset", lset)
+	RegisterCmd(CmdTypeList,"lpush", lpush)
+	RegisterCmd(CmdTypeList,"rpop", rpop)
+	RegisterCmd(CmdTypeList,"rpush", rpush)
+	RegisterCmd(CmdTypeList,"brpoplpush", brpoplpush)
+	RegisterCmd(CmdTypeList,"rpoplpush", rpoplpush)
 
 	//del for list
-	RegisterCmd("lmclear", lmclear)
+	RegisterCmd(CmdTypeList,"lmclear", lmclear)
 	//exists for list
-	RegisterCmd("lkeyexists", lkeyexists)
+	RegisterCmd(CmdTypeList,"lkeyexists", lkeyexists)
 	//expire for list
-	RegisterCmd("lexpire", lexpire)
+	RegisterCmd(CmdTypeList,"lexpire", lexpire)
 	//expireat for list
-	RegisterCmd("lexpireat", lexpireat)
+	RegisterCmd(CmdTypeList,"lexpireat", lexpireat)
 	//ttl for list
-	RegisterCmd("lttl", lttl)
+	RegisterCmd(CmdTypeList,"lttl", lttl)
 	//persist for list
-	RegisterCmd("lpersist", lpersist)
+	RegisterCmd(CmdTypeList,"lpersist", lpersist)
 }
 
 func lmclear(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {

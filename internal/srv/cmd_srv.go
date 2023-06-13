@@ -11,13 +11,13 @@ import (
 )
 
 func init() {
-	RegisterCmd("client", client)
-	RegisterCmd("echo", echo)
-	RegisterCmd("hello", hello)
-	RegisterCmd("ping", ping)
-	RegisterCmd("select", selectCmd)
-	RegisterCmd("flushdb", flushdb)
-	RegisterCmd("flushall", flushall)
+	RegisterCmd(CmdTypeSrv,"client", client)
+	RegisterCmd(CmdTypeSrv,"echo", echo)
+	RegisterCmd(CmdTypeSrv,"hello", hello)
+	RegisterCmd(CmdTypeSrv,"ping", ping)
+	RegisterCmd(CmdTypeSrv,"select", selectCmd)
+	RegisterCmd(CmdTypeSrv,"flushdb", flushdb)
+	RegisterCmd(CmdTypeSrv,"flushall", flushall)
 }
 
 func authUser(ctx context.Context, c *ConnClient, pwd string) (err error) {

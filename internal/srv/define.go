@@ -35,3 +35,13 @@ const (
 	OK    = redcon.SimpleString("OK")
 	NOKEY = redcon.SimpleString("NOKEY")
 )
+
+const (
+	CmdTypeSrv    = "srv"
+	CmdTypeBitmap = "bitmap"
+	CmdTypeString = "string"
+	CmdTypeHash   = "hash"
+	CmdTypeList   = "list"
+	CmdTypeSet    = "set"
+	CmdTypeZset   = "zset"
+)

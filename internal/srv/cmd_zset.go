@@ -11,40 +11,40 @@ import (
 )
 
 func init() {
-	RegisterCmd("zadd", zadd)
-	RegisterCmd("zcard", zcard)
-	RegisterCmd("zcount", zcount)
-	RegisterCmd("zincrby", zincrby)
-	RegisterCmd("zrange", zrange)
-	RegisterCmd("zrangebyscore", zrangebyscore)
-	RegisterCmd("zrank", zrank)
-	RegisterCmd("zrem", zrem)
-	RegisterCmd("zremrangebyrank", zremrangebyrank)
-	RegisterCmd("zremrangebyscore", zremrangebyscore)
-	RegisterCmd("zrevrange", zrevrange)
-	RegisterCmd("zrevrank", zrevrank)
-	RegisterCmd("zrevrangebyscore", zrevrangebyscore)
-	RegisterCmd("zscore", zscore)
+	RegisterCmd(CmdTypeZset, "zadd", zadd)
+	RegisterCmd(CmdTypeZset, "zcard", zcard)
+	RegisterCmd(CmdTypeZset, "zcount", zcount)
+	RegisterCmd(CmdTypeZset, "zincrby", zincrby)
+	RegisterCmd(CmdTypeZset, "zrange", zrange)
+	RegisterCmd(CmdTypeZset, "zrangebyscore", zrangebyscore)
+	RegisterCmd(CmdTypeZset, "zrank", zrank)
+	RegisterCmd(CmdTypeZset, "zrem", zrem)
+	RegisterCmd(CmdTypeZset, "zremrangebyrank", zremrangebyrank)
+	RegisterCmd(CmdTypeZset, "zremrangebyscore", zremrangebyscore)
+	RegisterCmd(CmdTypeZset, "zrevrange", zrevrange)
+	RegisterCmd(CmdTypeZset, "zrevrank", zrevrank)
+	RegisterCmd(CmdTypeZset, "zrevrangebyscore", zrevrangebyscore)
+	RegisterCmd(CmdTypeZset, "zscore", zscore)
 
-	RegisterCmd("zunionstore", zunionstore)
-	RegisterCmd("zinterstore", zinterstore)
+	RegisterCmd(CmdTypeZset, "zunionstore", zunionstore)
+	RegisterCmd(CmdTypeZset, "zinterstore", zinterstore)
 
-	RegisterCmd("zrangebylex", zrangebylex)
-	RegisterCmd("zremrangebylex", zremrangebylex)
-	RegisterCmd("zlexcount", zlexcount)
+	RegisterCmd(CmdTypeZset, "zrangebylex", zrangebylex)
+	RegisterCmd(CmdTypeZset, "zremrangebylex", zremrangebylex)
+	RegisterCmd(CmdTypeZset, "zlexcount", zlexcount)
 
 	// del
-	RegisterCmd("zmclear", zmclear)
+	RegisterCmd(CmdTypeZset, "zmclear", zmclear)
 	// expire
-	RegisterCmd("zexpire", zexpire)
+	RegisterCmd(CmdTypeZset, "zexpire", zexpire)
 	// expireat
-	RegisterCmd("zexpireat", zexpireat)
+	RegisterCmd(CmdTypeZset, "zexpireat", zexpireat)
 	// ttl
-	RegisterCmd("zttl", zttl)
+	RegisterCmd(CmdTypeZset, "zttl", zttl)
 	// persist
-	RegisterCmd("zpersist", zpersist)
+	RegisterCmd(CmdTypeZset, "zpersist", zpersist)
 	// exists
-	RegisterCmd("zkeyexists", zkeyexists)
+	RegisterCmd(CmdTypeZset, "zkeyexists", zkeyexists)
 }
 
 func zadd(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
