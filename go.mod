@@ -81,6 +81,8 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
+replace github.com/tidwall/redcon => github.com/weedge/redcon v0.0.0-20230613050749-77c37f99e042
+
 //replace github.com/weedge/pkg => ../pkg
 
 //replace github.com/weedge/xdis-storager => ../xdis-storager
