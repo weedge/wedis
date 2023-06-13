@@ -256,12 +256,7 @@ func setnxex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	err = c.db.DBString().SetNXEX(ctx, cmdParams[0], sec, cmdParams[2])
-	if err != nil {
-		return
-	}
-
-	res = OK
+	res, err = c.db.DBString().SetNXEX(ctx, cmdParams[0], sec, cmdParams[2])
 	return
 }
 
@@ -277,12 +272,7 @@ func setxxex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	err = c.db.DBString().SetXXEX(ctx, cmdParams[0], sec, cmdParams[2])
-	if err != nil {
-		return
-	}
-
-	res = OK
+	res, err = c.db.DBString().SetXXEX(ctx, cmdParams[0], sec, cmdParams[2])
 	return
 }
 

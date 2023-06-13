@@ -11,8 +11,8 @@ require (
 	github.com/spf13/cobra v1.7.0
 	github.com/tidwall/redcon v1.6.2
 	github.com/weedge/openkv-goleveldb v0.0.0-20230527091727-961892f63755
-	github.com/weedge/pkg v0.0.0-20230604100309-ee4766f9935c
-	github.com/weedge/xdis-storager v0.0.0-20230613153325-55f03de47731
+	github.com/weedge/pkg v0.0.0-20230613164317-43d93e44af25
+	github.com/weedge/xdis-storager v0.0.0-20230613164256-165248068e7c
 )
 
 require (
