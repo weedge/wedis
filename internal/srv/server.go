@@ -120,6 +120,10 @@ func (s *Server) registerRespConnClient() {
 				conn.WriteError(err.Error())
 				return
 			}
+			if _, ok := res.(int64); ok {
+				conn.WriteInt64(res.(int64))
+				return
+			}
 			conn.WriteAny(res)
 		})
 	}

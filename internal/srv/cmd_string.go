@@ -9,31 +9,33 @@ import (
 )
 
 func init() {
-	RegisterCmd(CmdTypeString,"append", appendCmd)
-	RegisterCmd(CmdTypeString,"decr", decr)
-	RegisterCmd(CmdTypeString,"decrby", decrby)
-	RegisterCmd(CmdTypeString,"get", get)
-	RegisterCmd(CmdTypeString,"getrange", getrange)
-	RegisterCmd(CmdTypeString,"getset", getset)
-	RegisterCmd(CmdTypeString,"incr", incr)
-	RegisterCmd(CmdTypeString,"incrby", incrby)
-	RegisterCmd(CmdTypeString,"mget", mget)
-	RegisterCmd(CmdTypeString,"mset", mset)
-	RegisterCmd(CmdTypeString,"set", set)
-	RegisterCmd(CmdTypeString,"setnx", setnx)
-	RegisterCmd(CmdTypeString,"setex", setex)
-	RegisterCmd(CmdTypeString,"setnxex", setnxex)
-	RegisterCmd(CmdTypeString,"setxxex", setxxex)
-	RegisterCmd(CmdTypeString,"setrange", setrange)
-	RegisterCmd(CmdTypeString,"strlen", strlen)
+	RegisterCmd(CmdTypeString, "append", appendCmd)
+	RegisterCmd(CmdTypeString, "decr", decr)
+	RegisterCmd(CmdTypeString, "decrby", decrby)
+	RegisterCmd(CmdTypeString, "get", get)
+	RegisterCmd(CmdTypeString, "getrange", getrange)
+	RegisterCmd(CmdTypeString, "getset", getset)
+	RegisterCmd(CmdTypeString, "incr", incr)
+	RegisterCmd(CmdTypeString, "incrby", incrby)
+	RegisterCmd(CmdTypeString, "mget", mget)
+	RegisterCmd(CmdTypeString, "mset", mset)
+	RegisterCmd(CmdTypeString, "set", set)
+	RegisterCmd(CmdTypeString, "setnx", setnx)
+	RegisterCmd(CmdTypeString, "setex", setex)
+	RegisterCmd(CmdTypeString, "setrange", setrange)
+	RegisterCmd(CmdTypeString, "strlen", strlen)
+
+	// new
+	RegisterCmd(CmdTypeString, "setnxex", setnxex)
+	RegisterCmd(CmdTypeString, "setxxex", setxxex)
 
 	// just for string type key
-	RegisterCmd(CmdTypeString,"del", del)
-	RegisterCmd(CmdTypeString,"exists", exists)
-	RegisterCmd(CmdTypeString,"expire", expire)
-	RegisterCmd(CmdTypeString,"expireat", expireat)
-	RegisterCmd(CmdTypeString,"persist", persist)
-	RegisterCmd(CmdTypeString,"ttl", ttl)
+	RegisterCmd(CmdTypeString, "del", del)
+	RegisterCmd(CmdTypeString, "exists", exists)
+	RegisterCmd(CmdTypeString, "expire", expire)
+	RegisterCmd(CmdTypeString, "expireat", expireat)
+	RegisterCmd(CmdTypeString, "persist", persist)
+	RegisterCmd(CmdTypeString, "ttl", ttl)
 }
 
 func get(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
@@ -306,8 +308,7 @@ func strlen(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBString().StrLen(ctx, cmdParams[0])
-	return
+	return c.db.DBString().StrLen(ctx, cmdParams[0])
 }
 
 func expire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
