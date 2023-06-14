@@ -33,16 +33,6 @@ func init() {
 	RegisterCmd(CmdTypeHash, "hpersist", hpersist)
 }
 
-func hdel(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
-	if len(cmdParams) < 2 {
-		err = ErrCmdParams
-		return
-	}
-
-	res, err = c.db.DBHash().HDel(ctx, cmdParams[0], cmdParams[1:]...)
-	return
-}
-
 func hexists(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 2 {
 		err = ErrCmdParams
