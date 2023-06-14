@@ -33,9 +33,11 @@ connKeepaliveInterval = 0
 # standalone (doing2test)
 # replica (doing) classic mode, need proxy manage sharding like codis
 # replica (doing) single raft mode like redis raft, need proxy manage sharding like codis
+# https://jepsen.io/analyses/redis-raft-1b3fbf6
 # tikv (doing2test) + pd, support gloabal txn
 # matrix (todo) multi raft group
 # cluster (todo) like redis cluster mode
+# AI mind? just YY, try
 mode = "standalone"
 
 
