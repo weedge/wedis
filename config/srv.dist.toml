@@ -35,6 +35,7 @@ connKeepaliveInterval = 0
 # replica (doing) single raft mode like redis raft, need proxy manage sharding like codis
 # tikv (doing2test) + pd, support gloabal txn
 # matrix (todo) multi raft group
+# cluster (todo) like redis cluster mode
 mode = "standalone"
 
 

@@ -28,6 +28,7 @@ server.respCmdSrv.connKeepaliveInterval = 0
 # replica (doing) single raft mode like redis raft, need proxy manage sharding like codis
 # tikv (doing2test) + pd,multi raft group, support gloabal dist txn (keys from diff region)
 # matrix (todo) multi raft group
+# cluster (todo) like redis cluster mode
 server.respCmdSrv.mode = "standalone"
 
 
