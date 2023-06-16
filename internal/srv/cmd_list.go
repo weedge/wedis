@@ -10,31 +10,31 @@ import (
 )
 
 func init() {
-	RegisterCmd(CmdTypeList,"blpop", blpop)
-	RegisterCmd(CmdTypeList,"brpop", brpop)
-	RegisterCmd(CmdTypeList,"lindex", lindex)
-	RegisterCmd(CmdTypeList,"llen", llen)
-	RegisterCmd(CmdTypeList,"lpop", lpop)
-	RegisterCmd(CmdTypeList,"lrange", lrange)
-	RegisterCmd(CmdTypeList,"lset", lset)
-	RegisterCmd(CmdTypeList,"lpush", lpush)
-	RegisterCmd(CmdTypeList,"rpop", rpop)
-	RegisterCmd(CmdTypeList,"rpush", rpush)
-	RegisterCmd(CmdTypeList,"brpoplpush", brpoplpush)
-	RegisterCmd(CmdTypeList,"rpoplpush", rpoplpush)
+	RegisterCmd(CmdTypeList, "blpop", blpop)
+	RegisterCmd(CmdTypeList, "brpop", brpop)
+	RegisterCmd(CmdTypeList, "lindex", lindex)
+	RegisterCmd(CmdTypeList, "llen", llen)
+	RegisterCmd(CmdTypeList, "lpop", lpop)
+	RegisterCmd(CmdTypeList, "lrange", lrange)
+	RegisterCmd(CmdTypeList, "lset", lset)
+	RegisterCmd(CmdTypeList, "lpush", lpush)
+	RegisterCmd(CmdTypeList, "rpop", rpop)
+	RegisterCmd(CmdTypeList, "rpush", rpush)
+	RegisterCmd(CmdTypeList, "brpoplpush", brpoplpush)
+	RegisterCmd(CmdTypeList, "rpoplpush", rpoplpush)
 
 	//del for list
-	RegisterCmd(CmdTypeList,"lmclear", lmclear)
+	RegisterCmd(CmdTypeList, "lmclear", lmclear)
 	//exists for list
-	RegisterCmd(CmdTypeList,"lkeyexists", lkeyexists)
+	RegisterCmd(CmdTypeList, "lkeyexists", lkeyexists)
 	//expire for list
-	RegisterCmd(CmdTypeList,"lexpire", lexpire)
+	RegisterCmd(CmdTypeList, "lexpire", lexpire)
 	//expireat for list
-	RegisterCmd(CmdTypeList,"lexpireat", lexpireat)
+	RegisterCmd(CmdTypeList, "lexpireat", lexpireat)
 	//ttl for list
-	RegisterCmd(CmdTypeList,"lttl", lttl)
+	RegisterCmd(CmdTypeList, "lttl", lttl)
 	//persist for list
-	RegisterCmd(CmdTypeList,"lpersist", lpersist)
+	RegisterCmd(CmdTypeList, "lpersist", lpersist)
 }
 
 func lmclear(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
@@ -96,7 +96,7 @@ func lindex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 }
 
 func llen(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
-	if len(cmdParams) != 0 {
+	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
@@ -294,7 +294,7 @@ func lexpire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	d, err := utils.StrInt64(cmdParams[2], nil)
+	d, err := utils.StrInt64(cmdParams[1], nil)
 	if err != nil {
 		err = ErrValue
 		return

@@ -3,6 +3,7 @@ package srv
 import (
 	"context"
 
+	"github.com/tidwall/redcon"
 	"github.com/weedge/pkg/driver"
 	"github.com/weedge/pkg/utils"
 )
@@ -44,9 +45,11 @@ func hexists(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 	if v == nil {
-		res = 0
+		res = redcon.SimpleInt(0)
+		return
 	}
 
+	res = redcon.SimpleInt(1)
 	return
 }
 
@@ -70,7 +73,18 @@ func hgetall(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBHash().HGetAll(ctx, cmdParams[0])
+	data, err := c.db.DBHash().HGetAll(ctx, cmdParams[0])
+	if err != nil {
+		return
+	}
+
+	tmp := [][]byte{}
+	for _, item := range data {
+		tmp = append(tmp, item.Field)
+		tmp = append(tmp, item.Value)
+	}
+	res = tmp
+
 	return
 }
 
@@ -186,7 +200,7 @@ func hexpire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	d, err := utils.StrInt64(cmdParams[2], nil)
+	d, err := utils.StrInt64(cmdParams[1], nil)
 	if err != nil {
 		err = ErrValue
 		return
