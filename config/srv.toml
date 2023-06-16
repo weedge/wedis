@@ -24,12 +24,12 @@ server.respCmdSrv.connKeepaliveInterval = 0
 
 # resp cmd Server mode
 # standalone (doing2test)
-# replica (doing) classic mode, need proxy manage sharding like codis
-# replica (doing) single raft mode like redis raft, need proxy manage sharding like codis
+# replica (doing) classic mode, need proxy manage sharding like codis (ap)
+# replica (doing) single raft mode like redis raft, need proxy manage sharding like codis (cp)
 # https://jepsen.io/analyses/redis-raft-1b3fbf6
-# tikv (doing2test) + pd,multi raft group, support gloabal dist txn (keys from diff region)
-# matrix (todo) multi raft group
-# cluster (todo) like redis cluster mode
+# tikv (doing2test) + pd,multi raft group, support gloabal dist txn (keys from diff region) (cp)
+# matrix (todo) multi raft group (cp)
+# cluster (todo) like redis cluster mode (ap)
 server.respCmdSrv.mode = "standalone"
 
 
