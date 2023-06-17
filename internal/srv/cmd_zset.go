@@ -2,6 +2,7 @@ package srv
 
 import (
 	"context"
+	"fmt"
 	"math"
 	"strconv"
 	"strings"
@@ -177,7 +178,12 @@ func zincrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return nil, ErrValue
 	}
 
-	res, err = c.db.DBZSet().ZIncrBy(ctx, cmdParams[0], delta, cmdParams[2])
+	data, err := c.db.DBZSet().ZIncrBy(ctx, cmdParams[0], delta, cmdParams[2])
+	if err != nil {
+		return nil, err
+	}
+
+	res = fmt.Sprintf("%d", data)
 	return
 }
 
@@ -221,7 +227,12 @@ func zrangeGeneric(ctx context.Context, c *ConnClient, cmdParams [][]byte, rever
 		return
 	}
 
-	res = arrScorePair
+	tmp := make([]any, 0, len(arrScorePair))
+	for _, scorePair := range arrScorePair {
+		tmp = append(tmp, scorePair.Member)
+		tmp = append(tmp, scorePair.Score)
+	}
+	res = tmp
 	return
 }
 
@@ -597,7 +608,6 @@ func zremrangebylex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res
 	}
 
 	res, err = c.db.DBZSet().ZRemRangeByLex(ctx, cmdParams[0], min, max, rangeType)
-
 	return
 }
 
