@@ -643,7 +643,7 @@ func zexpire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	d, err := utils.StrInt64(cmdParams[2], nil)
+	d, err := utils.StrInt64(cmdParams[1], nil)
 	if err != nil {
 		err = ErrValue
 		return

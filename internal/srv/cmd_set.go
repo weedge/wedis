@@ -7,30 +7,30 @@ import (
 )
 
 func init() {
-	RegisterCmd(CmdTypeSet,"sadd", sadd)
-	RegisterCmd(CmdTypeSet,"scard", scard)
-	RegisterCmd(CmdTypeSet,"sdiff", sdiff)
-	RegisterCmd(CmdTypeSet,"sdiffstore", sdiffstore)
-	RegisterCmd(CmdTypeSet,"sinter", sinter)
-	RegisterCmd(CmdTypeSet,"sinterstore", sinterstore)
-	RegisterCmd(CmdTypeSet,"sismember", sismember)
-	RegisterCmd(CmdTypeSet,"smembers", smembers)
-	RegisterCmd(CmdTypeSet,"srem", srem)
-	RegisterCmd(CmdTypeSet,"sunion", sunion)
-	RegisterCmd(CmdTypeSet,"sunionstore", sunionstore)
+	RegisterCmd(CmdTypeSet, "sadd", sadd)
+	RegisterCmd(CmdTypeSet, "scard", scard)
+	RegisterCmd(CmdTypeSet, "sdiff", sdiff)
+	RegisterCmd(CmdTypeSet, "sdiffstore", sdiffstore)
+	RegisterCmd(CmdTypeSet, "sinter", sinter)
+	RegisterCmd(CmdTypeSet, "sinterstore", sinterstore)
+	RegisterCmd(CmdTypeSet, "sismember", sismember)
+	RegisterCmd(CmdTypeSet, "smembers", smembers)
+	RegisterCmd(CmdTypeSet, "srem", srem)
+	RegisterCmd(CmdTypeSet, "sunion", sunion)
+	RegisterCmd(CmdTypeSet, "sunionstore", sunionstore)
 
 	// del
-	RegisterCmd(CmdTypeSet,"smclear", smclear)
+	RegisterCmd(CmdTypeSet, "smclear", smclear)
 	// expire
-	RegisterCmd(CmdTypeSet,"sexpire", sexpire)
+	RegisterCmd(CmdTypeSet, "sexpire", sexpire)
 	// expireat
-	RegisterCmd(CmdTypeSet,"sexpireat", sexpireat)
+	RegisterCmd(CmdTypeSet, "sexpireat", sexpireat)
 	// ttl
-	RegisterCmd(CmdTypeSet,"sttl", sttl)
+	RegisterCmd(CmdTypeSet, "sttl", sttl)
 	// persist
-	RegisterCmd(CmdTypeSet,"spersist", spersist)
+	RegisterCmd(CmdTypeSet, "spersist", spersist)
 	// exists
-	RegisterCmd(CmdTypeSet,"skeyexists", skeyexists)
+	RegisterCmd(CmdTypeSet, "skeyexists", skeyexists)
 }
 
 func sadd(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
@@ -169,7 +169,7 @@ func sexpire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	d, err := utils.StrInt64(cmdParams[2], nil)
+	d, err := utils.StrInt64(cmdParams[1], nil)
 	if err != nil {
 		err = ErrValue
 		return
