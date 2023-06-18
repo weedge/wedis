@@ -1,6 +1,7 @@
 package srv
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"math"
@@ -366,6 +367,19 @@ func zremrangebyscore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (r
 	if len(cmdParams) != 3 {
 		err = ErrCmdParams
 		return
+	}
+	if bytes.Equal(cmdParams[1], []byte("+inf")) {
+		return int64(0), nil
+	}
+	if bytes.Equal(cmdParams[2], []byte("-inf")) {
+		return int64(0), nil
+	}
+
+	if bytes.Equal(cmdParams[1], []byte("-inf")) {
+		cmdParams[1] = utils.String2Bytes(fmt.Sprintf("%d", math.MinInt64))
+	}
+	if bytes.Equal(cmdParams[2], []byte("+inf")) {
+		cmdParams[2] = utils.String2Bytes(fmt.Sprintf("%d", math.MaxInt64))
 	}
 
 	s, e, err := zparseRange(cmdParams[1], cmdParams[2])
