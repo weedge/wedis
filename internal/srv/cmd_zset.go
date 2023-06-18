@@ -423,14 +423,15 @@ func zscore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBZSet().ZScore(ctx, cmdParams[0], cmdParams[1])
+	data, err := c.db.DBZSet().ZScore(ctx, cmdParams[0], cmdParams[1])
 	if err != nil {
 		if err.Error() == "zset score miss" {
 			err = nil
 		}
-		return
+		return nil, err
 	}
 
+	res = fmt.Sprintf("%d", data)
 	return
 }
 
