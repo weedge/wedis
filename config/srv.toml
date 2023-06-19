@@ -10,6 +10,11 @@ server.httpAddr = "127.0.0.1:8110"
 # oltp cllector grpc endpoint address, set empty to disable
 #server.oltpCollectorGrpcEndpoint = "0.0.0.0:4317"
 
+# storager name default xdis-storager 
+# xdis-storager local storager with openkv
+# xdis-tikv remote rpc storager with tikv
+server.storagerName = "xdis-tikv"
+
 
 # resp cmd Server listen address
 server.respCmdSrv.addr = "0.0.0.0:6666"
@@ -34,29 +39,29 @@ server.respCmdSrv.mode = "standalone"
 
 
 # Data store path, all wedisdb's data will be saved here
-server.storeOpts.dataDir = "./data"
+storeCfg.dataDir = "./data"
 
 # Set the number of databases. You can use `select dbindex` to choose a db.
 # dbindex must be in [0, databases - 1].
 # Default databases is 16, maximum is 10240 now.
-server.storeOpts.databases = 16
+storeCfg.databases = 16
 
 # Sync commit to disk if possible
 #  0: no sync
 #  1: sync every second
 #  2: sync every commit
-server.storeOpts.dbSyncCommit = 0
+storeCfg.dbSyncCommit = 0
 
 # checking TTL (time to live) data every n seconds
 # if you set big, the expired data may not be deleted immediately
-server.storeOpts.ttlCheckInterval = 1
+storeCfg.ttlCheckInterval = 1
 
 # Choose which backend storage to use, 
 # impl openkv driver register to support:
-server.storeOpts.kvStoreName = "goleveldb"
+storeCfg.kvStoreName = "goleveldb"
 
 # If not set, use dataDir/"kvStoreName"_data
-server.storeOpts.dbPath = ""
+storeCfg.dbPath = ""
 
 
 # if true, compression use snappy 
@@ -68,3 +73,23 @@ goLeveldbCfg.maxOpenFiles = 1024
 goLeveldbCfg.compactionTableSize = 33554432
 goLeveldbCfg.writeL0SlowdownTrigger = 16
 goLeveldbCfg.writeL0PauseTrigger = 64
+
+
+
+tikvStoreCfg.prefixKey = "hitiki"
+tikvStoreCfg.Databases = 16
+tikvStoreCfg.ttlCheckInterval = 1
+
+tikvStoreCfg.tikvClientOpts.useTxnApi = 1
+tikvStoreCfg.tikvClientOpts.pdAddrs = "127.0.0.1:2379"
+tikvStoreCfg.tikvClientOpts.useAsyncCommit=0
+tikvStoreCfg.tikvClientOpts.tryOnePcCommit=0
+tikvStoreCfg.tikvClientOpts.usePessimisticTxn=0
+
+tikvStoreCfg.gcJobOpts.gcEnabled = 1
+tikvStoreCfg.gcJobOpts.gcInterval = 600
+tikvStoreCfg.gcJobOpts.gcConcurrency = 8
+tikvStoreCfg.gcJobOpts.gcSafepointLifeTime = 600
+
+tikvStoreCfg.leaderJobOpts.leaderCheckInterval = 30
+tikvStoreCfg.leaderJobOpts.leaderLeaseDuration = 60

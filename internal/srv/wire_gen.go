@@ -11,10 +11,12 @@ import (
 	"github.com/tidwall/redcon"
 	"github.com/weedge/openkv-goleveldb"
 	"github.com/weedge/pkg/configparser"
-	"github.com/weedge/pkg/driver/openkv"
+	"github.com/weedge/pkg/driver"
+	driver2 "github.com/weedge/pkg/driver/openkv"
 	"github.com/weedge/pkg/utils/logutils"
 	"github.com/weedge/wedis/internal/srv/config"
 	"github.com/weedge/xdis-storager"
+	"github.com/weedge/xdis-tikv"
 )
 
 // Injectors from wire.go:
@@ -31,13 +33,13 @@ func ParserCfg() (*config.Options, error) {
 
 // NewServer server init
 func NewServer(contextContext context.Context, options *config.Options) (*Server, error) {
-	serverOptions := options.Server
+	serverOptions := &options.Server
 	level := serverOptions.LogLevel
 	v := serverOptions.LogMeta
 	iKitexZapKVLogger := logutils.NewkitexZapKVLogger(level, v)
 	serveMux := redcon.NewServeMux()
-	storgerOptions := &serverOptions.StoreOpts
-	storagerStorager, err := storager.Open(storgerOptions)
+	string2 := serverOptions.StoragerName
+	iStorager, err := driver.GetStorager(string2)
 	if err != nil {
 		return nil, err
 	}
@@ -45,9 +47,25 @@ func NewServer(contextContext context.Context, options *config.Options) (*Server
 		opts:          serverOptions,
 		kitexKVLogger: iKitexZapKVLogger,
 		mux:           serveMux,
-		store:         storagerStorager,
+		store:         iStorager,
 	}
 	return server, nil
+}
+
+// RegisterXdisStorager register storager xdis-storager
+func RegisterXdisStorager(options *config.Options) error {
+	storgerOptions := &options.StoreCfg
+	storagerStorager := storager.New(storgerOptions)
+	error2 := driver.RegisterStorager(storagerStorager)
+	return error2
+}
+
+// RegisterXdisTikv register storager xdis-tikv
+func RegisterXdisTikv(options *config.Options) error {
+	storagerOptions := &options.TikvCfg
+	xdistikvStorager := xdistikv.New(storagerOptions)
+	error2 := driver.RegisterStorager(xdistikvStorager)
+	return error2
 }
 
 // RegisterGoleveldb register kv store engine goleveldb
@@ -57,7 +75,7 @@ func RegisterGoleveldb(options *config.Options) error {
 	option := goleveldb.WithConfig(levelDBConfig)
 	v := ProvideOpts(option)
 	store := goleveldb.New(storeType, v...)
-	error2 := driver.Register(store)
+	error2 := driver2.Register(store)
 	return error2
 }
 
@@ -72,7 +90,7 @@ func RegisterMemGoleveldb(options *config.Options) error {
 	option := goleveldb.WithConfig(levelDBConfig)
 	v := ProvideOpts(option)
 	store := goleveldb.New(storeType, v...)
-	error2 := driver.Register(store)
+	error2 := driver2.Register(store)
 	return error2
 }
 

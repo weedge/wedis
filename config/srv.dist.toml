@@ -11,11 +11,10 @@ httpAddr = "127.0.0.1:8110"
 # oltp cllector grpc endpoint address, set empty to disable
 oltpCollectorGrpcEndpoint = "0.0.0.0:4317"
 
-# use store type, 
-# local, rpc(dist kv store eg:tikv)
-# default local
-storeType = "local"
-
+# storager name default xdis-storager 
+# xdis-storager local storager with openkv
+# xdis-tikv remote rpc storager with tikv
+storagerName = "xdis-storager"
 
 [server.respCmdSrv]
 # resp cmd Server listen address
@@ -41,7 +40,7 @@ connKeepaliveInterval = 0
 mode = "standalone"
 
 
-[server.storeOpts]
+[storeCfg]
 # Data store path, all wedisdb's data will be saved here
 dataDir = "./data"
 
@@ -67,11 +66,33 @@ kvStoreName = "goleveldb"
 # If not set, use dataDir/"kvStoreName"_data
 dbPath = ""
 
-
-[server.storeOpts.goLeveldbCfg]
+[goLeveldbCfg]
 # if true, compression use snappy 
 compression = false
 block_size = 32768
 write_buffer_size = 67108864
 cache_size = 524288000
 max_open_files = 1024
+
+
+[tikvStoreCfg]
+prefixKey = "hitiki"
+Databases = 16
+ttlCheckInterval = 1
+
+[tikvStoreCfg.tikvClientOpts]
+useTxnApi = 1
+pdAddrs = "127.0.0.1:2379"
+useAsyncCommit=0
+tryOnePcCommit=0
+usePessimisticTxn=0
+
+[tikvStoreCfg.gcJobOpts]
+gcEnabled = 1
+gcInterval = 600
+gcConcurrency = 8
+gcSafepointLifeTime = 600
+
+[tikvStoreCfg.leaderJobOpts]
+leaderCheckInterval = 30
+leaderLeaseDuration = 60

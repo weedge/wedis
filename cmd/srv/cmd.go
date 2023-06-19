@@ -25,6 +25,9 @@ func NewCommand() *cobra.Command {
 			srv.RegisterGoleveldb(opts)
 			srv.RegisterMemGoleveldb(opts)
 
+			srv.RegisterXdisStorager(opts)
+			srv.RegisterXdisTikv(opts)
+
 			server, err := srv.NewServer(ctx, opts)
 			if err != nil {
 				return err

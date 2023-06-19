@@ -3,7 +3,6 @@ package srv
 import (
 	"bytes"
 	"context"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -42,12 +41,6 @@ func SetupCmdRoutes(h *server.Hertz, s *Server) {
 		dbIdx, err := strconv.Atoi(db)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusOK, err.Error())
-			return
-		}
-
-		if dbIdx >= s.opts.StoreOpts.Databases {
-			c.AbortWithStatusJSON(http.StatusOK,
-				fmt.Sprintf("database number %d beyond [0,%d)", dbIdx, s.opts.StoreOpts.Databases))
 			return
 		}
 

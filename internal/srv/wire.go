@@ -16,6 +16,7 @@ import (
 	"github.com/weedge/pkg/utils/logutils"
 	"github.com/weedge/wedis/internal/srv/config"
 	storager "github.com/weedge/xdis-storager"
+	xdistikv "github.com/weedge/xdis-tikv"
 )
 
 // build server with wire, dependency obj inject, so init random
@@ -35,13 +36,38 @@ func NewServer(context.Context, *config.Options) (*Server, error) {
 			"Server",
 		),
 
-		wire.FieldsOf(new(*config.ServerOptions), "LogLevel", "LogMeta", "StoreOpts"),
+		wire.FieldsOf(new(*config.ServerOptions), "LogLevel", "LogMeta", "StoragerName"),
 		logutils.NewkitexZapKVLogger,
 		redcon.NewServeMux,
-		storager.Open,
-		wire.Bind(new(driver.IStorager), new(*storager.Storager)),
+		driver.GetStorager,
 
 		wire.Struct(new(Server), "opts", "kitexKVLogger", "mux", "store"),
+	))
+}
+
+// RegisterXdisStorager register storager xdis-storager
+func RegisterXdisStorager(*config.Options) error {
+	panic(wire.Build(
+		wire.FieldsOf(new(*config.Options),
+			"StoreCfg",
+		),
+
+		storager.New,
+		wire.Bind(new(driver.IStorager), new(*storager.Storager)),
+		driver.RegisterStorager,
+	))
+}
+
+// RegisterXdisTikv register storager xdis-tikv
+func RegisterXdisTikv(*config.Options) error {
+	panic(wire.Build(
+		wire.FieldsOf(new(*config.Options),
+			"TikvCfg",
+		),
+
+		xdistikv.New,
+		wire.Bind(new(driver.IStorager), new(*xdistikv.Storager)),
+		driver.RegisterStorager,
 	))
 }
 

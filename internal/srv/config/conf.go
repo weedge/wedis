@@ -2,7 +2,7 @@ package config
 
 import (
 	"github.com/weedge/pkg/utils/logutils"
-	"github.com/weedge/xdis-storager/config"
+	storager "github.com/weedge/xdis-storager"
 )
 
 // ServerOptions server options
@@ -12,8 +12,9 @@ type ServerOptions struct {
 	ProjectName               string                 `mapstructure:"projectName"`
 	LogMeta                   map[string]interface{} `mapstructure:"logMeta"`
 	OltpGrpcCollectorEndpoint string                 `mapstructure:"oltpCollectorGrpcEndpoint"`
-	RespCmdSrvOpts            RespCmdServiceOptins   `mapstructure:"respCmdSrv"`
-	StoreOpts                 config.StorgerOptions  `mapstructure:"storeOpts"`
+	StoragerName              string                 `mapstructure:"storagerName"`
+
+	RespCmdSrvOpts RespCmdServiceOptins     `mapstructure:"respCmdSrv"`
 }
 
 // DefaultServerOptions default opts
@@ -21,11 +22,12 @@ func DefaultServerOptions() *ServerOptions {
 	return &ServerOptions{
 		//OltpGrpcCollectorEndpoint: ":4317",
 		//HttpAddr:       ":8110",
-		ProjectName:    "wedis",
-		LogLevel:       logutils.LevelDebug,
-		LogMeta:        map[string]interface{}{},
+		ProjectName:  "wedis",
+		LogLevel:     logutils.LevelDebug,
+		LogMeta:      map[string]interface{}{},
+		StoragerName: storager.RegisterStoragerName,
+
 		RespCmdSrvOpts: *DefaultRespCmdServiceOptins(),
-		StoreOpts:      *config.DefaultStoragerOptions(),
 	}
 }
 

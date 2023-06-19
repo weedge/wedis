@@ -35,8 +35,14 @@ func (s *Server) Run(ctx context.Context) error {
 	klog.SetLogger(s.kitexKVLogger)
 	klog.SetLevel(s.opts.LogLevel.KitexLogLevel())
 
+	klog.Infof("register storagers: %+v", driver.ListStoragers())
+	klog.Infof("register store engines: %+v", openkvDriver.ListStores())
 	klog.Infof("server opts: %+v", s.opts)
-	klog.Infof("register store engine: %+v", openkvDriver.ListStores())
+
+	err := s.store.Open(ctx)
+	if err != nil {
+		return err
+	}
 
 	defer s.Stop()
 
@@ -56,8 +62,12 @@ func (s *Server) Run(ctx context.Context) error {
 	s.InitRespCmdService(ctx)
 
 	if s.opts.HttpAddr == "" {
+		signalToNotify := []os.Signal{syscall.SIGINT, syscall.SIGHUP, syscall.SIGTERM}
+		if signal.Ignored(syscall.SIGHUP) {
+			signalToNotify = []os.Signal{syscall.SIGINT, syscall.SIGTERM}
+		}
 		sig := make(chan os.Signal, 1)
-		signal.Notify(sig, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
+		signal.Notify(sig, signalToNotify...)
 		<-sig
 		return nil
 	}
@@ -130,7 +140,7 @@ func (s *Server) registerRespConnClient() {
 }
 
 func (s *Server) InitConnClient(ctx context.Context, dbIdx int) *ConnClient {
-	if dbIdx < 0 || dbIdx >= s.opts.StoreOpts.Databases {
+	if dbIdx < 0 {
 		dbIdx = 0
 	}
 
