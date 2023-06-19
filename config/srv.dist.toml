@@ -29,7 +29,7 @@ authPassword = ""
 connKeepaliveInterval = 0
 
 # resp cmd Server mode
-# standalone (doing2test)
+# standalone 
 # replica (doing) classic mode, need proxy manage sharding like codis
 # replica (doing) single raft mode like redis raft, need proxy manage sharding like codis
 # https://jepsen.io/analyses/redis-raft-1b3fbf6
