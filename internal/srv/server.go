@@ -125,7 +125,7 @@ func (s *Server) registerRespConnClient() {
 			}
 			ctx := context.WithValue(context.Background(), RespCmdCtxKey, conn.Context())
 			res, err := cli.DoCmd(ctx, cmdOp, params)
-			klog.Debugf("resp cmd res: %+v err: %v", res, err)
+			klog.Debugf("resp cmd %s params %v res: %+v err: %v", cmdOp, params, res, err)
 			if err != nil {
 				conn.WriteError(err.Error())
 				return
