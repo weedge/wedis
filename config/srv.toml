@@ -78,7 +78,7 @@ goLeveldbCfg.writeL0PauseTrigger = 64
 
 tikvStoreCfg.prefixKey = "hitiki"
 tikvStoreCfg.Databases = 16
-tikvStoreCfg.ttlCheckInterval = 1
+tikvStoreCfg.ttlCheckInterval = "1"
 
 tikvStoreCfg.tikvClientOpts.useTxnApi = 1
 tikvStoreCfg.tikvClientOpts.pdAddrs = "127.0.0.1:2379"

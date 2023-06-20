@@ -14,7 +14,7 @@ type ServerOptions struct {
 	OltpGrpcCollectorEndpoint string                 `mapstructure:"oltpCollectorGrpcEndpoint"`
 	StoragerName              string                 `mapstructure:"storagerName"`
 
-	RespCmdSrvOpts RespCmdServiceOptins     `mapstructure:"respCmdSrv"`
+	RespCmdSrvOpts RespCmdServiceOptins `mapstructure:"respCmdSrv"`
 }
 
 // DefaultServerOptions default opts
@@ -39,5 +39,8 @@ type RespCmdServiceOptins struct {
 }
 
 func DefaultRespCmdServiceOptins() *RespCmdServiceOptins {
-	return &RespCmdServiceOptins{Mode: ModeStandalone}
+	return &RespCmdServiceOptins{
+		Addr: "127.0.0.1:6666",
+		Mode: ModeStandalone,
+	}
 }
