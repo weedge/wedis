@@ -13,7 +13,7 @@ require (
 	github.com/weedge/openkv-goleveldb v0.0.0-20230619135440-ba874f7b85b2
 	github.com/weedge/pkg v0.0.0-20230619110950-673148e3b843
 	github.com/weedge/xdis-storager v0.0.0-20230619135555-d460c1315d52
-	github.com/weedge/xdis-tikv v0.0.0-20230619144502-f7201f3dda6c
+	github.com/weedge/xdis-tikv v0.0.0-20230620144830-7c9b6d5d49e2
 )
 
 require (
@@ -132,4 +132,4 @@ replace github.com/tidwall/redcon => github.com/weedge/redcon v0.0.0-20230613050
 
 //replace github.com/weedge/xdis-tikv => ../xdis-tikv
 
-replace github.com/tikv/client-go/v2 => github.com/weedge/client-go/v2 v2.0.0-20230619072005-f6f06b0b2c47
+replace github.com/tikv/client-go/v2 => github.com/weedge/client-go/v2 v2.0.0-20230620065740-704eb319bf58
