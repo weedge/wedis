@@ -13,7 +13,7 @@ require (
 	github.com/weedge/openkv-goleveldb v0.0.0-20230619135440-ba874f7b85b2
 	github.com/weedge/pkg v0.0.0-20230619110950-673148e3b843
 	github.com/weedge/xdis-storager v0.0.0-20230619135555-d460c1315d52
-	github.com/weedge/xdis-tikv v0.0.0-20230620162704-096baddbd1ab
+	github.com/weedge/xdis-tikv v0.0.0-20230621040011-3138b64990e4
 )
 
 require (
@@ -120,9 +120,8 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/tidwall/redcon => github.com/weedge/redcon v0.0.0-20230613050749-77c37f99e042
-
 //replace github.com/tidwall/redcon => ../redcon
+replace github.com/tidwall/redcon => github.com/weedge/redcon v0.0.0-20230613050749-77c37f99e042
 
 //replace github.com/weedge/pkg => ../pkg
 
@@ -132,4 +131,5 @@ replace github.com/tidwall/redcon => github.com/weedge/redcon v0.0.0-20230613050
 
 //replace github.com/weedge/xdis-tikv => ../xdis-tikv
 
-replace github.com/tikv/client-go/v2 => github.com/weedge/client-go/v2 v2.0.0-20230620065740-704eb319bf58
+//replace github.com/tikv/client-go/v2 => ../../tikv/client-go
+replace github.com/tikv/client-go/v2 => github.com/weedge/client-go/v2 v2.0.0-20230621031309-54a0924ec98e
