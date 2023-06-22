@@ -504,8 +504,8 @@ github.com/weedge/redcon v0.0.0-20230613050749-77c37f99e042 h1:IabfJSPueMrVEfi1w
 github.com/weedge/redcon v0.0.0-20230613050749-77c37f99e042/go.mod h1:p5Wbsgeyi2VSTBWOcA5vRXrOb9arFTcU2+ZzFjqV75Y=
 github.com/weedge/xdis-storager v0.0.0-20230619135555-d460c1315d52 h1:q+WBAVfsamxu+xXnIUXvJObKfFcXwhAFuVVAFBP/ou8=
 github.com/weedge/xdis-storager v0.0.0-20230619135555-d460c1315d52/go.mod h1:r3S7HJ1OazdkQM0nOuWumsAnqKeJaoT/Ry3eYHm8HyI=
-github.com/weedge/xdis-tikv v0.0.0-20230621085131-55bbae1495da h1:Zog38B0n9TnHrR7Pi2rKfHj4/rbBW7ngGCDRh2q1x04=
-github.com/weedge/xdis-tikv v0.0.0-20230621085131-55bbae1495da/go.mod h1:N+uOhGnpBTKZTslJBcped1g7anqMoh/lZqN2rdD6DDE=
+github.com/weedge/xdis-tikv v0.0.0-20230622062707-01ab8cdcc92a h1:u8t+gBoD+JdEFNesy6s3ieJYZFLhjEximMAGZfWCoc8=
+github.com/weedge/xdis-tikv v0.0.0-20230622062707-01ab8cdcc92a/go.mod h1:N+uOhGnpBTKZTslJBcped1g7anqMoh/lZqN2rdD6DDE=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=

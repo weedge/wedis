@@ -13,7 +13,7 @@ require (
 	github.com/weedge/openkv-goleveldb v0.0.0-20230619135440-ba874f7b85b2
 	github.com/weedge/pkg v0.0.0-20230619110950-673148e3b843
 	github.com/weedge/xdis-storager v0.0.0-20230619135555-d460c1315d52
-	github.com/weedge/xdis-tikv v0.0.0-20230621085131-55bbae1495da
+	github.com/weedge/xdis-tikv v0.0.0-20230622062707-01ab8cdcc92a
 )
 
 require (

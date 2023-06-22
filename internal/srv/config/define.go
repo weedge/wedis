@@ -5,4 +5,5 @@ const (
 	ModeReplica    = "replica"
 	ModeTikv       = "tikv"
 	Modematrix     = "matrix"
+	ModeCluster    = "cluster"
 )
