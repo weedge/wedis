@@ -12,8 +12,8 @@ require (
 	github.com/tidwall/redcon v1.6.2
 	github.com/weedge/openkv-goleveldb v0.0.0-20230619135440-ba874f7b85b2
 	github.com/weedge/pkg v0.0.0-20230619110950-673148e3b843
-	github.com/weedge/xdis-storager v0.0.0-20230619135555-d460c1315d52
-	github.com/weedge/xdis-tikv v0.0.0-20230622062707-01ab8cdcc92a
+	github.com/weedge/xdis-storager v0.0.0-20230623160551-765b1ee6c54f
+	github.com/weedge/xdis-tikv v0.0.0-20230623161020-784001561b01
 )
 
 require (
