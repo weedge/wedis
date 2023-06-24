@@ -61,6 +61,9 @@ ttlCheckInterval = 1
 
 # Choose which backend storage to use, 
 # impl openkv driver register to support:
+# LSM-Tree Log-Structured Merge Tree (goleveldb(simple kv),badger(big val),pebble(range))
+# LSH Log-Structured Hash Table (gobeansdb(single search))
+# B-Tree (bboltdb r)
 kvStoreName = "goleveldb"
 
 # If not set, use dataDir/"kvStoreName"_data
