@@ -61,6 +61,7 @@ ttlCheckInterval = 1
 
 # Choose which backend storage to use, 
 # impl openkv driver register to support:
+# memory (btree, sse-map, skiplist)
 # LSM-Tree Log-Structured Merge Tree (goleveldb(simple kv),badger(big val),pebble(range))
 # LSH Log-Structured Hash Table (gobeansdb(single search))
 # B-Tree (bboltdb r)
@@ -86,9 +87,9 @@ ttlCheckInterval = 1
 [tikvStoreCfg.tikvClientOpts]
 useTxnApi = 1
 pdAddrs = "127.0.0.1:2379"
-useAsyncCommit=0
-tryOnePcCommit=0
-usePessimisticTxn=0
+useAsyncCommit = 0
+tryOnePcCommit = 0
+usePessimisticTxn = 0
 
 [tikvStoreCfg.gcJobOpts]
 gcEnabled = 1

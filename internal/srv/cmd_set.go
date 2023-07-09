@@ -3,183 +3,168 @@ package srv
 import (
 	"context"
 
+	"github.com/weedge/pkg/driver"
 	"github.com/weedge/pkg/utils"
 )
 
 func init() {
-	RegisterCmd(CmdTypeSet, "sadd", sadd)
-	RegisterCmd(CmdTypeSet, "scard", scard)
-	RegisterCmd(CmdTypeSet, "sdiff", sdiff)
-	RegisterCmd(CmdTypeSet, "sdiffstore", sdiffstore)
-	RegisterCmd(CmdTypeSet, "sinter", sinter)
-	RegisterCmd(CmdTypeSet, "sinterstore", sinterstore)
-	RegisterCmd(CmdTypeSet, "sismember", sismember)
-	RegisterCmd(CmdTypeSet, "smembers", smembers)
-	RegisterCmd(CmdTypeSet, "srem", srem)
-	RegisterCmd(CmdTypeSet, "sunion", sunion)
-	RegisterCmd(CmdTypeSet, "sunionstore", sunionstore)
+	driver.RegisterCmd(driver.CmdTypeSet, "sadd", sadd)
+	driver.RegisterCmd(driver.CmdTypeSet, "scard", scard)
+	driver.RegisterCmd(driver.CmdTypeSet, "sdiff", sdiff)
+	driver.RegisterCmd(driver.CmdTypeSet, "sdiffstore", sdiffstore)
+	driver.RegisterCmd(driver.CmdTypeSet, "sinter", sinter)
+	driver.RegisterCmd(driver.CmdTypeSet, "sinterstore", sinterstore)
+	driver.RegisterCmd(driver.CmdTypeSet, "sismember", sismember)
+	driver.RegisterCmd(driver.CmdTypeSet, "smembers", smembers)
+	driver.RegisterCmd(driver.CmdTypeSet, "srem", srem)
+	driver.RegisterCmd(driver.CmdTypeSet, "sunion", sunion)
+	driver.RegisterCmd(driver.CmdTypeSet, "sunionstore", sunionstore)
 
 	// del
-	RegisterCmd(CmdTypeSet, "smclear", smclear)
+	driver.RegisterCmd(driver.CmdTypeSet, "smclear", smclear)
 	// expire
-	RegisterCmd(CmdTypeSet, "sexpire", sexpire)
+	driver.RegisterCmd(driver.CmdTypeSet, "sexpire", sexpire)
 	// expireat
-	RegisterCmd(CmdTypeSet, "sexpireat", sexpireat)
+	driver.RegisterCmd(driver.CmdTypeSet, "sexpireat", sexpireat)
 	// ttl
-	RegisterCmd(CmdTypeSet, "sttl", sttl)
+	driver.RegisterCmd(driver.CmdTypeSet, "sttl", sttl)
 	// persist
-	RegisterCmd(CmdTypeSet, "spersist", spersist)
+	driver.RegisterCmd(driver.CmdTypeSet, "spersist", spersist)
 	// exists
-	RegisterCmd(CmdTypeSet, "skeyexists", skeyexists)
+	driver.RegisterCmd(driver.CmdTypeSet, "skeyexists", skeyexists)
 }
 
-func sadd(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func sadd(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().SAdd(ctx, cmdParams[0], cmdParams[1:]...)
+	res, err = c.Db().DBSet().SAdd(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
-func scard(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func scard(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().SCard(ctx, cmdParams[0])
+	res, err = c.Db().DBSet().SCard(ctx, cmdParams[0])
 	return
 }
 
-func sdiff(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func sdiff(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) == 0 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().SDiff(ctx, cmdParams...)
+	res, err = c.Db().DBSet().SDiff(ctx, cmdParams...)
 	return
 }
 
-func sdiffstore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func sdiffstore(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().SDiffStore(ctx, cmdParams[0], cmdParams[1:]...)
+	res, err = c.Db().DBSet().SDiffStore(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
-func sinter(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func sinter(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) == 0 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().SInter(ctx, cmdParams...)
+	res, err = c.Db().DBSet().SInter(ctx, cmdParams...)
 	return
 }
 
-func sinterstore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func sinterstore(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().SInterStore(ctx, cmdParams[0], cmdParams[1:]...)
+	res, err = c.Db().DBSet().SInterStore(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
-func sismember(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func sismember(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().SIsMember(ctx, cmdParams[0], cmdParams[1])
+	res, err = c.Db().DBSet().SIsMember(ctx, cmdParams[0], cmdParams[1])
 	return
 }
 
-func smembers(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func smembers(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().SMembers(ctx, cmdParams[0])
+	res, err = c.Db().DBSet().SMembers(ctx, cmdParams[0])
 	return
 }
 
-func srem(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func srem(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().SRem(ctx, cmdParams[0], cmdParams[1:]...)
+	res, err = c.Db().DBSet().SRem(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
-func sunion(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func sunion(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) == 0 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().SUnion(ctx, cmdParams...)
+	res, err = c.Db().DBSet().SUnion(ctx, cmdParams...)
 	return
 }
 
-func sunionstore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func sunionstore(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().SUnionStore(ctx, cmdParams[0], cmdParams[1:]...)
+	res, err = c.Db().DBSet().SUnionStore(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
-func smclear(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func smclear(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) == 0 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().Del(ctx, cmdParams...)
+	res, err = c.Db().DBSet().Del(ctx, cmdParams...)
 	return
 }
 
-func skeyexists(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func skeyexists(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().Exists(ctx, cmdParams[0])
+	res, err = c.Db().DBSet().Exists(ctx, cmdParams[0])
 	return
 }
 
-func sexpire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
-	if len(cmdParams) != 2 {
-		err = ErrCmdParams
-		return
-	}
-
-	d, err := utils.StrInt64(cmdParams[1], nil)
-	if err != nil {
-		err = ErrValue
-		return
-	}
-
-	res, err = c.db.DBSet().Expire(ctx, cmdParams[0], d)
-	return
-}
-
-func sexpireat(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func sexpire(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
@@ -191,26 +176,42 @@ func sexpireat(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inte
 		return
 	}
 
-	res, err = c.db.DBSet().ExpireAt(ctx, cmdParams[0], d)
+	res, err = c.Db().DBSet().Expire(ctx, cmdParams[0], d)
 	return
 }
 
-func sttl(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func sexpireat(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
+	if len(cmdParams) != 2 {
+		err = ErrCmdParams
+		return
+	}
+
+	d, err := utils.StrInt64(cmdParams[1], nil)
+	if err != nil {
+		err = ErrValue
+		return
+	}
+
+	res, err = c.Db().DBSet().ExpireAt(ctx, cmdParams[0], d)
+	return
+}
+
+func sttl(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().TTL(ctx, cmdParams[0])
+	res, err = c.Db().DBSet().TTL(ctx, cmdParams[0])
 	return
 }
 
-func spersist(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func spersist(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBSet().Persist(ctx, cmdParams[0])
+	res, err = c.Db().DBSet().Persist(ctx, cmdParams[0])
 	return
 }

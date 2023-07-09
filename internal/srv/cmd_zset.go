@@ -13,43 +13,43 @@ import (
 )
 
 func init() {
-	RegisterCmd(CmdTypeZset, "zadd", zadd)
-	RegisterCmd(CmdTypeZset, "zcard", zcard)
-	RegisterCmd(CmdTypeZset, "zcount", zcount)
-	RegisterCmd(CmdTypeZset, "zincrby", zincrby)
-	RegisterCmd(CmdTypeZset, "zrange", zrange)
-	RegisterCmd(CmdTypeZset, "zrangebyscore", zrangebyscore)
-	RegisterCmd(CmdTypeZset, "zrank", zrank)
-	RegisterCmd(CmdTypeZset, "zrem", zrem)
-	RegisterCmd(CmdTypeZset, "zremrangebyrank", zremrangebyrank)
-	RegisterCmd(CmdTypeZset, "zremrangebyscore", zremrangebyscore)
-	RegisterCmd(CmdTypeZset, "zrevrange", zrevrange)
-	RegisterCmd(CmdTypeZset, "zrevrank", zrevrank)
-	RegisterCmd(CmdTypeZset, "zrevrangebyscore", zrevrangebyscore)
-	RegisterCmd(CmdTypeZset, "zscore", zscore)
+	driver.RegisterCmd(driver.CmdTypeZset, "zadd", zadd)
+	driver.RegisterCmd(driver.CmdTypeZset, "zcard", zcard)
+	driver.RegisterCmd(driver.CmdTypeZset, "zcount", zcount)
+	driver.RegisterCmd(driver.CmdTypeZset, "zincrby", zincrby)
+	driver.RegisterCmd(driver.CmdTypeZset, "zrange", zrange)
+	driver.RegisterCmd(driver.CmdTypeZset, "zrangebyscore", zrangebyscore)
+	driver.RegisterCmd(driver.CmdTypeZset, "zrank", zrank)
+	driver.RegisterCmd(driver.CmdTypeZset, "zrem", zrem)
+	driver.RegisterCmd(driver.CmdTypeZset, "zremrangebyrank", zremrangebyrank)
+	driver.RegisterCmd(driver.CmdTypeZset, "zremrangebyscore", zremrangebyscore)
+	driver.RegisterCmd(driver.CmdTypeZset, "zrevrange", zrevrange)
+	driver.RegisterCmd(driver.CmdTypeZset, "zrevrank", zrevrank)
+	driver.RegisterCmd(driver.CmdTypeZset, "zrevrangebyscore", zrevrangebyscore)
+	driver.RegisterCmd(driver.CmdTypeZset, "zscore", zscore)
 
-	RegisterCmd(CmdTypeZset, "zunionstore", zunionstore)
-	RegisterCmd(CmdTypeZset, "zinterstore", zinterstore)
+	driver.RegisterCmd(driver.CmdTypeZset, "zunionstore", zunionstore)
+	driver.RegisterCmd(driver.CmdTypeZset, "zinterstore", zinterstore)
 
-	RegisterCmd(CmdTypeZset, "zrangebylex", zrangebylex)
-	RegisterCmd(CmdTypeZset, "zremrangebylex", zremrangebylex)
-	RegisterCmd(CmdTypeZset, "zlexcount", zlexcount)
+	driver.RegisterCmd(driver.CmdTypeZset, "zrangebylex", zrangebylex)
+	driver.RegisterCmd(driver.CmdTypeZset, "zremrangebylex", zremrangebylex)
+	driver.RegisterCmd(driver.CmdTypeZset, "zlexcount", zlexcount)
 
 	// del
-	RegisterCmd(CmdTypeZset, "zmclear", zmclear)
+	driver.RegisterCmd(driver.CmdTypeZset, "zmclear", zmclear)
 	// expire
-	RegisterCmd(CmdTypeZset, "zexpire", zexpire)
+	driver.RegisterCmd(driver.CmdTypeZset, "zexpire", zexpire)
 	// expireat
-	RegisterCmd(CmdTypeZset, "zexpireat", zexpireat)
+	driver.RegisterCmd(driver.CmdTypeZset, "zexpireat", zexpireat)
 	// ttl
-	RegisterCmd(CmdTypeZset, "zttl", zttl)
+	driver.RegisterCmd(driver.CmdTypeZset, "zttl", zttl)
 	// persist
-	RegisterCmd(CmdTypeZset, "zpersist", zpersist)
+	driver.RegisterCmd(driver.CmdTypeZset, "zpersist", zpersist)
 	// exists
-	RegisterCmd(CmdTypeZset, "zkeyexists", zkeyexists)
+	driver.RegisterCmd(driver.CmdTypeZset, "zkeyexists", zkeyexists)
 }
 
-func zadd(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zadd(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 3 {
 		err = ErrCmdParams
 		return
@@ -72,21 +72,21 @@ func zadd(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		params[i].Member = args[2*i+1]
 	}
 
-	res, err = c.db.DBZSet().ZAdd(ctx, cmdParams[0], params...)
+	res, err = c.Db().DBZSet().ZAdd(ctx, cmdParams[0], params...)
 	return
 }
 
-func zcard(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zcard(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBZSet().ZCard(ctx, cmdParams[0])
+	res, err = c.Db().DBZSet().ZCard(ctx, cmdParams[0])
 	return
 }
 
-func zcount(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zcount(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 {
 		err = ErrCmdParams
 		return
@@ -103,7 +103,7 @@ func zcount(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBZSet().ZCount(ctx, cmdParams[0], min, max)
+	res, err = c.Db().DBZSet().ZCount(ctx, cmdParams[0], min, max)
 	return
 }
 
@@ -168,7 +168,7 @@ func zparseScoreRange(minBuf []byte, maxBuf []byte) (min int64, max int64, err e
 	return
 }
 
-func zincrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zincrby(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 {
 		err = ErrCmdParams
 		return
@@ -179,7 +179,7 @@ func zincrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return nil, ErrValue
 	}
 
-	data, err := c.db.DBZSet().ZIncrBy(ctx, cmdParams[0], delta, cmdParams[2])
+	data, err := c.Db().DBZSet().ZIncrBy(ctx, cmdParams[0], delta, cmdParams[2])
 	if err != nil {
 		return nil, err
 	}
@@ -188,11 +188,11 @@ func zincrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 	return
 }
 
-func zrange(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zrange(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	return zrangeGeneric(ctx, c, cmdParams, false)
 }
 
-func zrangeGeneric(ctx context.Context, c *ConnClient, cmdParams [][]byte, reverse bool) (res interface{}, err error) {
+func zrangeGeneric(ctx context.Context, c driver.IRespConn, cmdParams [][]byte, reverse bool) (res interface{}, err error) {
 	if len(cmdParams) < 3 {
 		return nil, ErrCmdParams
 	}
@@ -214,7 +214,7 @@ func zrangeGeneric(ctx context.Context, c *ConnClient, cmdParams [][]byte, rever
 		withScores = true
 	}
 
-	arrScorePair, err := c.db.DBZSet().ZRangeGeneric(ctx, cmdParams[0], start, stop, reverse)
+	arrScorePair, err := c.Db().DBZSet().ZRangeGeneric(ctx, cmdParams[0], start, stop, reverse)
 	if err != nil {
 		return
 	}
@@ -249,11 +249,11 @@ func zparseRange(a1 []byte, a2 []byte) (start int, stop int, err error) {
 	return
 }
 
-func zrangebyscore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zrangebyscore(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	return zrangeByScoreGeneric(ctx, c, cmdParams, false)
 }
 
-func zrangeByScoreGeneric(ctx context.Context, c *ConnClient, cmdParams [][]byte, reverse bool) (res interface{}, err error) {
+func zrangeByScoreGeneric(ctx context.Context, c driver.IRespConn, cmdParams [][]byte, reverse bool) (res interface{}, err error) {
 	if len(cmdParams) < 3 {
 		err = ErrCmdParams
 		return
@@ -302,7 +302,7 @@ func zrangeByScoreGeneric(ctx context.Context, c *ConnClient, cmdParams [][]byte
 		return []interface{}{}, nil
 	}
 
-	arrScorePair, err := c.db.DBZSet().ZRangeByScoreGeneric(ctx, cmdParams[0], min, max, offset, count, reverse)
+	arrScorePair, err := c.Db().DBZSet().ZRangeByScoreGeneric(ctx, cmdParams[0], min, max, offset, count, reverse)
 	if err != nil {
 		return
 	}
@@ -320,13 +320,13 @@ func zrangeByScoreGeneric(ctx context.Context, c *ConnClient, cmdParams [][]byte
 	return
 }
 
-func zrank(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zrank(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	n, err := c.db.DBZSet().ZRank(ctx, cmdParams[0], cmdParams[1])
+	n, err := c.Db().DBZSet().ZRank(ctx, cmdParams[0], cmdParams[1])
 	if err != nil {
 		return
 	}
@@ -338,17 +338,17 @@ func zrank(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 	return
 }
 
-func zrem(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zrem(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBZSet().ZRem(ctx, cmdParams[0], cmdParams[1:]...)
+	res, err = c.Db().DBZSet().ZRem(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
-func zremrangebyrank(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zremrangebyrank(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 {
 		err = ErrCmdParams
 		return
@@ -359,11 +359,11 @@ func zremrangebyrank(ctx context.Context, c *ConnClient, cmdParams [][]byte) (re
 		return nil, ErrValue
 	}
 
-	res, err = c.db.DBZSet().ZRemRangeByRank(ctx, cmdParams[0], s, e)
+	res, err = c.Db().DBZSet().ZRemRangeByRank(ctx, cmdParams[0], s, e)
 	return
 }
 
-func zremrangebyscore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zremrangebyscore(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 {
 		err = ErrCmdParams
 		return
@@ -387,21 +387,21 @@ func zremrangebyscore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (r
 		return nil, ErrValue
 	}
 
-	res, err = c.db.DBZSet().ZRemRangeByScore(ctx, cmdParams[0], int64(s), int64(e))
+	res, err = c.Db().DBZSet().ZRemRangeByScore(ctx, cmdParams[0], int64(s), int64(e))
 	return
 }
 
-func zrevrange(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zrevrange(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	return zrangeGeneric(ctx, c, cmdParams, true)
 }
 
-func zrevrank(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zrevrank(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	n, err := c.db.DBZSet().ZRevRank(ctx, cmdParams[0], cmdParams[1])
+	n, err := c.Db().DBZSet().ZRevRank(ctx, cmdParams[0], cmdParams[1])
 	if err != nil {
 		return
 	}
@@ -413,17 +413,17 @@ func zrevrank(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inter
 	return
 }
 
-func zrevrangebyscore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zrevrangebyscore(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	return zrangeByScoreGeneric(ctx, c, cmdParams, true)
 }
 
-func zscore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zscore(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	data, err := c.db.DBZSet().ZScore(ctx, cmdParams[0], cmdParams[1])
+	data, err := c.Db().DBZSet().ZScore(ctx, cmdParams[0], cmdParams[1])
 	if err != nil {
 		if err.Error() == "zset score miss" {
 			err = nil
@@ -435,7 +435,7 @@ func zscore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 	return
 }
 
-func zunionstore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zunionstore(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 2 {
 		err = ErrCmdParams
 		return
@@ -446,7 +446,7 @@ func zunionstore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res in
 		return
 	}
 
-	res, err = c.db.DBZSet().ZUnionStore(ctx, destKey, srcKeys, weights, aggregate)
+	res, err = c.Db().DBZSet().ZUnionStore(ctx, destKey, srcKeys, weights, aggregate)
 
 	return
 }
@@ -523,7 +523,7 @@ func zparseZsetoptStore(args [][]byte) (destKey []byte, srcKeys [][]byte, weight
 	return
 }
 
-func zinterstore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zinterstore(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 2 {
 		err = ErrCmdParams
 		return
@@ -534,11 +534,11 @@ func zinterstore(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res in
 		return
 	}
 
-	res, err = c.db.DBZSet().ZInterStore(ctx, destKey, srcKeys, weights, aggregate)
+	res, err = c.Db().DBZSet().ZInterStore(ctx, destKey, srcKeys, weights, aggregate)
 	return
 }
 
-func zrangebylex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zrangebylex(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 && len(cmdParams) != 6 {
 		err = ErrCmdParams
 		return
@@ -564,7 +564,7 @@ func zrangebylex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res in
 		}
 	}
 
-	res, err = c.db.DBZSet().ZRangeByLex(ctx, cmdParams[0], min, max, rangeType, offset, count)
+	res, err = c.Db().DBZSet().ZRangeByLex(ctx, cmdParams[0], min, max, rangeType, offset, count)
 
 	return
 }
@@ -611,7 +611,7 @@ func zparseMemberRange(minBuf []byte, maxBuf []byte) (min []byte, max []byte, ra
 	return
 }
 
-func zremrangebylex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zremrangebylex(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 {
 		err = ErrCmdParams
 		return
@@ -622,11 +622,11 @@ func zremrangebylex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res
 		return nil, err
 	}
 
-	res, err = c.db.DBZSet().ZRemRangeByLex(ctx, cmdParams[0], min, max, rangeType)
+	res, err = c.Db().DBZSet().ZRemRangeByLex(ctx, cmdParams[0], min, max, rangeType)
 	return
 }
 
-func zlexcount(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zlexcount(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 {
 		err = ErrCmdParams
 		return
@@ -637,32 +637,32 @@ func zlexcount(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inte
 		return
 	}
 
-	res, err = c.db.DBZSet().ZLexCount(ctx, cmdParams[0], min, max, rangeType)
+	res, err = c.Db().DBZSet().ZLexCount(ctx, cmdParams[0], min, max, rangeType)
 
 	return
 }
 
-func zmclear(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zmclear(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) == 0 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBZSet().Del(ctx, cmdParams...)
+	res, err = c.Db().DBZSet().Del(ctx, cmdParams...)
 	return
 }
 
-func zkeyexists(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zkeyexists(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBZSet().Exists(ctx, cmdParams[0])
+	res, err = c.Db().DBZSet().Exists(ctx, cmdParams[0])
 	return
 }
 
-func zexpire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zexpire(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
@@ -674,11 +674,11 @@ func zexpire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBZSet().Expire(ctx, cmdParams[0], d)
+	res, err = c.Db().DBZSet().Expire(ctx, cmdParams[0], d)
 	return
 }
 
-func zexpireat(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zexpireat(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
@@ -690,26 +690,26 @@ func zexpireat(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inte
 		return
 	}
 
-	res, err = c.db.DBZSet().ExpireAt(ctx, cmdParams[0], d)
+	res, err = c.Db().DBZSet().ExpireAt(ctx, cmdParams[0], d)
 	return
 }
 
-func zttl(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zttl(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBZSet().TTL(ctx, cmdParams[0])
+	res, err = c.Db().DBZSet().TTL(ctx, cmdParams[0])
 	return
 }
 
-func zpersist(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func zpersist(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBZSet().Persist(ctx, cmdParams[0])
+	res, err = c.Db().DBZSet().Persist(ctx, cmdParams[0])
 	return
 }

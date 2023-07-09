@@ -9,42 +9,42 @@ import (
 )
 
 func init() {
-	RegisterCmd(CmdTypeString, "append", appendCmd)
-	RegisterCmd(CmdTypeString, "decr", decr)
-	RegisterCmd(CmdTypeString, "decrby", decrby)
-	RegisterCmd(CmdTypeString, "get", get)
-	RegisterCmd(CmdTypeString, "getrange", getrange)
-	RegisterCmd(CmdTypeString, "getset", getset)
-	RegisterCmd(CmdTypeString, "incr", incr)
-	RegisterCmd(CmdTypeString, "incrby", incrby)
-	RegisterCmd(CmdTypeString, "mget", mget)
-	RegisterCmd(CmdTypeString, "mset", mset)
-	RegisterCmd(CmdTypeString, "set", set)
-	RegisterCmd(CmdTypeString, "setnx", setnx)
-	RegisterCmd(CmdTypeString, "setex", setex)
-	RegisterCmd(CmdTypeString, "setrange", setrange)
-	RegisterCmd(CmdTypeString, "strlen", strlen)
+	driver.RegisterCmd(driver.CmdTypeString, "append", appendCmd)
+	driver.RegisterCmd(driver.CmdTypeString, "decr", decr)
+	driver.RegisterCmd(driver.CmdTypeString, "decrby", decrby)
+	driver.RegisterCmd(driver.CmdTypeString, "get", get)
+	driver.RegisterCmd(driver.CmdTypeString, "getrange", getrange)
+	driver.RegisterCmd(driver.CmdTypeString, "getset", getset)
+	driver.RegisterCmd(driver.CmdTypeString, "incr", incr)
+	driver.RegisterCmd(driver.CmdTypeString, "incrby", incrby)
+	driver.RegisterCmd(driver.CmdTypeString, "mget", mget)
+	driver.RegisterCmd(driver.CmdTypeString, "mset", mset)
+	driver.RegisterCmd(driver.CmdTypeString, "set", set)
+	driver.RegisterCmd(driver.CmdTypeString, "setnx", setnx)
+	driver.RegisterCmd(driver.CmdTypeString, "setex", setex)
+	driver.RegisterCmd(driver.CmdTypeString, "setrange", setrange)
+	driver.RegisterCmd(driver.CmdTypeString, "strlen", strlen)
 
 	// new
-	RegisterCmd(CmdTypeString, "setnxex", setnxex)
-	RegisterCmd(CmdTypeString, "setxxex", setxxex)
+	driver.RegisterCmd(driver.CmdTypeString, "setnxex", setnxex)
+	driver.RegisterCmd(driver.CmdTypeString, "setxxex", setxxex)
 
 	// just for string type key
-	RegisterCmd(CmdTypeString, "del", del)
-	RegisterCmd(CmdTypeString, "exists", exists)
-	RegisterCmd(CmdTypeString, "expire", expire)
-	RegisterCmd(CmdTypeString, "expireat", expireat)
-	RegisterCmd(CmdTypeString, "persist", persist)
-	RegisterCmd(CmdTypeString, "ttl", ttl)
+	driver.RegisterCmd(driver.CmdTypeString, "del", del)
+	driver.RegisterCmd(driver.CmdTypeString, "exists", exists)
+	driver.RegisterCmd(driver.CmdTypeString, "expire", expire)
+	driver.RegisterCmd(driver.CmdTypeString, "expireat", expireat)
+	driver.RegisterCmd(driver.CmdTypeString, "persist", persist)
+	driver.RegisterCmd(driver.CmdTypeString, "ttl", ttl)
 }
 
-func get(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func get(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	v, err := c.db.DBString().GetSlice(ctx, cmdParams[0])
+	v, err := c.Db().DBString().GetSlice(ctx, cmdParams[0])
 	if err != nil {
 		return
 	}
@@ -57,40 +57,40 @@ func get(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{
 	return
 }
 
-func set(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func set(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	if err = c.db.DBString().Set(ctx, cmdParams[0], cmdParams[1]); err != nil {
+	if err = c.Db().DBString().Set(ctx, cmdParams[0], cmdParams[1]); err != nil {
 		return
 	}
 
 	return OK, nil
 }
 
-func appendCmd(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func appendCmd(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBString().Append(ctx, cmdParams[0], cmdParams[1])
+	res, err = c.Db().DBString().Append(ctx, cmdParams[0], cmdParams[1])
 	return
 }
 
-func decr(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func decr(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBString().Decr(ctx, cmdParams[0])
+	res, err = c.Db().DBString().Decr(ctx, cmdParams[0])
 	return
 }
 
-func decrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func decrby(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
@@ -101,31 +101,31 @@ func decrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBString().DecrBy(ctx, cmdParams[0], delta)
+	res, err = c.Db().DBString().DecrBy(ctx, cmdParams[0], delta)
 	return
 }
 
-func del(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func del(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) == 0 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBString().Del(ctx, cmdParams...)
+	res, err = c.Db().DBString().Del(ctx, cmdParams...)
 	return
 }
 
-func exists(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func exists(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBString().Exists(ctx, cmdParams[0])
+	res, err = c.Db().DBString().Exists(ctx, cmdParams[0])
 	return
 }
 
-func getrange(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func getrange(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 {
 		err = ErrCmdParams
 		return
@@ -143,31 +143,31 @@ func getrange(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inter
 		return
 	}
 
-	res, err = c.db.DBString().GetRange(ctx, cmdParams[0], start, end)
+	res, err = c.Db().DBString().GetRange(ctx, cmdParams[0], start, end)
 	return
 }
 
-func getset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func getset(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBString().GetSet(ctx, cmdParams[0], cmdParams[1])
+	res, err = c.Db().DBString().GetSet(ctx, cmdParams[0], cmdParams[1])
 	return
 }
 
-func incr(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func incr(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBString().Incr(ctx, cmdParams[0])
+	res, err = c.Db().DBString().Incr(ctx, cmdParams[0])
 	return
 }
 
-func incrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func incrby(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
@@ -179,20 +179,20 @@ func incrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBString().IncrBy(ctx, cmdParams[0], delta)
+	res, err = c.Db().DBString().IncrBy(ctx, cmdParams[0], delta)
 	return
 }
 
-func mget(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func mget(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) == 0 {
 		err = ErrCmdParams
 		return
 	}
 
-	return c.db.DBString().MGet(ctx, cmdParams...)
+	return c.Db().DBString().MGet(ctx, cmdParams...)
 }
 
-func mset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func mset(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) == 0 || len(cmdParams)%2 != 0 {
 		err = ErrCmdParams
 		return
@@ -204,7 +204,7 @@ func mset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 		kvs[i].Value = cmdParams[2*i+1]
 	}
 
-	err = c.db.DBString().MSet(ctx, kvs...)
+	err = c.Db().DBString().MSet(ctx, kvs...)
 	if err != nil {
 		return
 	}
@@ -213,17 +213,17 @@ func mset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 	return
 }
 
-func setnx(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func setnx(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBString().SetNX(ctx, cmdParams[0], cmdParams[1])
+	res, err = c.Db().DBString().SetNX(ctx, cmdParams[0], cmdParams[1])
 	return
 }
 
-func setex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func setex(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 {
 		err = ErrCmdParams
 		return
@@ -235,7 +235,7 @@ func setex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 		return
 	}
 
-	err = c.db.DBString().SetEX(ctx, cmdParams[0], sec, cmdParams[2])
+	err = c.Db().DBString().SetEX(ctx, cmdParams[0], sec, cmdParams[2])
 	if err != nil {
 		return
 	}
@@ -244,7 +244,7 @@ func setex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 	return
 }
 
-func setnxex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func setnxex(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 {
 		err = ErrCmdParams
 		return
@@ -256,11 +256,11 @@ func setnxex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBString().SetNXEX(ctx, cmdParams[0], sec, cmdParams[2])
+	res, err = c.Db().DBString().SetNXEX(ctx, cmdParams[0], sec, cmdParams[2])
 	return
 }
 
-func setxxex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func setxxex(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 {
 		err = ErrCmdParams
 		return
@@ -272,11 +272,11 @@ func setxxex(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBString().SetXXEX(ctx, cmdParams[0], sec, cmdParams[2])
+	res, err = c.Db().DBString().SetXXEX(ctx, cmdParams[0], sec, cmdParams[2])
 	return
 }
 
-func setrange(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func setrange(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 {
 		err = ErrCmdParams
 		return
@@ -288,20 +288,20 @@ func setrange(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inter
 		return
 	}
 
-	res, err = c.db.DBString().SetRange(ctx, cmdParams[0], offset, cmdParams[2])
+	res, err = c.Db().DBString().SetRange(ctx, cmdParams[0], offset, cmdParams[2])
 	return
 }
 
-func strlen(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func strlen(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	return c.db.DBString().StrLen(ctx, cmdParams[0])
+	return c.Db().DBString().StrLen(ctx, cmdParams[0])
 }
 
-func expire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func expire(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
@@ -313,11 +313,11 @@ func expire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBString().Expire(ctx, cmdParams[0], duration)
+	res, err = c.Db().DBString().Expire(ctx, cmdParams[0], duration)
 	return
 }
 
-func expireat(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func expireat(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
@@ -329,26 +329,26 @@ func expireat(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inter
 		return
 	}
 
-	res, err = c.db.DBString().ExpireAt(ctx, cmdParams[0], when)
+	res, err = c.Db().DBString().ExpireAt(ctx, cmdParams[0], when)
 	return
 }
 
-func ttl(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func ttl(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBString().TTL(ctx, cmdParams[0])
+	res, err = c.Db().DBString().TTL(ctx, cmdParams[0])
 	return
 }
 
-func persist(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func persist(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBString().Persist(ctx, cmdParams[0])
+	res, err = c.Db().DBString().Persist(ctx, cmdParams[0])
 	return
 }

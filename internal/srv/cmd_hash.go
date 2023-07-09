@@ -9,38 +9,38 @@ import (
 )
 
 func init() {
-	RegisterCmd(CmdTypeHash, "hexists", hexists)
-	RegisterCmd(CmdTypeHash, "hget", hget)
-	RegisterCmd(CmdTypeHash, "hgetall", hgetall)
-	RegisterCmd(CmdTypeHash, "hincrby", hincrby)
-	RegisterCmd(CmdTypeHash, "hkeys", hkeys)
-	RegisterCmd(CmdTypeHash, "hlen", hlen)
-	RegisterCmd(CmdTypeHash, "hmget", hmget)
-	RegisterCmd(CmdTypeHash, "hmset", hmset)
-	RegisterCmd(CmdTypeHash, "hset", hset)
-	RegisterCmd(CmdTypeHash, "hvals", hvals)
+	driver.RegisterCmd(driver.CmdTypeHash, "hexists", hexists)
+	driver.RegisterCmd(driver.CmdTypeHash, "hget", hget)
+	driver.RegisterCmd(driver.CmdTypeHash, "hgetall", hgetall)
+	driver.RegisterCmd(driver.CmdTypeHash, "hincrby", hincrby)
+	driver.RegisterCmd(driver.CmdTypeHash, "hkeys", hkeys)
+	driver.RegisterCmd(driver.CmdTypeHash, "hlen", hlen)
+	driver.RegisterCmd(driver.CmdTypeHash, "hmget", hmget)
+	driver.RegisterCmd(driver.CmdTypeHash, "hmset", hmset)
+	driver.RegisterCmd(driver.CmdTypeHash, "hset", hset)
+	driver.RegisterCmd(driver.CmdTypeHash, "hvals", hvals)
 
 	//del for hash
-	RegisterCmd(CmdTypeHash, "hmclear", hmclear)
+	driver.RegisterCmd(driver.CmdTypeHash, "hmclear", hmclear)
 	//exists for hash
-	RegisterCmd(CmdTypeHash, "hkeyexists", hkeyexists)
+	driver.RegisterCmd(driver.CmdTypeHash, "hkeyexists", hkeyexists)
 	//expire for hash
-	RegisterCmd(CmdTypeHash, "hexpire", hexpire)
+	driver.RegisterCmd(driver.CmdTypeHash, "hexpire", hexpire)
 	//expireat for hash
-	RegisterCmd(CmdTypeHash, "hexpireat", hexpireat)
+	driver.RegisterCmd(driver.CmdTypeHash, "hexpireat", hexpireat)
 	//ttl for hash
-	RegisterCmd(CmdTypeHash, "httl", httl)
+	driver.RegisterCmd(driver.CmdTypeHash, "httl", httl)
 	//persist for hash
-	RegisterCmd(CmdTypeHash, "hpersist", hpersist)
+	driver.RegisterCmd(driver.CmdTypeHash, "hpersist", hpersist)
 }
 
-func hexists(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hexists(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	v, err := c.db.DBHash().HGet(ctx, cmdParams[0], cmdParams[1])
+	v, err := c.Db().DBHash().HGet(ctx, cmdParams[0], cmdParams[1])
 	if err != nil {
 		return
 	}
@@ -53,13 +53,13 @@ func hexists(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 	return
 }
 
-func hget(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hget(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	v, err := c.db.DBHash().HGet(ctx, cmdParams[0], cmdParams[1])
+	v, err := c.Db().DBHash().HGet(ctx, cmdParams[0], cmdParams[1])
 	if len(v) == 0 {
 		return nil, nil
 	}
@@ -67,13 +67,13 @@ func hget(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 	return
 }
 
-func hgetall(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hgetall(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	data, err := c.db.DBHash().HGetAll(ctx, cmdParams[0])
+	data, err := c.Db().DBHash().HGetAll(ctx, cmdParams[0])
 	if err != nil {
 		return
 	}
@@ -88,7 +88,7 @@ func hgetall(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 	return
 }
 
-func hincrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hincrby(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 {
 		err = ErrCmdParams
 		return
@@ -99,41 +99,41 @@ func hincrby(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBHash().HIncrBy(ctx, cmdParams[0], cmdParams[1], delta)
+	res, err = c.Db().DBHash().HIncrBy(ctx, cmdParams[0], cmdParams[1], delta)
 	return
 }
 
-func hkeys(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hkeys(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBHash().HKeys(ctx, cmdParams[0])
+	res, err = c.Db().DBHash().HKeys(ctx, cmdParams[0])
 	return
 }
 
-func hlen(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hlen(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBHash().HLen(ctx, cmdParams[0])
+	res, err = c.Db().DBHash().HLen(ctx, cmdParams[0])
 	return
 }
 
-func hmget(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hmget(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 2 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBHash().HMget(ctx, cmdParams[0], cmdParams[1:]...)
+	res, err = c.Db().DBHash().HMget(ctx, cmdParams[0], cmdParams[1:]...)
 	return
 }
 
-func hmset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hmset(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 3 || len(cmdParams[1:])%2 != 0 {
 		err = ErrCmdParams
 		return
@@ -146,7 +146,7 @@ func hmset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 		kvs[i].Value = args[2*i+1]
 	}
 
-	if err = c.db.DBHash().HMset(ctx, cmdParams[0], kvs...); err != nil {
+	if err = c.Db().DBHash().HMset(ctx, cmdParams[0], kvs...); err != nil {
 		return
 	}
 
@@ -154,47 +154,47 @@ func hmset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 	return
 }
 
-func hset(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hset(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBHash().HSet(ctx, cmdParams[0], cmdParams[1], cmdParams[2])
+	res, err = c.Db().DBHash().HSet(ctx, cmdParams[0], cmdParams[1], cmdParams[2])
 	return
 }
 
-func hvals(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hvals(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBHash().HValues(ctx, cmdParams[0])
+	res, err = c.Db().DBHash().HValues(ctx, cmdParams[0])
 	return
 }
 
-func hmclear(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hmclear(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) == 0 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBHash().Del(ctx, cmdParams...)
+	res, err = c.Db().DBHash().Del(ctx, cmdParams...)
 	return
 }
 
-func hkeyexists(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hkeyexists(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBHash().Exists(ctx, cmdParams[0])
+	res, err = c.Db().DBHash().Exists(ctx, cmdParams[0])
 	return
 }
 
-func hexpire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hexpire(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
@@ -206,11 +206,11 @@ func hexpire(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 		return
 	}
 
-	res, err = c.db.DBHash().Expire(ctx, cmdParams[0], d)
+	res, err = c.Db().DBHash().Expire(ctx, cmdParams[0], d)
 	return
 }
 
-func hexpireat(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hexpireat(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		err = ErrCmdParams
 		return
@@ -222,26 +222,26 @@ func hexpireat(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inte
 		return
 	}
 
-	res, err = c.db.DBHash().ExpireAt(ctx, cmdParams[0], d)
+	res, err = c.Db().DBHash().ExpireAt(ctx, cmdParams[0], d)
 	return
 }
 
-func httl(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func httl(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBHash().TTL(ctx, cmdParams[0])
+	res, err = c.Db().DBHash().TTL(ctx, cmdParams[0])
 	return
 }
 
-func hpersist(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hpersist(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		err = ErrCmdParams
 		return
 	}
 
-	res, err = c.db.DBHash().Persist(ctx, cmdParams[0])
+	res, err = c.Db().DBHash().Persist(ctx, cmdParams[0])
 	return
 }

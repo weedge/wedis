@@ -4,18 +4,19 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/weedge/pkg/driver"
 	"github.com/weedge/pkg/utils"
 )
 
 func init() {
-	RegisterCmd(CmdTypeBitmap,"bitcount", bitcount)
-	RegisterCmd(CmdTypeBitmap,"bitop", bitop)
-	RegisterCmd(CmdTypeBitmap,"bitpos", bitpos)
-	RegisterCmd(CmdTypeBitmap,"getbit", getbit)
-	RegisterCmd(CmdTypeBitmap,"setbit", setbit)
+	driver.RegisterCmd(driver.CmdTypeBitmap, "bitcount", bitcount)
+	driver.RegisterCmd(driver.CmdTypeBitmap, "bitop", bitop)
+	driver.RegisterCmd(driver.CmdTypeBitmap, "bitpos", bitpos)
+	driver.RegisterCmd(driver.CmdTypeBitmap, "getbit", getbit)
+	driver.RegisterCmd(driver.CmdTypeBitmap, "setbit", setbit)
 }
 
-func bitcount(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func bitcount(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) == 0 {
 		return nil, ErrCmdParams
 	}
@@ -28,7 +29,7 @@ func bitcount(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inter
 		return
 	}
 
-	res, err = c.db.DBBitmap().BitCount(ctx, cmdParams[0], start, end)
+	res, err = c.Db().DBBitmap().BitCount(ctx, cmdParams[0], start, end)
 	return
 }
 
@@ -50,7 +51,7 @@ func parseBitRange(args [][]byte) (start int, end int, err error) {
 	return
 }
 
-func bitop(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func bitop(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 3 {
 		return nil, ErrCmdParams
 	}
@@ -59,12 +60,12 @@ func bitop(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 	destKey := cmdParams[1]
 	srcKeys := cmdParams[2:]
 
-	res, err = c.db.DBBitmap().BitOP(ctx, op, destKey, srcKeys...)
+	res, err = c.Db().DBBitmap().BitOP(ctx, op, destKey, srcKeys...)
 
 	return
 }
 
-func bitpos(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func bitpos(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 2 {
 		return nil, ErrCmdParams
 	}
@@ -79,11 +80,11 @@ func bitpos(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBBitmap().BitPos(ctx, cmdParams[0], bit, start, end)
+	res, err = c.Db().DBBitmap().BitPos(ctx, cmdParams[0], bit, start, end)
 	return
 }
 
-func getbit(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func getbit(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 2 {
 		return nil, ErrCmdParams
 	}
@@ -93,11 +94,11 @@ func getbit(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBBitmap().GetBit(ctx, cmdParams[0], offset)
+	res, err = c.Db().DBBitmap().GetBit(ctx, cmdParams[0], offset)
 	return
 }
 
-func setbit(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func setbit(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 3 {
 		return nil, ErrCmdParams
 	}
@@ -112,6 +113,6 @@ func setbit(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 		return
 	}
 
-	res, err = c.db.DBBitmap().SetBit(ctx, cmdParams[0], offset, value)
+	res, err = c.Db().DBBitmap().SetBit(ctx, cmdParams[0], offset, value)
 	return
 }

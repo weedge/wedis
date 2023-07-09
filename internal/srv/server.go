@@ -101,7 +101,7 @@ func (s *Server) Stop() {
 }
 
 func (s *Server) registerRespConnClient() {
-	for cmdOp := range RegisteredCommands {
+	for cmdOp := range driver.RegisteredCmdHandles {
 		s.mux.HandleFunc(cmdOp, func(conn redcon.Conn, cmd redcon.Command) {
 			cmdOp := utils.SliceByteToString(cmd.Args[0])
 			params := [][]byte{}
@@ -118,7 +118,7 @@ func (s *Server) registerRespConnClient() {
 				return
 			}
 
-			cli, ok := conn.Context().(*ConnClient)
+			cli, ok := conn.Context().(driver.IRespConn)
 			if !ok {
 				klog.Errorf("resp cmd connect client init err")
 				return
@@ -139,19 +139,19 @@ func (s *Server) registerRespConnClient() {
 	}
 }
 
-func (s *Server) InitConnClient(ctx context.Context, dbIdx int) *ConnClient {
+func (s *Server) InitRespConn(ctx context.Context, dbIdx int) driver.IRespConn {
 	if dbIdx < 0 {
 		dbIdx = 0
 	}
 
-	cli := &ConnClient{srv: s, isAuthed: false}
+	conn := &AuthRespSrvConn{srv: s, isAuthed: false}
 	db, err := s.store.Select(ctx, dbIdx)
 	if err != nil {
 		return nil
 	}
-	cli.SetDb(db)
+	conn.SetDb(db)
 
-	return cli
+	return conn
 }
 
 func (s *Server) InitRespCmdService(ctx context.Context) {
@@ -161,7 +161,7 @@ func (s *Server) InitRespCmdService(ctx context.Context) {
 			// use this function to accept (return true) or deny the connection (return false).
 			// set ctx
 			klog.Infof("accept: %s", conn.RemoteAddr())
-			conn.SetContext(s.InitConnClient(ctx, 0))
+			conn.SetContext(s.InitRespConn(ctx, 0))
 			return true
 		},
 		func(conn redcon.Conn, err error) {

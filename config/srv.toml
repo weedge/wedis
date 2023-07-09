@@ -12,7 +12,8 @@ server.httpAddr = "127.0.0.1:8110"
 
 # storager name default xdis-storager 
 # xdis-storager local storager with openkv
-# xdis-tikv remote rpc storager with tikv
+# xdis-tikv remote rpc storager with tikv 
+#   tikv + pd,multi raft group, support gloabal dist txn (keys from diff region) (cp)
 server.storagerName = "xdis-tikv"
 
 
@@ -32,7 +33,6 @@ server.respCmdSrv.connKeepaliveInterval = 0
 # replica (doing) classic mode, need proxy manage sharding like codis (ap)
 # replica (doing) single raft mode like redis raft, need proxy manage sharding like codis (cp)
 # https://jepsen.io/analyses/redis-raft-1b3fbf6
-# tikv (doing2test) + pd,multi raft group, support gloabal dist txn (keys from diff region) (cp)
 # matrix (todo) multi raft group (cp)
 # cluster (todo) like redis cluster mode (ap)
 server.respCmdSrv.mode = "standalone"
@@ -75,16 +75,15 @@ goLeveldbCfg.writeL0SlowdownTrigger = 16
 goLeveldbCfg.writeL0PauseTrigger = 64
 
 
-
 tikvStoreCfg.prefixKey = "hitiki"
 tikvStoreCfg.Databases = 16
 tikvStoreCfg.ttlCheckInterval = "1"
 
 tikvStoreCfg.tikvClientOpts.useTxnApi = 1
 tikvStoreCfg.tikvClientOpts.pdAddrs = "127.0.0.1:2379"
-tikvStoreCfg.tikvClientOpts.useAsyncCommit=0
-tikvStoreCfg.tikvClientOpts.tryOnePcCommit=0
-tikvStoreCfg.tikvClientOpts.usePessimisticTxn=0
+tikvStoreCfg.tikvClientOpts.useAsyncCommit = 0
+tikvStoreCfg.tikvClientOpts.tryOnePcCommit = 0
+tikvStoreCfg.tikvClientOpts.usePessimisticTxn = 0
 
 tikvStoreCfg.gcJobOpts.gcEnabled = 1
 tikvStoreCfg.gcJobOpts.gcInterval = 600

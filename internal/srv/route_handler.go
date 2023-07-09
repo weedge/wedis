@@ -8,6 +8,7 @@ import (
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/app/server"
+	"github.com/weedge/pkg/driver"
 )
 
 func (s *Server) SetupRoutes(h *server.Hertz) {
@@ -29,7 +30,7 @@ func SetupProbeRoutes(h *server.Hertz) {
 
 func SetupCmdRoutes(h *server.Hertz, s *Server) {
 	h.GET("/cmds", func(ctx context.Context, c *app.RequestContext) {
-		c.JSON(http.StatusOK, RegisteredCmdSet)
+		c.JSON(http.StatusOK, driver.RegisteredCmdSet)
 	})
 
 	// content-type : multipart/form-data
@@ -49,7 +50,7 @@ func SetupCmdRoutes(h *server.Hertz, s *Server) {
 			return
 		}
 
-		cli := s.InitConnClient(ctx, dbIdx)
+		cli := s.InitRespConn(ctx, dbIdx)
 		res, err := cli.DoCmd(ctx, cmd, params)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusOK, err.Error())

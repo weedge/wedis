@@ -7,31 +7,32 @@ import (
 	"strings"
 
 	"github.com/tidwall/redcon"
+	"github.com/weedge/pkg/driver"
 	"github.com/weedge/pkg/utils"
 )
 
 func init() {
-	RegisterCmd(CmdTypeSrv,"client", client)
-	RegisterCmd(CmdTypeSrv,"echo", echo)
-	RegisterCmd(CmdTypeSrv,"hello", hello)
-	RegisterCmd(CmdTypeSrv,"ping", ping)
-	RegisterCmd(CmdTypeSrv,"select", selectCmd)
-	RegisterCmd(CmdTypeSrv,"flushdb", flushdb)
-	RegisterCmd(CmdTypeSrv,"flushall", flushall)
+	driver.RegisterCmd(driver.CmdTypeSrv, "client", client)
+	driver.RegisterCmd(driver.CmdTypeSrv, "echo", echo)
+	driver.RegisterCmd(driver.CmdTypeSrv, "hello", hello)
+	driver.RegisterCmd(driver.CmdTypeSrv, "ping", ping)
+	driver.RegisterCmd(driver.CmdTypeSrv, "select", selectCmd)
+	driver.RegisterCmd(driver.CmdTypeSrv, "flushdb", flushdb)
+	driver.RegisterCmd(driver.CmdTypeSrv, "flushall", flushall)
 }
 
-func authUser(ctx context.Context, c *ConnClient, pwd string) (err error) {
+func authUser(ctx context.Context, c driver.IRespConn, pwd string) (err error) {
 	return
 }
 
-func client(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func client(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) < 1 {
 		return nil, ErrCmdParams
 	}
 	op := strings.ToLower(utils.Bytes2String(cmdParams[0]))
 	switch op {
 	case "getname":
-		res = c.name
+		res = c.Name()
 	default:
 		//todo
 	}
@@ -40,7 +41,7 @@ func client(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfa
 }
 
 // just hello cmd, no resp protocol change
-func hello(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func hello(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) > 6 {
 		op := cmdParams[len(cmdParams)-1]
 		return nil, fmt.Errorf("%s in %s option '%s'", ErrSyntax.Error(), "HELLO", op)
@@ -56,7 +57,7 @@ func hello(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 	data := []any{
 		"server", "redis",
 		"proto", redcon.SimpleInt(2),
-		"mode", c.srv.opts.RespCmdSrvOpts.Mode,
+		"mode", c.(AuthRespSrvConn).srv.opts.RespCmdSrvOpts.Mode,
 	}
 	res = data
 	if len(cmdParams) == 0 {
@@ -101,7 +102,7 @@ func hello(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interfac
 	return
 }
 
-func ping(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func ping(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) > 1 {
 		return nil, ErrCmdParams
 	}
@@ -113,7 +114,7 @@ func ping(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 	return
 }
 
-func echo(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func echo(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		return nil, ErrCmdParams
 	}
@@ -122,7 +123,7 @@ func echo(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface
 	return
 }
 
-func selectCmd(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
+func selectCmd(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
 	if len(cmdParams) != 1 {
 		return nil, ErrCmdParams
 	}
@@ -132,18 +133,18 @@ func selectCmd(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res inte
 		return
 	}
 
-	db, err := c.srv.store.Select(ctx, index)
+	db, err := c.(AuthRespSrvConn).srv.store.Select(ctx, index)
 	if err != nil {
 		return
 	}
-	c.db = db
+	c.SetDb(db)
 
 	res = OK
 	return
 }
 
-func flushdb(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
-	_, err = c.db.FlushDB(ctx)
+func flushdb(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
+	_, err = c.Db().FlushDB(ctx)
 	if err != nil {
 		return
 	}
@@ -152,8 +153,8 @@ func flushdb(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interf
 	return
 }
 
-func flushall(ctx context.Context, c *ConnClient, cmdParams [][]byte) (res interface{}, err error) {
-	err = c.srv.store.FlushAll(ctx)
+func flushall(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res interface{}, err error) {
+	err = c.(AuthRespSrvConn).srv.store.FlushAll(ctx)
 	if err != nil {
 		return
 	}
