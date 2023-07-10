@@ -498,8 +498,8 @@ github.com/weedge/client-go/v2 v2.0.0-20230621031309-54a0924ec98e h1:MZBqAvlUjpU
 github.com/weedge/client-go/v2 v2.0.0-20230621031309-54a0924ec98e/go.mod h1:4KkKqjJgKlvvWMyNqdnAlYFfV4QjEj1fEb5Hb/FoT88=
 github.com/weedge/openkv-goleveldb v0.0.0-20230619135440-ba874f7b85b2 h1:IFZmj5cdeK9Hni7FUCit6doQ+Nug0BKKa3ssKz/ZMPI=
 github.com/weedge/openkv-goleveldb v0.0.0-20230619135440-ba874f7b85b2/go.mod h1:v+FlKunfoeEcx1e0xyUaVrSnEZZIbNyjLwXLk8n0xKI=
-github.com/weedge/pkg v0.0.0-20230709153631-aa3cc8af7434 h1:jPQixeZ+ZxUSJQ26HUGt4sipnviqmz5yr8GQAodOKpY=
-github.com/weedge/pkg v0.0.0-20230709153631-aa3cc8af7434/go.mod h1:tOuCj9qNZatbQYExY9ZGlaFZlwKI8hXNgcSlBDtmp3A=
+github.com/weedge/pkg v0.0.0-20230710100843-843d4022144d h1:XvxEhzU6V2bPEl0fuxMVsksjCfzYh8t/11iIgGdhCxQ=
+github.com/weedge/pkg v0.0.0-20230710100843-843d4022144d/go.mod h1:tOuCj9qNZatbQYExY9ZGlaFZlwKI8hXNgcSlBDtmp3A=
 github.com/weedge/redcon v0.0.0-20230613050749-77c37f99e042 h1:IabfJSPueMrVEfi1wMjcoD0cioODUwOww9JEldIRUxU=
 github.com/weedge/redcon v0.0.0-20230613050749-77c37f99e042/go.mod h1:p5Wbsgeyi2VSTBWOcA5vRXrOb9arFTcU2+ZzFjqV75Y=
 github.com/weedge/xdis-storager v0.0.0-20230623160551-765b1ee6c54f h1:6uKZPBkuEs8TOhxcsi6IFl7gedWKczus/Eoxb4TkkYk=

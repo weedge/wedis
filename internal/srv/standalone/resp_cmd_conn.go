@@ -1,4 +1,4 @@
-package srv
+package standalone
 
 import (
 	"github.com/weedge/pkg/driver"
@@ -7,6 +7,6 @@ import (
 type AuthRespSrvConn struct {
 	*driver.RespConnBase
 
-	srv      *Server
+	srv      *RespCmdService
 	isAuthed bool
 }

@@ -8,13 +8,13 @@ package srv
 
 import (
 	"context"
-	"github.com/tidwall/redcon"
 	"github.com/weedge/openkv-goleveldb"
 	"github.com/weedge/pkg/configparser"
 	"github.com/weedge/pkg/driver"
 	driver2 "github.com/weedge/pkg/driver/openkv"
 	"github.com/weedge/pkg/utils/logutils"
 	"github.com/weedge/wedis/internal/srv/config"
+	"github.com/weedge/wedis/internal/srv/standalone"
 	"github.com/weedge/xdis-storager"
 	"github.com/weedge/xdis-tikv"
 )
@@ -37,8 +37,12 @@ func NewServer(contextContext context.Context, options *config.Options) (*Server
 	level := serverOptions.LogLevel
 	v := serverOptions.LogMeta
 	iKitexZapKVLogger := logutils.NewkitexZapKVLogger(level, v)
-	serveMux := redcon.NewServeMux()
-	string2 := serverOptions.StoragerName
+	respServiceName := options.RespCmdSrvName
+	iRespService, err := driver.GetRespCmdSrv(respServiceName)
+	if err != nil {
+		return nil, err
+	}
+	string2 := options.StoragerName
 	iStorager, err := driver.GetStorager(string2)
 	if err != nil {
 		return nil, err
@@ -46,10 +50,17 @@ func NewServer(contextContext context.Context, options *config.Options) (*Server
 	server := &Server{
 		opts:          serverOptions,
 		kitexKVLogger: iKitexZapKVLogger,
-		mux:           serveMux,
+		respSrv:       iRespService,
 		store:         iStorager,
 	}
 	return server, nil
+}
+
+func RegisterStandaloneRespCmdSrv(options *config.Options) error {
+	respCmdServiceOptins := &options.StandaloneRespCmdSrvCfg
+	respCmdService := standalone.New(respCmdServiceOptins)
+	error2 := driver.RegisterRespCmdSrv(respCmdService)
+	return error2
 }
 
 // RegisterXdisStorager register storager xdis-storager

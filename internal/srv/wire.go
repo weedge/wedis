@@ -7,18 +7,19 @@ import (
 	"context"
 
 	"github.com/google/wire"
-	"github.com/tidwall/redcon"
-
 	goleveldb "github.com/weedge/openkv-goleveldb"
 	"github.com/weedge/pkg/configparser"
 	"github.com/weedge/pkg/driver"
 	openkvDriver "github.com/weedge/pkg/driver/openkv"
 	"github.com/weedge/pkg/utils/logutils"
 	"github.com/weedge/wedis/internal/srv/config"
+	"github.com/weedge/wedis/internal/srv/standalone"
 	storager "github.com/weedge/xdis-storager"
 	xdistikv "github.com/weedge/xdis-tikv"
 )
 
+// notice: multiple bindings
+// https://github.com/google/wire/blob/main/docs/faq.md#what-if-my-dependency-graph-has-two-dependencies-of-the-same-type
 // build server with wire, dependency obj inject, so init random
 
 // ParserCfg config paser
@@ -34,14 +35,28 @@ func NewServer(context.Context, *config.Options) (*Server, error) {
 	panic(wire.Build(
 		wire.FieldsOf(new(*config.Options),
 			"Server",
+			"RespCmdSrvName",
+			"StoragerName",
 		),
 
-		wire.FieldsOf(new(*config.ServerOptions), "LogLevel", "LogMeta", "StoragerName"),
+		wire.FieldsOf(new(*config.ServerOptions), "LogLevel", "LogMeta"),
 		logutils.NewkitexZapKVLogger,
-		redcon.NewServeMux,
+		driver.GetRespCmdSrv,
 		driver.GetStorager,
 
-		wire.Struct(new(Server), "opts", "kitexKVLogger", "mux", "store"),
+		wire.Struct(new(Server), "opts", "kitexKVLogger", "respSrv", "store"),
+	))
+}
+
+func RegisterStandaloneRespCmdSrv(*config.Options) error {
+	panic(wire.Build(
+		wire.FieldsOf(new(*config.Options),
+			"StandaloneRespCmdSrvCfg",
+		),
+
+		standalone.New,
+		wire.Bind(new(driver.IRespService), new(*standalone.RespCmdService)),
+		driver.RegisterRespCmdSrv,
 	))
 }
 

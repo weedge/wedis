@@ -22,11 +22,16 @@ func NewCommand() *cobra.Command {
 			}
 			klog.Infof("config:%+v", opts)
 
+			// register store local engine
 			srv.RegisterGoleveldb(opts)
 			srv.RegisterMemGoleveldb(opts)
 
+			// register resp cmd kv storager
 			srv.RegisterXdisStorager(opts)
 			srv.RegisterXdisTikv(opts)
+
+			// register resp cmd service
+			srv.RegisterStandaloneRespCmdSrv(opts)
 
 			server, err := srv.NewServer(ctx, opts)
 			if err != nil {

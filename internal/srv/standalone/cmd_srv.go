@@ -1,4 +1,4 @@
-package srv
+package standalone
 
 import (
 	"context"
@@ -9,13 +9,17 @@ import (
 	"github.com/tidwall/redcon"
 	"github.com/weedge/pkg/driver"
 	"github.com/weedge/pkg/utils"
+	"github.com/weedge/wedis/internal/srv/standalone/config"
 )
 
 func init() {
+	// not use storage
 	driver.RegisterCmd(driver.CmdTypeSrv, "client", client)
 	driver.RegisterCmd(driver.CmdTypeSrv, "echo", echo)
 	driver.RegisterCmd(driver.CmdTypeSrv, "hello", hello)
 	driver.RegisterCmd(driver.CmdTypeSrv, "ping", ping)
+
+	// need use storage
 	driver.RegisterCmd(driver.CmdTypeSrv, "select", selectCmd)
 	driver.RegisterCmd(driver.CmdTypeSrv, "flushdb", flushdb)
 	driver.RegisterCmd(driver.CmdTypeSrv, "flushall", flushall)
@@ -57,7 +61,7 @@ func hello(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res int
 	data := []any{
 		"server", "redis",
 		"proto", redcon.SimpleInt(2),
-		"mode", c.(AuthRespSrvConn).srv.opts.RespCmdSrvOpts.Mode,
+		"mode", config.RegisterRespSrvModeName,
 	}
 	res = data
 	if len(cmdParams) == 0 {

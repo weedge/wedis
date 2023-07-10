@@ -1,4 +1,4 @@
-package srv
+package standalone
 
 import (
 	"context"
