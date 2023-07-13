@@ -18,7 +18,7 @@ like redis/mysql Master/Slaver replica mode, just simple classic impl (no learne
    6. then lock write to load, clear all data and load dump file write(put) to data kvstore (FSM)  
 
 slave replica connect state:
-	replConnectState: slaver needs to connect to its master
-	replConnectingState: slaver-master connection is in progress
-	replSyncState: perform the synchronization
-	replConnectedState: slaver is online
+* replConnectState: slaver needs to connect to its master
+* replConnectingState: slaver-master connection is in progress
+* replSyncState: perform the synchronization
+* replConnectedState: slaver is online

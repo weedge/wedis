@@ -1,3 +1,3 @@
 # wedis
->> KISS 🌲 Big and beautiful; 🍃 Small and fine 👋🏻
+> KISS 🌲 Big and beautiful; 🍃 Small and fine 👋🏻
 
