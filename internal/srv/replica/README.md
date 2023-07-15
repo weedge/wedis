@@ -1,13 +1,13 @@
 # M/S replica
 like redis/mysql Master/Slaver replica mode, just simple classic impl (no learner to start, no linear read, slave replica pull bluk RESP with binlog[startLogID,LastLogID]/snapshot file from master);
 1. start with replicaof or exec `replicaof` cmd
-   0. when start service, latest current commit log load to commitID
-   1. then slave send `replicaaof` cmd to start connect master; between replica(master/slave), master start replica goroutine, create connect
-   2. slave send `replconf` to master register slaves
-   3. if use restart slave send `fullsync` cmd to master, master full sync from snapshot compress file to slave, more detail see `3`
-   4. then start sync loop, send `sync/psync` cmd with slave current latest logId(syncId), 
-   5. if slave's logId is less than master's firstLogId, master will tell slave log has been purged, the slave must do a full sync , more detail see `3`
-   6. else master send [lastLogID+binlog] from log store to slave, util send ack[lastLogID] sync ok
+   1. when start service, latest current commit log load to commitID
+   2. then slave send `replicaaof` cmd to start connect master; between replica(master/slave), master start replica goroutine, create connect
+   3. slave send `replconf` to master register slaves
+   4. if use restart slave send `fullsync` cmd to master, master full sync from snapshot compress file to slave, more detail see `3`
+   5. then start sync loop, send `sync/psync` cmd with slave current latest logId(syncId), 
+   6. if slave's logId is less than master's firstLogId, master will tell slave log has been purged, the slave must do a full sync , more detail see `3`
+   7. else master send [lastLogID+binlog] from log store to slave, util send ack[lastLogID] sync ok
 
 2. For master, RESP `w` op cmd commit to save log, wait quorum slaves to ack(sync pull binlog ok), writeBatch to atomic commit to data kvstore, save commitID(logID) to latest current commit log, if reach the snapshot threshold to save it; if save log OK but writeBatch atomic commit or update commitId error, it will also lock write until replication goroutine (runtime schedule thread) executes this log correctly. handle replication below:
    1. get next commitId log from log store,(current commitId in commitedId.log)
