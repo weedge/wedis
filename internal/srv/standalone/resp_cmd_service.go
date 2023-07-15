@@ -12,7 +12,7 @@ import (
 )
 
 type RespCmdService struct {
-	opts *config.RespCmdServiceOptins
+	opts *config.RespCmdServiceOptions
 	// redcon server handler
 	mux *redcon.ServeMux
 	// redcon server
@@ -21,7 +21,7 @@ type RespCmdService struct {
 	store driver.IStorager
 }
 
-func New(opts *config.RespCmdServiceOptins) (srv *RespCmdService) {
+func New(opts *config.RespCmdServiceOptions) (srv *RespCmdService) {
 	if opts == nil {
 		return
 	}

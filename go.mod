@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/cloudwego/hertz v0.6.2
 	github.com/cloudwego/kitex v0.6.0
+	github.com/golang/snappy v0.0.4
 	github.com/google/wire v0.5.0
 	github.com/hertz-contrib/obs-opentelemetry/provider v0.2.1
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.1
@@ -12,7 +13,7 @@ require (
 	github.com/tidwall/redcon v1.6.2
 	github.com/weedge/openkv-goleveldb v0.0.0-20230619135440-ba874f7b85b2
 	github.com/weedge/pkg v0.0.0-20230710100843-843d4022144d
-	github.com/weedge/xdis-storager v0.0.0-20230623160551-765b1ee6c54f
+	github.com/weedge/xdis-storager v0.0.0-20230715153945-62bed01ae7f1
 	github.com/weedge/xdis-tikv v0.0.0-20230623161020-784001561b01
 )
 
@@ -40,7 +41,6 @@ require (
 	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
-	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/btree v1.1.2 // indirect
 	github.com/google/pprof v0.0.0-20220608213341-c488b8fa1db3 // indirect
 	github.com/google/uuid v1.3.0 // indirect

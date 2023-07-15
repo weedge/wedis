@@ -11,13 +11,13 @@ import (
 )
 
 type Options struct {
-	StoragerName            string                              `mapstructure:"storagerName"`
-	RespCmdSrvName          driver.RespServiceName              `mapstructure:"respCmdSrvName"`
-	Server                  ServerOptions                       `mapstructure:"server"`
-	StandaloneRespCmdSrvCfg standaloneconf.RespCmdServiceOptins `mapstructure:"standaloneRespCmdSrvCfg"`
-	StoreCfg                config.StorgerOptions               `mapstructure:"storeCfg"`
-	TikvCfg                 tikvconf.StoragerOptions            `mapstructure:"tikvStoreCfg"`
-	GoLeveldbCfg            goleveldb.LevelDBConfig             `mapstructure:"goLeveldbCfg"`
+	StoragerName            string                               `mapstructure:"storagerName"`
+	RespCmdSrvName          driver.RespServiceName               `mapstructure:"respCmdSrvName"`
+	Server                  ServerOptions                        `mapstructure:"server"`
+	StandaloneRespCmdSrvCfg standaloneconf.RespCmdServiceOptions `mapstructure:"standaloneRespCmdSrvCfg"`
+	StoreCfg                config.StorgerOptions                `mapstructure:"storeCfg"`
+	TikvCfg                 tikvconf.StoragerOptions             `mapstructure:"tikvStoreCfg"`
+	GoLeveldbCfg            goleveldb.LevelDBConfig              `mapstructure:"goLeveldbCfg"`
 }
 
 // DefaultOptions default opts
@@ -29,7 +29,7 @@ func DefaultOptions() *Options {
 		GoLeveldbCfg:            *goleveldb.DefaultLevelDBConfig(),
 		StoreCfg:                *config.DefaultStoragerOptions(),
 		TikvCfg:                 *tikvconf.DefaultStoragerOptions(),
-		StandaloneRespCmdSrvCfg: *standaloneconf.DefaultRespCmdServiceOptins(),
+		StandaloneRespCmdSrvCfg: *standaloneconf.DefaultRespCmdServiceOptions(),
 	}
 }
 
