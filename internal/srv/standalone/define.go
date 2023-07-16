@@ -13,6 +13,8 @@ const (
 )
 
 var (
+	ErrNoops = errors.New(":)")
+
 	ErrNotAuthenticated      = errors.New("ERR not authenticated")
 	ErrAuthenticationFailure = errors.New("ERR authentication failure")
 	ErrCmdParams             = errors.New("ERR wrong number of arguments")

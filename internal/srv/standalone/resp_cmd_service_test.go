@@ -14,7 +14,7 @@ func TestRespCmdSrv_Implements(t *testing.T) {
 }
 
 func TestRespCmdSrvConn_Implements(t *testing.T) {
-	var i interface{} = &AuthRespSrvConn{}
+	var i interface{} = &RespCmdConn{}
 	if _, ok := i.(driver.IRespConn); !ok {
 		t.Fatalf("does not implement driver.IRespConn")
 	}

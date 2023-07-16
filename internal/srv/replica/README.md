@@ -31,10 +31,10 @@ keyword:
 + CommitID: the last log committed to execute. If LastLogID is 10 and CommitID is 5, server needs to commit logs from 6 - 10 to catch the up to date status.
 
 slave replica connect state:
-* replConnectState: slave needs to connect to its master
-* replConnectingState: slave-master connection is in progress
-* replSyncState: perform the synchronization
-* replConnectedState: slave is online
+* RplConnectState: slave needs to connect to its master
+* RplConnectingState: slave-master connection is in progress
+* RplSyncState: perform the synchronization
+* RplConnectedState: slave is online
 
 file:
 * `commit.log`: record current committed logId which has saved to the log store
