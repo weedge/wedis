@@ -11,7 +11,6 @@ import (
 	"github.com/hertz-contrib/obs-opentelemetry/provider"
 	"github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"github.com/weedge/pkg/driver"
-	openkvDriver "github.com/weedge/pkg/driver/openkv"
 	"github.com/weedge/pkg/utils/logutils"
 	"github.com/weedge/wedis/internal/srv/config"
 )
@@ -30,8 +29,6 @@ func (s *Server) Run(ctx context.Context) error {
 	klog.SetLogger(s.kitexKVLogger)
 	klog.SetLevel(s.opts.LogLevel.KitexLogLevel())
 
-	klog.Infof("register storagers: %+v", driver.ListStoragers())
-	klog.Infof("register store engines: %+v", openkvDriver.ListStores())
 	klog.Infof("server opts: %+v", s.opts)
 
 	defer s.Stop()

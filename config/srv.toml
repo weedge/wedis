@@ -10,13 +10,14 @@ storagerName = "xdis-storager"
 
 # resp cmd Server mode name
 # standalone 
-# replica-classic mode, need proxy manage sharding like codis (ap)
+# replica-master-slave classic mode, need proxy manage sharding like codis (ap)
 # replica-single-raft mode like redis raft, need proxy manage sharding like codis (cp)
-# replica-multi-raft mode , need placemet driver (cp)
+# replica-multi-raft mode, need placemet driver (cp)
 # https://jepsen.io/analyses/redis-raft-1b3fbf6
 # matrix (todo) multi raft group (cp)
 # cluster (todo) like redis cluster mode (ap)
 respCmdSrvName = "standalone"
+#respCmdSrvName = "replica-master-slave"
 
 
 server.logLevel = "debug"

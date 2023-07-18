@@ -14,7 +14,8 @@ import (
 	driver2 "github.com/weedge/pkg/driver/openkv"
 	"github.com/weedge/pkg/utils/logutils"
 	"github.com/weedge/wedis/internal/srv/config"
-	"github.com/weedge/wedis/internal/srv/standalone"
+	"github.com/weedge/xdis-replica-storager"
+	"github.com/weedge/xdis-standalone"
 	"github.com/weedge/xdis-storager"
 	"github.com/weedge/xdis-tikv"
 )
@@ -57,8 +58,16 @@ func NewServer(contextContext context.Context, options *config.Options) (*Server
 }
 
 func RegisterStandaloneRespCmdSrv(options *config.Options) error {
-	respCmdServiceOptins := &options.StandaloneRespCmdSrvCfg
-	respCmdService := standalone.New(respCmdServiceOptins)
+	respCmdServiceOptions := &options.StandaloneRespCmdSrvCfg
+	respCmdService := standalone.New(respCmdServiceOptions)
+	error2 := driver.RegisterRespCmdSrv(respCmdService)
+	return error2
+}
+
+func RegisterReplicaMasterSlaveRespCmdSrv(options *config.Options) error {
+	respCmdServiceOptions := &options.RplMasterSlaveRespCmdSrvCfg
+	configRespCmdServiceOptions := &options.StandaloneRespCmdSrvCfg
+	respCmdService := replica.New(respCmdServiceOptions, configRespCmdServiceOptions)
 	error2 := driver.RegisterRespCmdSrv(respCmdService)
 	return error2
 }

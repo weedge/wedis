@@ -114,8 +114,8 @@ github.com/cloudwego/hertz v0.6.2 h1:8NM0yHbyv8B4dNYgICirk733S7monTNB+uR9as1It1Y
 github.com/cloudwego/hertz v0.6.2/go.mod h1:2em2hGREvCBawsTQcQxyWBGVlCeo+N1pp2q0HkkbwR0=
 github.com/cloudwego/kitex v0.3.2/go.mod h1:/XD07VpUD9VQWmmoepASgZ6iw//vgWikVA9MpzLC5i0=
 github.com/cloudwego/kitex v0.4.4/go.mod h1:3FcH5h9Qw+dhRljSzuGSpWuThttA8DvK0BsL7HUYydo=
-github.com/cloudwego/kitex v0.6.0 h1:a9X6CeSXRH+W2aWO0OJ20rDWfFs3RDWoXmaZyqwYZZY=
-github.com/cloudwego/kitex v0.6.0/go.mod h1:zI1GBrjT0qloTikcCfQTgxg3Ws+yQMyaChEEOcGNUvA=
+github.com/cloudwego/kitex v0.6.1 h1:VwWlyFZCNl2SoBgWeCMjUg+EFSSJGw1Nsc1/h9S6IDs=
+github.com/cloudwego/kitex v0.6.1/go.mod h1:zI1GBrjT0qloTikcCfQTgxg3Ws+yQMyaChEEOcGNUvA=
 github.com/cloudwego/netpoll v0.2.4/go.mod h1:1T2WVuQ+MQw6h6DpE45MohSvDTKdy2DlzCx2KsnPI4E=
 github.com/cloudwego/netpoll v0.3.1/go.mod h1:1T2WVuQ+MQw6h6DpE45MohSvDTKdy2DlzCx2KsnPI4E=
 github.com/cloudwego/netpoll v0.4.0 h1:kJ2jMsT5FtlGSNtInnprJf386TFE/rGWzl8kp0wWxx4=
@@ -498,10 +498,8 @@ github.com/weedge/client-go/v2 v2.0.0-20230621031309-54a0924ec98e h1:MZBqAvlUjpU
 github.com/weedge/client-go/v2 v2.0.0-20230621031309-54a0924ec98e/go.mod h1:4KkKqjJgKlvvWMyNqdnAlYFfV4QjEj1fEb5Hb/FoT88=
 github.com/weedge/openkv-goleveldb v0.0.0-20230619135440-ba874f7b85b2 h1:IFZmj5cdeK9Hni7FUCit6doQ+Nug0BKKa3ssKz/ZMPI=
 github.com/weedge/openkv-goleveldb v0.0.0-20230619135440-ba874f7b85b2/go.mod h1:v+FlKunfoeEcx1e0xyUaVrSnEZZIbNyjLwXLk8n0xKI=
-github.com/weedge/redcon v0.0.0-20230613050749-77c37f99e042 h1:IabfJSPueMrVEfi1wMjcoD0cioODUwOww9JEldIRUxU=
-github.com/weedge/redcon v0.0.0-20230613050749-77c37f99e042/go.mod h1:p5Wbsgeyi2VSTBWOcA5vRXrOb9arFTcU2+ZzFjqV75Y=
-github.com/weedge/xdis-storager v0.0.0-20230715153945-62bed01ae7f1 h1:7XCm9WcZbZ9p21bXMgDDQQo45cz4kbjgspezevNXs5I=
-github.com/weedge/xdis-storager v0.0.0-20230715153945-62bed01ae7f1/go.mod h1:3V6YErWlyID5PK9+11y8kLMmm0TdE8DUO1WXjTdggPg=
+github.com/weedge/redcon v0.0.0-20230717070621-d58434c2f821 h1:bRy+D19MDn+EPdiZ18BAcaT/mfZhn+a4JHSrBovwh8M=
+github.com/weedge/redcon v0.0.0-20230717070621-d58434c2f821/go.mod h1:p5Wbsgeyi2VSTBWOcA5vRXrOb9arFTcU2+ZzFjqV75Y=
 github.com/weedge/xdis-tikv v0.0.0-20230623161020-784001561b01 h1:ouogi5leozqy5wLUyAfSevKghp7q7AHU2vT0ovbU51c=
 github.com/weedge/xdis-tikv v0.0.0-20230623161020-784001561b01/go.mod h1:N+uOhGnpBTKZTslJBcped1g7anqMoh/lZqN2rdD6DDE=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=

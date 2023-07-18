@@ -4,16 +4,17 @@ go 1.19
 
 require (
 	github.com/cloudwego/hertz v0.6.2
-	github.com/cloudwego/kitex v0.6.0
-	github.com/golang/snappy v0.0.4
+	github.com/cloudwego/kitex v0.6.1
 	github.com/google/wire v0.5.0
 	github.com/hertz-contrib/obs-opentelemetry/provider v0.2.1
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.1
 	github.com/spf13/cobra v1.7.0
 	github.com/tidwall/redcon v1.6.2
 	github.com/weedge/openkv-goleveldb v0.0.0-20230619135440-ba874f7b85b2
-	github.com/weedge/pkg v0.0.0-20230710100843-843d4022144d
-	github.com/weedge/xdis-storager v0.0.0-20230715153945-62bed01ae7f1
+	github.com/weedge/pkg v0.0.0-20230717110850-134cc8eb3429
+	github.com/weedge/xdis-replica-storager v0.0.0-20230717154430-1c74bc18b6d1
+	github.com/weedge/xdis-standalone v0.0.0-20230717150001-27dcacfe4e49
+	github.com/weedge/xdis-storager v0.0.0-20230716163005-0f715142716d
 	github.com/weedge/xdis-tikv v0.0.0-20230623161020-784001561b01
 )
 
@@ -41,6 +42,7 @@ require (
 	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
+	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/btree v1.1.2 // indirect
 	github.com/google/pprof v0.0.0-20220608213341-c488b8fa1db3 // indirect
 	github.com/google/uuid v1.3.0 // indirect
@@ -121,9 +123,13 @@ require (
 )
 
 //replace github.com/tidwall/redcon => ../redcon
-replace github.com/tidwall/redcon => github.com/weedge/redcon v0.0.0-20230613050749-77c37f99e042
+replace github.com/tidwall/redcon => github.com/weedge/redcon v0.0.0-20230717070621-d58434c2f821
 
 replace github.com/weedge/pkg => ../pkg
+
+replace github.com/weedge/xdis-standalone => ../xdis-standalone
+
+replace github.com/weedge/xdis-replica-storager => ../xdis-replica-storager
 
 replace github.com/weedge/xdis-storager => ../xdis-storager
 

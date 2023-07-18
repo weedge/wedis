@@ -13,7 +13,8 @@ import (
 	openkvDriver "github.com/weedge/pkg/driver/openkv"
 	"github.com/weedge/pkg/utils/logutils"
 	"github.com/weedge/wedis/internal/srv/config"
-	"github.com/weedge/wedis/internal/srv/standalone"
+	standalone "github.com/weedge/xdis-standalone"
+	replica "github.com/weedge/xdis-replica-storager"
 	storager "github.com/weedge/xdis-storager"
 	xdistikv "github.com/weedge/xdis-tikv"
 )
@@ -56,6 +57,19 @@ func RegisterStandaloneRespCmdSrv(*config.Options) error {
 
 		standalone.New,
 		wire.Bind(new(driver.IRespService), new(*standalone.RespCmdService)),
+		driver.RegisterRespCmdSrv,
+	))
+}
+
+func RegisterReplicaMasterSlaveRespCmdSrv(*config.Options) error {
+	panic(wire.Build(
+		wire.FieldsOf(new(*config.Options),
+			"StandaloneRespCmdSrvCfg",
+			"RplMasterSlaveRespCmdSrvCfg",
+		),
+
+		replica.New,
+		wire.Bind(new(driver.IRespService), new(*replica.RespCmdService)),
 		driver.RegisterRespCmdSrv,
 	))
 }

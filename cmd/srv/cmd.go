@@ -5,6 +5,8 @@ import (
 
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/spf13/cobra"
+	"github.com/weedge/pkg/driver"
+	openkvDriver "github.com/weedge/pkg/driver/openkv"
 	"github.com/weedge/wedis/internal/srv"
 )
 
@@ -32,6 +34,14 @@ func NewCommand() *cobra.Command {
 
 			// register resp cmd service
 			srv.RegisterStandaloneRespCmdSrv(opts)
+			srv.RegisterReplicaMasterSlaveRespCmdSrv(opts)
+
+			klog.Infof("register resp cmd services: %+v, current used service: %s",
+				driver.ListRespCmdSrvs(), opts.RespCmdSrvName)
+			klog.Infof("register storagers: %+v, current used storager: %s",
+				driver.ListStoragers(), opts.StoragerName)
+			klog.Infof("register store engines: %+v,current used store engine: %s",
+				openkvDriver.ListStores(), opts.StoreCfg.KVStoreName)
 
 			server, err := srv.NewServer(ctx, opts)
 			if err != nil {
