@@ -16,8 +16,8 @@ storagerName = "xdis-storager"
 # https://jepsen.io/analyses/redis-raft-1b3fbf6
 # matrix (todo) multi raft group (cp)
 # cluster (todo) like redis cluster mode (ap)
-respCmdSrvName = "standalone"
-#respCmdSrvName = "replica-master-slave"
+#respCmdSrvName = "standalone"
+respCmdSrvName = "replica-master-slave"
 
 
 server.logLevel = "debug"
@@ -62,12 +62,14 @@ storeCfg.ttlCheckInterval = 1
 
 # Choose which backend storage to use, 
 # impl openkv driver register to support:
-storeCfg.kvStoreName = "goleveldb"
+# if store engine have tag, need add tag
+storeCfg.kvStoreName = "goleveldb.kvStore"
 
 # If not set, use dataDir/"kvStoreName"_data
 storeCfg.dbPath = ""
 
 
+goLeveldbCfg.tag = "kvStore"
 # if true, compression use snappy 
 goLeveldbCfg.compression = false
 goLeveldbCfg.blockSize = 32768
@@ -77,6 +79,106 @@ goLeveldbCfg.maxOpenFiles = 1024
 goLeveldbCfg.compactionTableSize = 33554432
 goLeveldbCfg.writeL0SlowdownTrigger = 16
 goLeveldbCfg.writeL0PauseTrigger = 64
+
+
+# resp cmd Server listen address
+rplMasterSlaveRespCmdSrvCfg.addr = "0.0.0.0:6666"
+
+# auth password
+rplMasterSlaveRespCmdSrvCfg.authPassword = ""
+
+# if connection receives no data after n seconds, it may be dead, close
+# 0 to disable and not check
+# idle conn close time (s)
+rplMasterSlaveRespCmdSrvCfg.connKeepaliveInterval = 0
+
+# replicaId unique replication ID
+rplMasterSlaveRespCmdSrvCfg.replicaCfg.replicaId = ""
+
+# Set replicaof/slaveof to enable replication from master, empty, no replication
+# Any write operations except flushall and replication will be disabled in slave mode.
+rplMasterSlaveRespCmdSrvCfg.replicaCfg.replicaOf = ""
+
+# Readonly mode, slave server is always readonly even readonly = false
+# for readonly mode, only replication and flushall can write
+rplMasterSlaveRespCmdSrvCfg.replicaCfg.readOnly = false
+
+# Path to store replication information(write ahead log, commit log, etc.)
+# if not set, use ./data/rpl{replicaId}
+rplMasterSlaveRespCmdSrvCfg.replicaCfg.path = ""
+
+# If sync is true, the new log must be sent to some slaves, and then commit.
+# It will reduce performance but have better high availability.
+rplMasterSlaveRespCmdSrvCfg.replicaCfg.sync = false
+
+# If sync is true, wait at last wait_sync_time milliseconds for slave syncing this log
+rplMasterSlaveRespCmdSrvCfg.replicaCfg.waitSyncTime = 500
+
+# If sync is true, wait at most min(wait_max_slave_acks, (n + 1) / 2) to promise syncing ok.
+# n is slave number
+# If 0, wait (n + 1) / 2 acks.
+rplMasterSlaveRespCmdSrvCfg.replicaCfg.waitMaxSlaveAcks = 2
+
+# Expire write ahead logs after the given days
+rplMasterSlaveRespCmdSrvCfg.replicaCfg.expiredLogDays = 7
+
+# log store name: openkv  etc...
+# change in runtime is very dangerous
+rplMasterSlaveRespCmdSrvCfg.replicaCfg.logStoreName = "openkv"
+
+# for file store, if 0, use default 256MB, max is 1G
+rplMasterSlaveRespCmdSrvCfg.replicaCfg.maxLogFileSize = 0
+
+# for file store, if 0, use default 50
+rplMasterSlaveRespCmdSrvCfg.replicaCfg.maxLogFileNum = 0
+
+# Sync log to disk if possible
+#  0: no sync
+#  1: sync every second
+#  2: sync every commit
+rplMasterSlaveRespCmdSrvCfg.replicaCfg.syncLog = 1
+
+# Compress the log or not
+rplMasterSlaveRespCmdSrvCfg.replicaCfg.compression = false
+
+# Path to store snapshot dump file
+# if not set, use ./data/snapshot{replicaId}
+# snapshot file name format is dmp-2006-01-02T15:04:05.999999999
+rplMasterSlaveRespCmdSrvCfg.snapshotCfg.path = ""
+# Reserve newest max_num snapshot dump files
+rplMasterSlaveRespCmdSrvCfg.snapshotCfg.maxNum = 1
+
+# log store path, all wedisdb's data will be saved here
+rplMasterSlaveRespCmdSrvCfg.logStoreOpenkvCfg.dataDir = "./data"
+
+# Sync commit to disk if possible for openkv
+#  0: no sync
+#  1: sync every second
+#  2: sync every commit
+rplMasterSlaveRespCmdSrvCfg.logStoreOpenkvCfg.dbSyncCommit = 2
+
+# Choose which backend storage to use, 
+# impl openkv driver register to support:
+# memory (btree, sse-map, skiplist)
+# LSM-Tree Log-Structured Merge Tree (goleveldb(simple kv),badger(big val),pebble(range))
+# LSH Log-Structured Hash Table (gobeansdb(single search))
+# B-Tree (bboltdb r)
+# if store engine have tag, need add tag
+rplMasterSlaveRespCmdSrvCfg.logStoreOpenkvCfg.kvStoreName = "goleveldb.logStore"
+
+# If not set, use dataDir/"kvStoreName"_data
+rplMasterSlaveRespCmdSrvCfg.logStoreOpenkvCfg.dbPath = ""
+
+logStoreGoLeveldbCfg.tag = "logStore"
+# if true, compression use snappy 
+logStoreGoLeveldbCfg.compression = false
+logStoreGoLeveldbCfg.blockSize = 32768
+logStoreGoLeveldbCfg.writeBufferSize = 67108864
+logStoreGoLeveldbCfg.cacheSize = 524288000
+logStoreGoLeveldbCfg.maxOpenFiles = 1024
+logStoreGoLeveldbCfg.compactionTableSize = 33554432
+logStoreGoLeveldbCfg.writeL0SlowdownTrigger = 16
+logStoreGoLeveldbCfg.writeL0PauseTrigger = 64
 
 
 tikvStoreCfg.prefixKey = "hitiki"

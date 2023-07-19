@@ -118,6 +118,21 @@ var (
 	_wireGoleveldbStoreTypeValue = goleveldb.StoreTypeMemory
 )
 
+// RegisterLogStoreGoleveldb register log store engine goleveldb
+func RegisterLogStoreGoleveldb(options *config.Options) error {
+	storeType := _wireStoreTypeValue2
+	levelDBConfig := options.LogStoreGoLeveldbCfg
+	option := goleveldb.WithConfig(levelDBConfig)
+	v := ProvideOpts(option)
+	store := goleveldb.New(storeType, v...)
+	error2 := driver2.Register(store)
+	return error2
+}
+
+var (
+	_wireStoreTypeValue2 = goleveldb.StoreTypeDB
+)
+
 // wire.go:
 
 func ProvideOpts(

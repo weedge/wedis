@@ -10,11 +10,11 @@ require (
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.1
 	github.com/spf13/cobra v1.7.0
 	github.com/tidwall/redcon v1.6.2
-	github.com/weedge/openkv-goleveldb v0.0.0-20230619135440-ba874f7b85b2
-	github.com/weedge/pkg v0.0.0-20230717110850-134cc8eb3429
-	github.com/weedge/xdis-replica-storager v0.0.0-20230717154430-1c74bc18b6d1
-	github.com/weedge/xdis-standalone v0.0.0-20230717150001-27dcacfe4e49
-	github.com/weedge/xdis-storager v0.0.0-20230716163005-0f715142716d
+	github.com/weedge/openkv-goleveldb v0.0.0-20230719122958-ef6048f0ced2
+	github.com/weedge/pkg v0.0.0-20230719122409-952559a3c29e
+	github.com/weedge/xdis-replica-storager v0.0.0-20230719131259-782d6b2a04df
+	github.com/weedge/xdis-standalone v0.0.0-20230718170242-4c70f879756d
+	github.com/weedge/xdis-storager v0.0.0-20230719122548-21330058538e
 	github.com/weedge/xdis-tikv v0.0.0-20230623161020-784001561b01
 )
 
@@ -125,13 +125,13 @@ require (
 //replace github.com/tidwall/redcon => ../redcon
 replace github.com/tidwall/redcon => github.com/weedge/redcon v0.0.0-20230717070621-d58434c2f821
 
-replace github.com/weedge/pkg => ../pkg
+//replace github.com/weedge/pkg => ../pkg
 
-replace github.com/weedge/xdis-standalone => ../xdis-standalone
+//replace github.com/weedge/xdis-standalone => ../xdis-standalone
 
-replace github.com/weedge/xdis-replica-storager => ../xdis-replica-storager
+//replace github.com/weedge/xdis-replica-storager => ../xdis-replica-storager
 
-replace github.com/weedge/xdis-storager => ../xdis-storager
+//replace github.com/weedge/xdis-storager => ../xdis-storager
 
 //replace github.com/weedge/openkv-goleveldb => ../openkv-goleveldb
 

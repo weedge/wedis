@@ -13,8 +13,8 @@ import (
 	openkvDriver "github.com/weedge/pkg/driver/openkv"
 	"github.com/weedge/pkg/utils/logutils"
 	"github.com/weedge/wedis/internal/srv/config"
-	standalone "github.com/weedge/xdis-standalone"
 	replica "github.com/weedge/xdis-replica-storager"
+	standalone "github.com/weedge/xdis-standalone"
 	storager "github.com/weedge/xdis-storager"
 	xdistikv "github.com/weedge/xdis-tikv"
 )
@@ -126,6 +126,22 @@ func RegisterMemGoleveldb(*config.Options) error {
 		goleveldb.WithConfig,
 		ProvideOpts,
 		wire.Value(goleveldb.StoreTypeMemory),
+		goleveldb.New,
+		wire.Bind(new(openkvDriver.IStore), new(*goleveldb.Store)),
+		openkvDriver.Register,
+	))
+}
+
+// RegisterLogStoreGoleveldb register log store engine goleveldb
+func RegisterLogStoreGoleveldb(*config.Options) error {
+	panic(wire.Build(
+		wire.FieldsOf(new(*config.Options),
+			"LogStoreGoLeveldbCfg",
+		),
+
+		goleveldb.WithConfig,
+		ProvideOpts,
+		wire.Value(goleveldb.StoreTypeDB),
 		goleveldb.New,
 		wire.Bind(new(openkvDriver.IStore), new(*goleveldb.Store)),
 		openkvDriver.Register,

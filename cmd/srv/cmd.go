@@ -24,7 +24,10 @@ func NewCommand() *cobra.Command {
 			}
 			klog.Infof("config:%+v", opts)
 
-			// register store local engine
+			// register log store local engine
+			srv.RegisterLogStoreGoleveldb(opts)
+
+			// register kv store local engine
 			srv.RegisterGoleveldb(opts)
 			srv.RegisterMemGoleveldb(opts)
 
@@ -40,8 +43,10 @@ func NewCommand() *cobra.Command {
 				driver.ListRespCmdSrvs(), opts.RespCmdSrvName)
 			klog.Infof("register storagers: %+v, current used storager: %s",
 				driver.ListStoragers(), opts.StoragerName)
-			klog.Infof("register store engines: %+v,current used store engine: %s",
-				openkvDriver.ListStores(), opts.StoreCfg.KVStoreName)
+			klog.Infof("register store engines: %+v, current used kvstore engine: %s, logstore engine: %s",
+				openkvDriver.ListStores(),
+				opts.StoreCfg.KVStoreName,
+				opts.RplMasterSlaveRespCmdSrvCfg.LogStoreOpenkvCfg.KVStoreName)
 
 			server, err := srv.NewServer(ctx, opts)
 			if err != nil {

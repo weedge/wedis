@@ -20,6 +20,7 @@ type Options struct {
 	StoreCfg                    config.StorgerOptions                `mapstructure:"storeCfg"`
 	TikvCfg                     tikvconf.StoragerOptions             `mapstructure:"tikvStoreCfg"`
 	GoLeveldbCfg                goleveldb.LevelDBConfig              `mapstructure:"goLeveldbCfg"`
+	LogStoreGoLeveldbCfg        goleveldb.LevelDBConfig              `mapstructure:"logStoreGoLeveldbCfg"`
 }
 
 // DefaultOptions default opts
