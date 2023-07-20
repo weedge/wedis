@@ -36,7 +36,7 @@ dist-ssr
 *.local
 *.zip
 */bin
-__debug_bin
+*__debug_bin
 target/
 
 # Editor directories and files

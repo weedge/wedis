@@ -20,7 +20,7 @@ storagerName = "xdis-storager"
 respCmdSrvName = "replica-master-slave"
 
 
-server.logLevel = "debug"
+server.logLevel = "info"
 server.projectName = "wedisSrv"
 
 # http Server listen address, set empty to disable
