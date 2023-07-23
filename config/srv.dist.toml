@@ -9,8 +9,8 @@ storagerName = "xdis-storager"
 
 # resp cmd Server mode name
 # standalone 
-# replica-master-slave classic mode, need proxy manage sharding like codis (ap)
-# replica-single-raft mode like redis raft, need proxy manage sharding like codis (cp)
+# replica-master-slave classic mode, need proxy manage sharding like codis (ap) (need failover server(like redis-sentinel(cp)) to keep HA)
+# replica-single-raft mode like redis raft, need proxy manage sharding like codis (cp) (don't need failover server to keep HA, raft auto failover to keep HA)
 # replica-multi-raft mode , need placemet driver (cp)
 # https://jepsen.io/analyses/redis-raft-1b3fbf6
 # matrix (todo) multi raft group (cp)
