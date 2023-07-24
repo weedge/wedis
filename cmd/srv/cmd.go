@@ -23,6 +23,7 @@ func NewCommand() *cobra.Command {
 				return err
 			}
 			klog.Infof("config:%+v", opts)
+			srv.ConfigOpts = opts
 
 			// register log store local engine
 			srv.RegisterLogStoreGoleveldb(opts)
