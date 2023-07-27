@@ -11,10 +11,10 @@ require (
 	github.com/spf13/cobra v1.7.0
 	github.com/tidwall/redcon v1.6.2
 	github.com/weedge/openkv-goleveldb v0.0.0-20230719122958-ef6048f0ced2
-	github.com/weedge/pkg v0.0.0-20230722103912-dd4731accffd
-	github.com/weedge/xdis-replica-storager v0.0.0-20230722114812-69830902294b
-	github.com/weedge/xdis-standalone v0.0.0-20230722114928-3f046f7a8cb5
-	github.com/weedge/xdis-storager v0.0.0-20230719122548-21330058538e
+	github.com/weedge/pkg v0.0.0-20230727152516-69a060bfa303
+	github.com/weedge/xdis-replica-storager v0.0.0-20230727164158-ea3a73602f69
+	github.com/weedge/xdis-standalone v0.0.0-20230727163937-262eaa4dfff0
+	github.com/weedge/xdis-storager v0.0.0-20230727163616-8c3c2c49d8a3
 	github.com/weedge/xdis-tikv v0.0.0-20230623161020-784001561b01
 )
 
@@ -86,7 +86,8 @@ require (
 	github.com/tikv/client-go/v2 v2.0.7 // indirect
 	github.com/tikv/pd/client v0.0.0-20230608061541-026ddf08a351 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
-	github.com/twmb/murmur3 v1.1.3 // indirect
+	github.com/twmb/murmur3 v1.1.8 // indirect
+	github.com/tylertreat/BoomFilters v0.0.0-20210315201527-1a82519a3e43 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.6 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.6 // indirect
 	go.etcd.io/etcd/client/v3 v3.5.6 // indirect

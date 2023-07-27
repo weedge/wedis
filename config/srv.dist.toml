@@ -50,6 +50,11 @@ dataDir = "./data"
 # Default databases is 16, maximum is 10240 now.
 databases = 16
 
+# set the number of slots, 
+# Default slots is 1024
+# set slots<=0, don't use slots
+slots = 0
+
 # Sync commit to disk if possible
 #  0: no sync
 #  1: sync every second
