@@ -20,7 +20,7 @@ storagerName = "xdis-storager"
 respCmdSrvName = "replica-master-slave"
 
 
-server.logLevel = "info"
+server.logLevel = "debug"
 server.projectName = "wedisSrv"
 
 # http Server listen address, set empty to disable
@@ -53,7 +53,9 @@ storeCfg.databases = 16
 # set the number of slots, 
 # Default slots is 1024
 # set slots<=0, don't use slots
-storeCfg.slots = 0
+# set slots, don't change
+# if change, use migrate** cmd migrate new slots from old
+storeCfg.slots = 1024
 
 # Sync commit to disk if possible
 #  0: no sync

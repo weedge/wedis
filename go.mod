@@ -10,11 +10,11 @@ require (
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.1
 	github.com/spf13/cobra v1.7.0
 	github.com/tidwall/redcon v1.6.2
-	github.com/weedge/openkv-goleveldb v0.0.0-20230719122958-ef6048f0ced2
-	github.com/weedge/pkg v0.0.0-20230727152516-69a060bfa303
-	github.com/weedge/xdis-replica-storager v0.0.0-20230727164158-ea3a73602f69
-	github.com/weedge/xdis-standalone v0.0.0-20230727163937-262eaa4dfff0
-	github.com/weedge/xdis-storager v0.0.0-20230727163616-8c3c2c49d8a3
+	github.com/weedge/openkv-goleveldb v0.0.0-20230730061958-3379e60d7288
+	github.com/weedge/pkg v0.0.0-20230730110910-2af194257737
+	github.com/weedge/xdis-replica-storager v0.0.0-20230730111545-6355168d1f2f
+	github.com/weedge/xdis-standalone v0.0.0-20230730111418-fbb5ea61ae63
+	github.com/weedge/xdis-storager v0.0.0-20230730111225-a7698fb47c92
 	github.com/weedge/xdis-tikv v0.0.0-20230623161020-784001561b01
 )
 
@@ -33,8 +33,10 @@ require (
 	github.com/cloudwego/netpoll v0.4.0 // indirect
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd/v22 v22.3.2 // indirect
+	github.com/cupcake/rdb v0.0.0-20161107195141-43ba34106c76 // indirect
 	github.com/cznic/mathutil v0.0.0-20181122101859-297441e03548 // indirect
 	github.com/dgryski/go-farm v0.0.0-20190423205320-6a90982ecee2 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/elastic/gosigar v0.14.2 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-logr/logr v1.2.4 // indirect
@@ -69,6 +71,7 @@ require (
 	github.com/prometheus/client_model v0.3.0 // indirect
 	github.com/prometheus/common v0.42.0 // indirect
 	github.com/prometheus/procfs v0.9.0 // indirect
+	github.com/redis/go-redis/v9 v9.0.5 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0 // indirect
 	github.com/rogpeppe/go-internal v1.10.0 // indirect
 	github.com/spf13/afero v1.9.3 // indirect
@@ -111,7 +114,7 @@ require (
 	golang.org/x/arch v0.2.0 // indirect
 	golang.org/x/net v0.11.0 // indirect
 	golang.org/x/sync v0.2.0 // indirect
-	golang.org/x/sys v0.9.0 // indirect
+	golang.org/x/sys v0.10.0 // indirect
 	golang.org/x/text v0.10.0 // indirect
 	google.golang.org/genproto v0.0.0-20230530153820-e85fd2cbaebc // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20230530153820-e85fd2cbaebc // indirect
