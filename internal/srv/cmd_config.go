@@ -44,6 +44,8 @@ func getCfgCmd(ctx context.Context, c driver.IRespConn, cmdParams [][]byte) (res
 			"databases",
 			strconv.AppendInt(nil, int64(ConfigOpts.StoreCfg.Databases), 10),
 		)
+	case "maxmemory":
+		data = append(data, "maxmemory", 0)
 	}
 	res = data
 

@@ -11,9 +11,9 @@ require (
 	github.com/spf13/cobra v1.7.0
 	github.com/tidwall/redcon v1.6.2
 	github.com/weedge/openkv-goleveldb v0.0.0-20230730061958-3379e60d7288
-	github.com/weedge/pkg v0.0.0-20230730110910-2af194257737
-	github.com/weedge/xdis-replica-storager v0.0.0-20230730111545-6355168d1f2f
-	github.com/weedge/xdis-standalone v0.0.0-20230730111418-fbb5ea61ae63
+	github.com/weedge/pkg v0.0.0-20230730143941-947a71ed5c56
+	github.com/weedge/xdis-replica-storager v0.0.0-20230730153054-ba3466099439
+	github.com/weedge/xdis-standalone v0.0.0-20230730152837-0e93c181589f
 	github.com/weedge/xdis-storager v0.0.0-20230730111225-a7698fb47c92
 	github.com/weedge/xdis-tikv v0.0.0-20230623161020-784001561b01
 )
