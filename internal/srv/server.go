@@ -2,6 +2,8 @@ package srv
 
 import (
 	"context"
+	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"os/signal"
 	"syscall"
@@ -24,6 +26,15 @@ type Server struct {
 	respSrv driver.IRespService
 }
 
+func (s *Server) startPPROF() {
+	go func() {
+		if err := http.ListenAndServe("0.0.0.0:"+s.opts.PProfPort, nil); err != nil {
+			klog.Warnf("open pprof http svr failed %v", err)
+			return
+		}
+	}()
+}
+
 // Run reviews server
 func (s *Server) Run(ctx context.Context) error {
 	klog.SetLogger(s.kitexKVLogger)
@@ -32,6 +43,8 @@ func (s *Server) Run(ctx context.Context) error {
 	klog.Infof("server opts: %+v", s.opts)
 
 	defer s.Stop()
+
+	s.startPPROF()
 
 	// open storager
 	if err := s.store.Open(ctx); err != nil {

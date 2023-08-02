@@ -11,6 +11,7 @@ type ServerOptions struct {
 	ProjectName               string                 `mapstructure:"projectName"`
 	LogMeta                   map[string]interface{} `mapstructure:"logMeta"`
 	OltpGrpcCollectorEndpoint string                 `mapstructure:"oltpCollectorGrpcEndpoint"`
+	PProfPort                 string                 `mapstructure:"pprofPort"`
 }
 
 // DefaultServerOptions default opts
@@ -21,5 +22,6 @@ func DefaultServerOptions() *ServerOptions {
 		ProjectName: "wedis",
 		LogLevel:    logutils.LevelDebug,
 		LogMeta:     map[string]interface{}{},
+		PProfPort:   "2222",
 	}
 }

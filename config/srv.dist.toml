@@ -25,6 +25,9 @@ projectName = "wedisSrv"
 # http Server listen address, set empty to disable
 httpAddr = "127.0.0.1:8110"
 
+# pprof port
+pprofPort = "10086"
+
 # oltp cllector grpc endpoint address, set empty to disable
 oltpCollectorGrpcEndpoint = "0.0.0.0:4317"
 
@@ -63,6 +66,10 @@ slots = 0
 #  2: sync every commit
 dbSyncCommit = 0
 
+# buffer op(put/del) batch commit
+# default false
+bufferOpCommit = false
+
 # checking TTL (time to live) data every n seconds
 # if you set big, the expired data may not be deleted immediately
 ttlCheckInterval = 1
@@ -78,6 +85,14 @@ kvStoreName = "goleveldb.kvStore"
 
 # If not set, use dataDir/"kvStoreName"_data
 dbPath = ""
+
+# migrate key async task pipeline
+migrateAsyncTask.name = "migrate"
+# buff task size defualt 10
+## if chSize <=0  close migrateAsyncTask
+migrateAsyncTask.chSize = 10
+# max worker goroutine pool size defualt 10
+migrateAsyncTask.workerCn = 10
 
 [goLeveldbCfg]
 tag = "kvStore"
@@ -179,6 +194,7 @@ dbSyncCommit = 2
 # LSH Log-Structured Hash Table (gobeansdb(single search))
 # B-Tree (bboltdb r)
 # if store engine have tag, need add tag
+# notice use goleveldb for debug/test, please use pprof tool view profiling
 kvStoreName = "goleveldb.logStore"
 
 # If not set, use dataDir/"kvStoreName"_data
