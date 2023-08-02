@@ -515,10 +515,10 @@ github.com/weedge/redcon v0.0.0-20230717070621-d58434c2f821 h1:bRy+D19MDn+EPdiZ1
 github.com/weedge/redcon v0.0.0-20230717070621-d58434c2f821/go.mod h1:p5Wbsgeyi2VSTBWOcA5vRXrOb9arFTcU2+ZzFjqV75Y=
 github.com/weedge/xdis-replica-storager v0.0.0-20230730162730-4b1c1a342b2b h1:nB+X+sQV00Ncy37h5BCIJHor5N0KH/4YDPk4FxhVKvw=
 github.com/weedge/xdis-replica-storager v0.0.0-20230730162730-4b1c1a342b2b/go.mod h1:IZc7lGhix6Vb/qpE3r3lbG0hlfeZ1ysDe/rHi0fOU78=
-github.com/weedge/xdis-standalone v0.0.0-20230801114044-cdbb8991b8f1 h1:inwB+AtMXeSFizZEWkyDZJqTn64vKwXZuPGaP8nNPKo=
-github.com/weedge/xdis-standalone v0.0.0-20230801114044-cdbb8991b8f1/go.mod h1:f83VM3qyK5cO88tpziw5tu7kDKaQXOy/hpmbajwvlIQ=
-github.com/weedge/xdis-storager v0.0.0-20230802050803-f6fc13ff0a00 h1:3v58OgD0PVNRRKv5zZPX3yR2QQ9QZ0FTavvUZgtzNSw=
-github.com/weedge/xdis-storager v0.0.0-20230802050803-f6fc13ff0a00/go.mod h1:osE1nDOmfkSUezQ0ELD1cw7pG4Ije1V9ffC1TyS5azA=
+github.com/weedge/xdis-standalone v0.0.0-20230802091800-1054a5b8b69b h1:SWXtq0NcLUzyQK6PSmXdYqmaQFr1KDAU0pQZhqP6Vlc=
+github.com/weedge/xdis-standalone v0.0.0-20230802091800-1054a5b8b69b/go.mod h1:f83VM3qyK5cO88tpziw5tu7kDKaQXOy/hpmbajwvlIQ=
+github.com/weedge/xdis-storager v0.0.0-20230802090241-f71cecca2283 h1:pd1GakhN1mdTCMn1DNuUTc9yOoG5JZQK6j3Lt6wKPZk=
+github.com/weedge/xdis-storager v0.0.0-20230802090241-f71cecca2283/go.mod h1:osE1nDOmfkSUezQ0ELD1cw7pG4Ije1V9ffC1TyS5azA=
 github.com/weedge/xdis-tikv v0.0.0-20230623161020-784001561b01 h1:ouogi5leozqy5wLUyAfSevKghp7q7AHU2vT0ovbU51c=
 github.com/weedge/xdis-tikv v0.0.0-20230623161020-784001561b01/go.mod h1:N+uOhGnpBTKZTslJBcped1g7anqMoh/lZqN2rdD6DDE=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=

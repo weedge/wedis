@@ -13,8 +13,8 @@ require (
 	github.com/weedge/openkv-goleveldb v0.0.0-20230730061958-3379e60d7288
 	github.com/weedge/pkg v0.0.0-20230801170230-40c01f9e9a38
 	github.com/weedge/xdis-replica-storager v0.0.0-20230730162730-4b1c1a342b2b
-	github.com/weedge/xdis-standalone v0.0.0-20230801114044-cdbb8991b8f1
-	github.com/weedge/xdis-storager v0.0.0-20230802050803-f6fc13ff0a00
+	github.com/weedge/xdis-standalone v0.0.0-20230802091800-1054a5b8b69b
+	github.com/weedge/xdis-storager v0.0.0-20230802090241-f71cecca2283
 	github.com/weedge/xdis-tikv v0.0.0-20230623161020-784001561b01
 )
 
