@@ -86,9 +86,13 @@ kvStoreName = "goleveldb.kvStore"
 # If not set, use dataDir/"kvStoreName"_data
 dbPath = ""
 
-# batch migrate key cn default 1000
-migrateBatchKeyCn = 1000
+# batch migrate key cn default 10000
+migrateBatchKeyCn = 10000
 
+# notic: Depending on the restore lock db op, 
+#   if one db to lock becomes a serial operation, 
+#   no concurrent task requests are required, and the request backlog will time out
+# please before use this, test to check it
 # migrate key async task pipeline
 migrateAsyncTask.name = "migrate"
 # buff task size defualt 10

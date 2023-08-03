@@ -25,10 +25,10 @@ server.logLevel = "debug"
 server.projectName = "wedisSrv"
 
 # pprof port
-server.pprofPort = "2220"
+#server.pprofPort = "2220"
 
 # http Server listen address, set empty to disable
-server.httpAddr = "127.0.0.1:8110"
+#server.httpAddr = "127.0.0.1:8110"
 
 # oltp cllector grpc endpoint address, set empty to disable
 #server.oltpCollectorGrpcEndpoint = "0.0.0.0:4317"
@@ -83,16 +83,20 @@ storeCfg.kvStoreName = "goleveldb.kvStore"
 # If not set, use dataDir/"kvStoreName"_data
 storeCfg.dbPath = ""
 
-# batch migrate key cn default 1000
-storeCfg.migrateBatchKeyCn = 1000
+# batch migrate key cn default 10000
+storeCfg.migrateBatchKeyCn = 10000
 
+# notic: Depending on the restore lock db op, 
+#   if one db to lock becomes a serial operation, 
+#   no concurrent task requests are required, and the request backlog will time out
+# please before use this, test to check it
 ## migrate key async task pipeline
-#migrateAsyncTask.name = "migrate"
+#storeCfg.migrateAsyncTask.name = "migrate"
 ## buff task size default 10
 ## if chSize <=0  close migrateAsyncTask
-#migrateAsyncTask.chSize = 10
+storeCfg.migrateAsyncTask.chSize = 0
 ## worker pool size default 10
-#migrateAsyncTask.workerCn = 10
+#storeCfg.migrateAsyncTask.workerCn = 10
 
 
 goLeveldbCfg.tag = "kvStore"
@@ -102,13 +106,14 @@ goLeveldbCfg.blockSize = 32768
 goLeveldbCfg.writeBufferSize = 67108864
 goLeveldbCfg.cacheSize = 524288000
 goLeveldbCfg.maxOpenFiles = 1024
-goLeveldbCfg.compactionTableSize = 33554432
+#goLeveldbCfg.compactionTableSize = 33554432
+goLeveldbCfg.compactionTableSize = 32768
 goLeveldbCfg.writeL0SlowdownTrigger = 16
 goLeveldbCfg.writeL0PauseTrigger = 64
 
 
 # resp cmd Server listen address
-rplMasterSlaveRespCmdSrvCfg.addr = "0.0.0.0:6660"
+rplMasterSlaveRespCmdSrvCfg.addr = "0.0.0.0:6666"
 
 # auth password
 rplMasterSlaveRespCmdSrvCfg.authPassword = ""
